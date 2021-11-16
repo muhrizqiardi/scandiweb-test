@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ProductItem from "./ProductItem";
+
 const Wrapper = styled.div`
   padding: 80px 100px;
   & h1 {
