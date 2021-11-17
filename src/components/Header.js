@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import logo from "../assets/store-logo.png";
+import { createPopper } from "@popperjs/core";
 
 const Wrapper = styled.div`
   height: 80px;
@@ -53,10 +54,64 @@ const Wrapper = styled.div`
       padding-right: 22px;
       cursor: pointer;
     }
+    & .currency-popup {
+      width: 120px;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
+      & .currency-popup-item {
+        padding: 20px;
+        cursor: pointer;
+        &:hover {
+          background-color: #f2f2f2;
+        }
+      }
+    }
   }
 `;
 
 export default class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.currencyPopupButtonRef = React.createRef();
+    this.currencyPopupRef = React.createRef();
+
+    this.state = {
+      currencyPopupIsOpen: false,
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.currencyPopupButtonRef, this.currencyPopupRef);
+    this.popper = createPopper(
+      this.currencyPopupButtonRef.current,
+      this.currencyPopupRef.current,
+      {
+        placement: "bottom-start",
+        strategy: "fixed",
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.popper.destroy();
+  }
+
+  handleClick() {
+    this.setState(
+      (state) => {
+        return {
+          currencyPopupIsOpen: !state.currencyPopupIsOpen,
+        };
+      },
+      () => this.popper.forceUpdate()
+    );
+  }
+
   render() {
     return (
       <Wrapper>
@@ -79,7 +134,12 @@ export default class Header extends Component {
           </a>
         </div>
         <div className="actions">
-          <div className="actions-item">
+          <div
+            id="currency-popup-button"
+            className="actions-item"
+            ref={this.currencyPopupButtonRef}
+            onClick={this.handleClick}
+          >
             <svg
               width="39"
               height="30"
@@ -98,6 +158,15 @@ export default class Header extends Component {
                 fill="#1D1F22"
               />
             </svg>
+          </div>
+          <div className="asdf" ref={this.currencyPopupRef}>
+            {this.state.currencyPopupIsOpen && (
+              <div className="currency-popup">
+                <div className="currency-popup-item">$ USD</div>
+                <div className="currency-popup-item">€ EUR</div>
+                <div className="currency-popup-item">¥ JPY</div>
+              </div>
+            )}
           </div>
           <div className="actions-item">
             <svg
