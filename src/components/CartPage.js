@@ -83,9 +83,48 @@ const Wrapper = styled.main`
       & .cart-item-col-3 {
         width: 150px;
         height: 200px;
-        & img {
-          height: 200px;
-          width: 150px;
+        & .cart-gallery {
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          & img {
+            width: 150px;
+            height: 200px;
+            object-fit: contain;
+          }
+          & .gallery-arrow-container {
+            width: 0px;
+            height: 200px;
+            overflow-x: visible;
+            & .gallery-arrow-left,
+            & .gallery-arrow-right {
+              z-index: 2;
+              width: 30px;
+              height: 200px;
+              position: relative;
+              display: flex;
+              align-items: center;
+              left: 0;
+              &:hover {
+                background: linear-gradient(
+                  90deg,
+                  rgba(0, 0, 0, 0.1) 0%,
+                  rgba(255, 255, 255, 0) 100%
+                );
+              }
+            }
+            & .gallery-arrow-right {
+              left: unset;
+              right: 30px;
+              &:hover {
+                background: linear-gradient(
+                  270deg,
+                  rgba(0, 0, 0, 0.1) 0%,
+                  rgba(255, 255, 255, 0) 100%
+                );
+              }
+            }
+          }
         }
       }
     }
@@ -119,10 +158,48 @@ export default class CartPage extends Component {
             </div>
             <div class="cart-item-col-3">
               <div class="cart-gallery">
+                <div class="gallery-arrow-container">
+                  <div class="gallery-arrow-left">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 18L9 12L15 6"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <img
                   src="http://unsplash.it/150/200?random&gravity=center"
                   alt=""
                 />
+                <div class="gallery-arrow-container">
+                  <div class="gallery-arrow-right">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
