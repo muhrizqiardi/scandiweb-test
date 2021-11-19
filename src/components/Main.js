@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import styled from "styled-components";
 import ProductItem from "./ProductItem";
 
@@ -14,17 +15,65 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class Main extends Component {
+class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentCategoryName: null,
+    };
+  }
+
+  componentDidMount() {
+    switch (this.props.match.params.categoryName) {
+      case "women":
+        this.setState(
+          {
+            currentCategoryName: "Women",
+          },
+          () => {
+            console.log(this.state.currentCategoryName);
+          }
+        );
+        break;
+      case "men":
+        this.setState(
+          {
+            currentCategoryName: "Men",
+          },
+          () => {
+            console.log(this.state.currentCategoryName);
+          }
+        );
+        break;
+      case "kids":
+        this.setState(
+          {
+            currentCategoryName: "Kids",
+          },
+          () => {
+            console.log(this.state.currentCategoryName);
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
     return (
       <main>
         <Wrapper>
-          <h1>Category name</h1>
+          <h1>{this.state.currentCategoryName}</h1>
           <div className="product-grid">
-            {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => <ProductItem />)}
+            {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => (
+              <ProductItem />
+            ))}
           </div>
         </Wrapper>
       </main>
     );
   }
 }
+
+export default withRouter(Main);
