@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   padding: 80px 100px;
   & h1 {
     font-weight: normal;
+    text-transform: capitalize;
   }
   & .product-grid {
     display: grid;
@@ -24,45 +25,17 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    switch (this.props.match.params.categoryName) {
-      case "women":
-        this.setState(
-          {
-            currentCategoryName: "Women",
-          },
-          () => {
-            console.log(this.state.currentCategoryName);
-          }
-        );
-        break;
-      case "men":
-        this.setState(
-          {
-            currentCategoryName: "Men",
-          },
-          () => {
-            console.log(this.state.currentCategoryName);
-          }
-        );
-        break;
-      case "kids":
-        this.setState(
-          {
-            currentCategoryName: "Kids",
-          },
-          () => {
-            console.log(this.state.currentCategoryName);
-          }
-        );
-        break;
-    }
   }
+
+
 
   render() {
     return (
       <main>
         <Wrapper>
-          <h1>{this.state.currentCategoryName}</h1>
+          <h1>
+            {this.props.currentCategoryName}
+          </h1>
           <div className="product-grid">
             {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => (
               <ProductItem />
