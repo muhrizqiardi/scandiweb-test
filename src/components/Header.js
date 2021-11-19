@@ -178,11 +178,15 @@ const Wrapper = styled.header`
       & .cart-action {
         display: flex;
         flex-direction: row;
-        & button {
+        & a {
+          text-decoration: none;
+          color: unset;
+          
           padding: 13px;
           border: none;
           background-color: white;
           font: inherit;
+          text-align: center;
           cursor: pointer;
           &:hover {
             filter: brightness(0.8);
@@ -410,8 +414,8 @@ export default class Header extends Component {
                     <span>$15.00</span>
                   </div>
                   <div className="cart-action">
-                    <button className="view-bag-button">View Bag</button>
-                    <button className="check-out-button">Check Out</button>
+                    <Link to="/cart" className="view-bag-button">View Bag</Link>
+                    <a className="check-out-button">Check Out</a>
                   </div>
                 </div>
               )}
