@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import styled from "styled-components";
 import ProductItem from "./ProductItem";
 
@@ -6,6 +7,7 @@ const Wrapper = styled.div`
   padding: 80px 100px;
   & h1 {
     font-weight: normal;
+    text-transform: capitalize;
   }
   & .product-grid {
     display: grid;
@@ -14,17 +16,38 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class Main extends Component {
+class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentCategoryName: null,
+    };
+  }
+
+  componentDidMount() {
+  }
+
+
+
   render() {
     return (
       <main>
         <Wrapper>
-          <h1>Category name</h1>
+          <h1>{this.props.currentCategoryName}</h1>
           <div className="product-grid">
-            {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => <ProductItem />)}
+            {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => (
+              <ProductItem
+                productId={item}
+                productThumbnail={
+                  "http://unsplash.it/300/300?random&gravity=center"
+                }
+              />
+            ))}
           </div>
         </Wrapper>
       </main>
     );
   }
 }
+
+export default withRouter(Main);

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
 
 export default class ProductItem extends Component {
   constructor(props) {
     super(props);
-    this.state = {hovered: false};  
+    this.state = { hovered: false };
   }
 
   render() {
@@ -22,33 +22,38 @@ export default class ProductItem extends Component {
       &:hover {
         filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
       }
-      & img.product-thumbnail {
-        width: 300px;
-        height: 300px;
-        margin-bottom: 24px;
-      }
-      & .product-desc .product-price {
-        font-weight: 500;
-      }
-      & .product-action {
-        width: 1px;
-        height: 1px;
-        overflow: visible;
-        display: ${this.state.hovered ? "block" : "none"};
-        & button.action-button {
-          width: 52px;
-          height: 52px;
-          padding: 0;
-          background-color: #5ece7b;
-          border: none;
-          border-radius: 100%;
-          filter: drop-shadow(0px 4px 11px rgba(29, 31, 34, 0.1));
-          position: relative;
-          bottom: 90px;
-          left: 230px;
-          &:hover {
-            filter: brightness(0.8);
-            cursor: pointer;
+      & .product-item {
+        text-decoration: none;
+        color: black;
+
+        & img.product-thumbnail {
+          width: 300px;
+          height: 300px;
+          margin-bottom: 24px;
+        }
+        & .product-desc .product-price {
+          font-weight: 500;
+        }
+        & .product-action {
+          width: 1px;
+          height: 1px;
+          overflow: visible;
+          display: ${this.state.hovered ? "block" : "none"};
+          & button.action-button {
+            width: 52px;
+            height: 52px;
+            padding: 0;
+            background-color: #5ece7b;
+            border: none;
+            border-radius: 100%;
+            filter: drop-shadow(0px 4px 11px rgba(29, 31, 34, 0.1));
+            position: relative;
+            bottom: 90px;
+            left: 230px;
+            &:hover {
+              filter: brightness(0.8);
+              cursor: pointer;
+            }
           }
         }
       }
@@ -56,14 +61,15 @@ export default class ProductItem extends Component {
 
     return (
       <Wrapper>
-        <div
+        <Link
+          to={`/products/${this.props.productId}`}
           className="product-item"
           onMouseEnter={() => this.setState({ hovered: true })}
           onMouseLeave={() => this.setState({ hovered: false })}
         >
           <img
-            src="http://unsplash.it/300/300?random&gravity=center"
-            alt="img"
+            src={this.props.productThumbnail}
+            alt={"Image of " + this.props.productName}
             className="product-thumbnail"
           />
           <div className="product-desc">
@@ -94,7 +100,7 @@ export default class ProductItem extends Component {
               </svg>
             </button>
           </div>
-        </div>
+        </Link>
       </Wrapper>
     );
   }

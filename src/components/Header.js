@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import logo from "../assets/store-logo.png";
 import { createPopper } from "@popperjs/core";
+import { withRouter } from "react-router";
+import { Link, NavLink } from "react-router-dom";
 
 const Wrapper = styled.header`
   z-index: 4;
@@ -32,7 +34,8 @@ const Wrapper = styled.header`
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      &:hover {
+      &:hover,
+      &.selected {
         border-bottom: 2px solid #5ece7b;
       }
     }
@@ -175,11 +178,15 @@ const Wrapper = styled.header`
       & .cart-action {
         display: flex;
         flex-direction: row;
-        & button {
+        & a {
+          text-decoration: none;
+          color: unset;
+          
           padding: 13px;
           border: none;
           background-color: white;
           font: inherit;
+          text-align: center;
           cursor: pointer;
           &:hover {
             filter: brightness(0.8);
@@ -223,6 +230,7 @@ export default class Header extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.currentCategoryName);
     this.currencyPopper = createPopper(
       this.currencyPopupButtonRef.current,
       this.currencyPopupRef.current,
@@ -272,15 +280,30 @@ export default class Header extends Component {
       <>
         <Wrapper>
           <nav>
-            <a href="#" className="nav-item">
+            <NavLink
+              to="/categories/women"
+              className={(isActive) =>
+                `nav-item ${isActive ? "selected" : ""}`
+              }
+            >
               Women
-            </a>
-            <a href="#" className="nav-item">
+            </NavLink>
+            <NavLink
+              to="/categories/men"
+              className={(isActive) =>
+                `nav-item ${isActive ? "selected" : ""}`
+              }
+            >
               Men
-            </a>
-            <a href="#" className="nav-item">
+            </NavLink>
+            <NavLink
+              to="/categories/kids"
+              className={(isActive) =>
+                `nav-item ${isActive ? "selected" : ""}`
+              }
+            >
               Kids
-            </a>
+            </NavLink>
           </nav>
           <div className="logo">
             <a href="/">
@@ -359,38 +382,40 @@ export default class Header extends Component {
                     My Bag, <span className="item-count">2 items</span>
                   </div>
                   <div className="cart-list">
-                    {[0,0,0,0,0,0,].map(item => <div className="cart-item">
-                      <div className="cart-item-col-1">
-                        <div className="cart-item-brand">Brand</div>
-                        <div className="cart-item-name">Product Name</div>
-                        <div className="cart-item-price">$50.00</div>
-                        <div className="cart-item-size-selector">
-                          <div className="size-item">XS</div>
-                          <div className="size-item">S</div>
-                          <div className="size-item">M</div>
-                          <div className="size-item not-available">L</div>
+                    {[0, 0, 0, 0, 0, 0].map((item) => (
+                      <div className="cart-item">
+                        <div className="cart-item-col-1">
+                          <div className="cart-item-brand">Brand</div>
+                          <div className="cart-item-name">Product Name</div>
+                          <div className="cart-item-price">$50.00</div>
+                          <div className="cart-item-size-selector">
+                            <div className="size-item">XS</div>
+                            <div className="size-item">S</div>
+                            <div className="size-item">M</div>
+                            <div className="size-item not-available">L</div>
+                          </div>
+                        </div>
+                        <div className="cart-item-col-2">
+                          <button>+</button>
+                          <span>13</span>
+                          <button>-</button>
+                        </div>
+                        <div className="cart-item-col-3">
+                          <img
+                            src="http://unsplash.it/400/500?random&gravity=center"
+                            alt=""
+                          />
                         </div>
                       </div>
-                      <div className="cart-item-col-2">
-                        <button>+</button>
-                        <span>13</span>
-                        <button>-</button>
-                      </div>
-                      <div className="cart-item-col-3">
-                        <img
-                          src="http://unsplash.it/400/500?random&gravity=center"
-                          alt=""
-                        />
-                      </div>
-                    </div>)}
+                    ))}
                   </div>
                   <div className="cart-total">
                     <span>Total</span>
                     <span>$15.00</span>
                   </div>
                   <div className="cart-action">
-                    <button className="view-bag-button">View Bag</button>
-                    <button className="check-out-button">Check Out</button>
+                    <Link to="/cart" className="view-bag-button">View Bag</Link>
+                    <a className="check-out-button">Check Out</a>
                   </div>
                 </div>
               )}
