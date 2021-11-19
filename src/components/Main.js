@@ -33,12 +33,15 @@ class Main extends Component {
     return (
       <main>
         <Wrapper>
-          <h1>
-            {this.props.currentCategoryName}
-          </h1>
+          <h1>{this.props.currentCategoryName}</h1>
           <div className="product-grid">
             {[0, 0, 0, 0, 0, 0, 0, 0].map((item) => (
-              <ProductItem />
+              <ProductItem
+                productId={item}
+                productThumbnail={
+                  "http://unsplash.it/300/300?random&gravity=center"
+                }
+              />
             ))}
           </div>
         </Wrapper>
