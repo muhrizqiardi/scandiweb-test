@@ -55,8 +55,6 @@ class Main extends Component {
           }
         );
         break;
-      default:
-        break;
     }
   }
 

@@ -10,20 +10,44 @@ class App extends Component {
   render() {
     return (
       <>
-        <Header />
         <Switch>
           <Route exact path="/">
             <Redirect to="/categories/women" />
           </Route>
+
           <Route exact path="/categories">
             <Redirect to="/categories/women" />
           </Route>
-          <Route path="/categories/:categoryName">
-            <Main />
+
+          <Route
+            path="/categories/:categoryName"
+            render={({ match }) => (
+              <>
+                <Header />
+                <Main currentCategoryName={match.params.categoryName} />
+              </>
+            )}
+          />
+
+          <Route
+            path="/products/:productId"
+            render={({ match }) => (
+              <>
+                <Header />
+                <ProductPage productId={match.params.productId} />
+              </>
+            )}
+          />
+
+          <Route path="/cart">
+            <Header />
+            <CartPage />
           </Route>
-          <Route path="/products" component={ProductPage} />
-          <Route path="/cart" component={CartPage} />
-          <Route path="*" component={NoMatch404} />
+
+          <Route path="*">
+            <Header />
+            <NoMatch404 />
+          </Route>
         </Switch>
       </>
     );
