@@ -9,6 +9,9 @@ const Wrapper = styled.div`
   & h1 {
     font-weight: normal;
   }
+  & .description {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+  }
   & .product-page-grid {
     display: grid;
     grid-template-columns: 1fr 360px;
