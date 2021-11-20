@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { gql } from "@apollo/client";
 import styled from "styled-components";
+import Loading from "./Loading";
+import NoMatch404 from "./NoMatch404";
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -16,8 +18,27 @@ const Wrapper = styled.div`
       grid-template-columns: 96px 1fr;
       gap: 20px;
       & .image-selector {
+        height: 360px;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
+        & input[type="radio"] {
+          display: none;
+        }
+        & input[type="radio"]:checked + label img {
+          border: 3px solid #5ece7b;
+        }
+        & label img {
+          width: 73px;
+          height: 73px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          border: 3px solid transparent;
+          object-fit: cover;
+          &:hover {
+            filter: brightness(0.8);
+          }
+        }
       }
       & .gallery-image img {
         width: 100%;
@@ -39,30 +60,40 @@ const Wrapper = styled.div`
         margin-bottom: 32px;
         font-size: 32px;
       }
-      & .size-selector-title,
+      & .attribute-title,
       & .price-title {
         margin-bottom: 5px;
         font-family: Roboto, Arial, Helvetica, sans-serif;
         font-weight: bold;
         text-transform: uppercase;
       }
-      & .size-selector {
+      & .attribute-selector {
         margin-bottom: 32px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        & .size-item {
-          height: 40px;
-          border: 1px solid black;
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          &:hover {
-            background-color: gray;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        & .attribute-item-radio {
+          width: 0;
+          height: 0;
+          background: none;
+          border: none;
+          display: none;
+        }
+        & .attribute-item-radio {
+          & + .attribute-item-label {
+            height: 40px;
+            padding: 0 15px;
+            margin: 0 10px 10px 0;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
           }
-          &.selected {
+          &:hover + .attribute-item-label {
+            background-color: lightgray;
+          }
+          &:checked + .attribute-item-label {
             background-color: black;
             color: white;
           }
@@ -73,6 +104,15 @@ const Wrapper = styled.div`
               cursor: not-allowed;
             }
           }
+          & > * {
+            cursor: pointer;
+          }
+          & input[type="radio"] {
+            width: 0;
+            height: 0;
+            border: none;
+            opacity: 0;
+          }
         }
       }
       & .price {
@@ -81,7 +121,7 @@ const Wrapper = styled.div`
       }
       & .add-to-cart {
         height: 52px;
-        margin: 20px 0 ;
+        margin: 20px 0;
         background-color: #5ece7b;
         color: white;
         font-family: inherit;
@@ -94,57 +134,180 @@ const Wrapper = styled.div`
 `;
 
 export default class ProductPage extends Component {
-  static propTypes = {
-    prop: PropTypes,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      productDetail: null,
+      attributeData: null,
+      selectedImage: 0,
+    };
+    this.getProductDetail = this.getProductDetail.bind(this);
+  }
+
+  componentDidMount() {
+    this.getProductDetail(this.props.productId);
+  }
+
+  getProductDetail(productId = "") {
+    let queryResult;
+    this.setState({ loading: true });
+    const GET_PRODUCT_DETAIL = gql`
+      query GetProductDetail {
+        product(id: "${productId}") {
+          id
+          name
+          inStock
+          gallery
+          description
+          attributes {
+            id
+            name
+            type
+            items {
+              displayValue
+              value
+              id
+            }
+          }
+          prices {
+            currency
+            amount
+          }
+          brand
+        }
+      }    
+    `;
+    this.props.apolloClient
+      .query({
+        query: GET_PRODUCT_DETAIL,
+      })
+      .then((result) => {
+        queryResult = result.data;
+        console.log("queryResult: ", queryResult);
+        if (queryResult.product !== null) {
+          this.setState(
+            {
+              productDetail: queryResult,
+            },
+            () => {
+              console.log(
+                "query result for product detail " + productId,
+                this.state.productDetail
+              );
+              this.setState({ loading: false });
+            }
+          );
+        } else {
+          this.setState(
+            {
+              productDetail: false,
+            },
+            () => {
+              console.log("query result failed: ", this.state.productDetail);
+              this.setState({ loading: false });
+            }
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <Loading />
+    ) : this.state.productDetail ? (
       <main>
         <Wrapper>
           <div className="product-page-grid">
             <div className="gallery">
-              <div className="image-selector">
-                <img
-                  src="http://unsplash.it/72/48?random&gravity=center"
-                  alt=""
-                />
-              </div>
+              <form
+                id="image-selector"
+                className="image-selector"
+                onChange={(event) =>
+                  this.setState({ selectedImage: event.target.value })
+                }
+              >
+                {this.state.productDetail.product.gallery.map((image) => {
+                  const indexOfImage =
+                    this.state.productDetail.product.gallery.indexOf(image);
+                  return (
+                    <>
+                      <input
+                        type="radio"
+                        name="imageGallery"
+                        id={`imageGalleryItem${indexOfImage + 1}`}
+                        defaultChecked={indexOfImage === 0}
+                        value={indexOfImage}
+                      />
+                      <label for={`imageGalleryItem${indexOfImage + 1}`}>
+                        <img
+                          src={image}
+                          alt={`Image of ${
+                            this.state.productDetail.product.name
+                          }, ${indexOfImage + 1}`}
+                        />
+                      </label>
+                    </>
+                  );
+                })}
+              </form>
               <div className="gallery-image">
                 <img
-                  src="http://unsplash.it/360/240?random&gravity=center"
-                  alt=""
+                  src={
+                    this.state.productDetail.product.gallery[
+                      this.state.selectedImage
+                    ]
+                  }
+                  alt={`Image of ${this.state.productDetail.product.name}, ${
+                    this.state.selectedImage + 1
+                  }`}
                 />
               </div>
             </div>
-            <div className="product-detail">
-              <div className="brand-name">Brand</div>
-              <div className="product-name">Product Name</div>
-              <span className="size-selector-title">Size:</span>
-              <div className="size-selector">
-                <div className="size-item selected">
-                  <span>XS</span>
-                </div>
-                <div className="size-item not-available">
-                  <span>S</span>
-                </div>
-                <div className="size-item">
-                  <span>M</span>
-                </div>
-                <div className="size-item">
-                  <span>L</span>
-                </div>
+            <form className="product-detail">
+              <div className="brand-name">
+                {this.state.productDetail.product.brand}
               </div>
+              <div className="product-name">
+                {this.state.productDetail.product.name}
+              </div>
+              {this.state.productDetail.product.attributes.map((attribute) => (
+                <>
+                  <span className="attribute-title">{attribute.name}:</span>
+                  <div className="attribute-selector">
+                    {attribute.items.map((item) => (
+                      <>
+                        <input
+                          type="radio"
+                          className="attribute-item-radio"
+                          id={item.id}
+                          name={attribute.id}
+                          value={item.value}
+                        />
+                        <label className="attribute-item-label" for={item.id}>
+                          {item.displayValue}
+                        </label>
+                      </>
+                    ))}
+                  </div>
+                </>
+              ))}
               <span className="price-title">Price:</span>
-              <span className="price">
-                $50.00
-              </span>
+              <span className="price">$50.00</span>
               <button className="add-to-cart">ADD TO CART</button>
-              <div className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, atque dolores ullam molestiae ut doloribus architecto aspernatur id error sit ab libero sed iusto deserunt sint optio, corrupti, animi cum.</div>
-            </div>
+              <div
+                className="description"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.productDetail.product.description,
+                }}
+              />
+            </form>
           </div>
         </Wrapper>
       </main>
+    ) : (
+      <NoMatch404 />
     );
   }
 }
