@@ -260,17 +260,21 @@ export default class ProductPage extends Component {
                     ]
                   }
                   alt={`Image of ${this.state.productDetail.product.name}, ${
-                    this.state.selectedImage + 1
+                    Number(this.state.selectedImage) + 1
                   }`}
                 />
               </div>
             </div>
-            <form className="product-detail" onSubmit={(event) => {
-              event.preventDefault();
-              for (const attribute of this.state.productDetail.product.attributes) {
-                console.log("value", event.target[attribute.name].value);
-              } 
-            }}>
+            <form
+              className="product-detail"
+              onSubmit={(event) => {
+                event.preventDefault();
+                for (const attribute of this.state.productDetail.product
+                  .attributes) {
+                  console.log("value", event.target[attribute.name].value);
+                }
+              }}
+            >
               <div className="brand-name">
                 {this.state.productDetail.product.brand}
               </div>
@@ -306,8 +310,16 @@ export default class ProductPage extends Component {
                 </>
               ))}
               <span className="price-title">Price:</span>
-              <span className="price">$50.00</span>
-              <button className="add-to-cart" type="submit">ADD TO CART</button>
+              <span className="price">
+                {this.props.currency}{" "}{
+                  this.state.productDetail.product.prices.filter(
+                    (price) => price.currency === this.props.currency
+                  )[0].amount
+                }
+              </span>
+              <button className="add-to-cart" type="submit">
+                ADD TO CART
+              </button>
               <div
                 className="description"
                 dangerouslySetInnerHTML={{

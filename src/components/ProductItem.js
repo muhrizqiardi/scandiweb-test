@@ -75,7 +75,14 @@ export default class ProductItem extends Component {
           />
           <div className="product-desc">
             <div className="product-name">{this.props.productName}</div>
-            <div className="product-price">$50.00</div>
+            <div className="product-price">
+              {this.props.currency}{' '}
+              {
+                this.props.productPrices.filter(
+                  (price) => price.currency === this.props.currency
+                )[0].amount
+              }
+            </div>
           </div>
           <div className="product-action">
             <button className="action-button">
