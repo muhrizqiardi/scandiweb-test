@@ -43,7 +43,10 @@ class App extends Component {
             render={({ match }) => (
               <>
                 <Header />
-                <ProductPage productId={match.params.productId} />
+                <ProductPage
+                  apolloClient={this.props.apolloClient}
+                  productId={match.params.productId}
+                />
               </>
             )}
           />
