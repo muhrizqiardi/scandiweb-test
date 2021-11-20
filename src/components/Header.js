@@ -22,7 +22,7 @@ const Wrapper = styled.header`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     & a.nav-item {
       height: 80px;
       padding: 0 32px;
@@ -290,22 +290,16 @@ export default class Header extends Component {
         <Wrapper>
           <nav>
             <NavLink
-              to="/categories/women"
+              to="/categories/tech"
               className={(isActive) => `nav-item ${isActive ? "selected" : ""}`}
             >
-              Women
+              Tech
             </NavLink>
             <NavLink
-              to="/categories/men"
+              to="/categories/clothes"
               className={(isActive) => `nav-item ${isActive ? "selected" : ""}`}
             >
-              Men
-            </NavLink>
-            <NavLink
-              to="/categories/kids"
-              className={(isActive) => `nav-item ${isActive ? "selected" : ""}`}
-            >
-              Kids
+              Clothes
             </NavLink>
           </nav>
           <div className="logo">
