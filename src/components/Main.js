@@ -57,6 +57,10 @@ class Main extends Component {
             id 
             name
             gallery
+            prices {
+              currency
+              amount
+            }
           }
         }
       }    
@@ -112,6 +116,8 @@ class Main extends Component {
                     productId={product.id}
                     productName={product.name}
                     productThumbnail={product.gallery[0]}
+                    productPrices={product.prices}
+                    currency={this.props.currency}
                   />
                 ))}
               </div>

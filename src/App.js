@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currency: null,
+      currency: "USD",
     };
 
     this.currencyHandler = this.currencyHandler.bind(this);
