@@ -265,7 +265,12 @@ export default class ProductPage extends Component {
                 />
               </div>
             </div>
-            <form className="product-detail">
+            <form className="product-detail" onSubmit={(event) => {
+              event.preventDefault();
+              for (const attribute of this.state.productDetail.product.attributes) {
+                console.log("value", event.target[attribute.name].value);
+              } 
+            }}>
               <div className="brand-name">
                 {this.state.productDetail.product.brand}
               </div>
@@ -281,11 +286,18 @@ export default class ProductPage extends Component {
                         <input
                           type="radio"
                           className="attribute-item-radio"
-                          id={item.id}
+                          id={`${attribute.id
+                            .replace(/\s+/g, "-")
+                            .toLowerCase()}-${item.id}`}
                           name={attribute.id}
                           value={item.value}
                         />
-                        <label className="attribute-item-label" for={item.id}>
+                        <label
+                          className="attribute-item-label"
+                          for={`${attribute.id
+                            .replace(/\s+/g, "-")
+                            .toLowerCase()}-${item.id}`}
+                        >
                           {item.displayValue}
                         </label>
                       </>
@@ -295,7 +307,7 @@ export default class ProductPage extends Component {
               ))}
               <span className="price-title">Price:</span>
               <span className="price">$50.00</span>
-              <button className="add-to-cart">ADD TO CART</button>
+              <button className="add-to-cart" type="submit">ADD TO CART</button>
               <div
                 className="description"
                 dangerouslySetInnerHTML={{
