@@ -11,16 +11,16 @@ class App extends Component {
     return (
       <>
         <Switch>
-          <Route exact path="/">
-            <Redirect to="/categories/women" />
-          </Route>
-
           <Route
+            exact
             path="/"
             render={() => (
               <>
                 <Header />
-                <Main currentCategoryName="all" />
+                <Main
+                  apolloClient={this.props.apolloClient}
+                  currentCategoryName="all"
+                />
               </>
             )}
           />
@@ -30,7 +30,10 @@ class App extends Component {
             render={({ match }) => (
               <>
                 <Header />
-                <Main currentCategoryName={match.params.categoryName} />
+                <Main
+                  apolloClient={this.props.apolloClient}
+                  currentCategoryName={match.params.categoryName}
+                />
               </>
             )}
           />
