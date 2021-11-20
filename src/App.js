@@ -7,19 +7,41 @@ import NoMatch404 from "./components/NoMatch404";
 import ProductPage from "./components/ProductPage";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currency: null,
+    };
+
+    this.currencyHandler = this.currencyHandler.bind(this);
+  }
+
+  currencyHandler(newCurrency) {
+    this.setState({
+      currency: newCurrency,
+    });
+  }
+
   render() {
     return (
       <>
+        <Header
+          apolloClient={this.props.apolloClient}
+          currencyHandler={this.currencyHandler}
+          currency={this.state.currency}
+        />
         <Switch>
           <Route
             exact
             path="/"
             render={() => (
               <>
-                <Header />
                 <Main
                   apolloClient={this.props.apolloClient}
                   currentCategoryName=""
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
                 />
               </>
             )}
@@ -29,10 +51,11 @@ class App extends Component {
             path="/categories/:categoryName"
             render={({ match }) => (
               <>
-                <Header />
                 <Main
                   apolloClient={this.props.apolloClient}
                   currentCategoryName={match.params.categoryName}
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
                 />
               </>
             )}
@@ -42,22 +65,21 @@ class App extends Component {
             path="/products/:productId"
             render={({ match }) => (
               <>
-                <Header />
                 <ProductPage
                   apolloClient={this.props.apolloClient}
                   productId={match.params.productId}
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
                 />
               </>
             )}
           />
 
           <Route path="/cart">
-            <Header />
-            <CartPage />
+            <CartPage currencyHandler={this.currencyHandler} />
           </Route>
 
           <Route path="*">
-            <Header />
             <NoMatch404 />
           </Route>
         </Switch>
