@@ -85,10 +85,16 @@ class Main extends Component {
     this.getProductList(this.props.currentCategoryName);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentCategoryName !== prevProps.currentCategoryName) {
+      this.getProductList(this.props.currentCategoryName);
+    }
+  }
+
   getProductList(category = "") {
     this.setState({ loading: true });
     let queryResult;
-    let query = gql`
+    let GET_PRODUCTS_LIST = gql`
       query GetProductsList{
         category(input: {title: "${category}"}) {
           name
@@ -100,10 +106,10 @@ class Main extends Component {
         }
       }    
     `;
-    console.log("query:", print(query));
+    console.log("query:", print(GET_PRODUCTS_LIST));
     this.props.apolloClient
       .query({
-        query,
+        query: GET_PRODUCTS_LIST,
       })
       .then((result) => {
         queryResult = result.data;
@@ -152,7 +158,7 @@ class Main extends Component {
           </Spinner>
         ) : (
           <Wrapper>
-            <h1>{this.props.currentCategoryName || "All"}</h1>
+            <h1>{this.props.currentCategoryName || "All items"}</h1>
             {this.state.productList ? (
               <div className="product-grid">
                 {this.state.productList.category.products.map((product) => (
