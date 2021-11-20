@@ -4,7 +4,7 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "./api/apolloClientSetup";
+import { apolloClient } from "./api/apolloClientSetup";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -16,10 +16,10 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <BrowserRouter>
         <GlobalStyle />
-        <App />
+        <App apolloClient={apolloClient} />
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,

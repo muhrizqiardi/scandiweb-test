@@ -19,7 +19,7 @@ class App extends Component {
                 <Header />
                 <Main
                   apolloClient={this.props.apolloClient}
-                  currentCategoryName="all"
+                  currentCategoryName=""
                 />
               </>
             )}

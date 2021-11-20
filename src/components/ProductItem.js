@@ -30,6 +30,7 @@ export default class ProductItem extends Component {
           width: 300px;
           height: 300px;
           margin-bottom: 24px;
+          object-fit: contain;
         }
         & .product-desc .product-price {
           font-weight: 500;
@@ -73,7 +74,7 @@ export default class ProductItem extends Component {
             className="product-thumbnail"
           />
           <div className="product-desc">
-            <div className="product-name">Apollo Running Short</div>
+            <div className="product-name">{this.props.productName}</div>
             <div className="product-price">$50.00</div>
           </div>
           <div className="product-action">
