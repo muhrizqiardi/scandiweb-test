@@ -15,9 +15,15 @@ class App extends Component {
             <Redirect to="/categories/women" />
           </Route>
 
-          <Route exact path="/categories">
-            <Redirect to="/categories/women" />
-          </Route>
+          <Route
+            path="/"
+            render={() => (
+              <>
+                <Header />
+                <Main currentCategoryName="all" />
+              </>
+            )}
+          />
 
           <Route
             path="/categories/:categoryName"
