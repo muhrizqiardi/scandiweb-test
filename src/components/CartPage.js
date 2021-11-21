@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { gql } from "@apollo/client";
+import Loading from "./Loading";
+import NoMatch404 from "./NoMatch404";
 
 const Wrapper = styled.main`
   padding: 80px 100px;
@@ -31,23 +34,33 @@ const Wrapper = styled.main`
           font-size: 24px;
           font-weight: bold;
         }
-        & .size-selector {
-          margin-top: 10px;
+        & .attribute-selector {
+          margin-top: 32px;
           display: flex;
           flex-direction: row;
-          & .size-item {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            &:hover {
-              background-color: gray;
+          flex-wrap: wrap;
+          & .attribute-item-radio {
+            width: 0;
+            height: 0;
+            background: none;
+            border: none;
+            display: none;
+          }
+          & .attribute-item-radio {
+            & + .attribute-item-label {
+              height: 40px;
+              padding: 0 15px;
+              margin: 0 10px 10px 0;
+              border: 1px solid black;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
             }
-            &.selected {
+            &:hover + .attribute-item-label {
+              background-color: lightgray;
+            }
+            &:checked + .attribute-item-label {
               background-color: black;
               color: white;
             }
@@ -57,6 +70,15 @@ const Wrapper = styled.main`
                 background-color: white;
                 cursor: not-allowed;
               }
+            }
+            & > * {
+              cursor: pointer;
+            }
+            & input[type="radio"] {
+              width: 0;
+              height: 0;
+              border: none;
+              opacity: 0;
             }
           }
         }
@@ -137,74 +159,207 @@ export default class CartPage extends Component {
       <Wrapper>
         <h1>Cart</h1>
         <div className="cart-list">
-          <div className="cart-item">
-            <div class="cart-item-col-1">
-              <div class="item-brand">Apollo</div>
-              <div class="item-name">Running Short</div>
-              <div class="item-price">$50.00</div>
-              <div class="size-selector">
-                <div class="size-item">XS</div>
-                <div class="size-item">S</div>
-                <div class="size-item">M</div>
-                <div class="size-item">L</div>
+          {this.props.cart.map((cartItem) => (
+            <CartItem
+              apolloClient={this.props.apolloClient}
+              currency={this.props.currency}
+              productId={cartItem.productId}
+              quantity={cartItem.quantity}
+              attributes={cartItem.attributes}
+              key={cartItem.productId}
+            />
+          ))}
+        </div>
+      </Wrapper>
+    );
+  }
+}
+
+class CartItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      productDetail: null,
+    };
+
+    this.getProductDetail = this.getProductDetail.bind(this);
+  }
+
+  componentDidMount() {
+    this.getProductDetail(this.props.productId);
+  }
+
+  getProductDetail(productId = "") {
+    let queryResult;
+    this.setState({ loading: true });
+    const GET_PRODUCT_DETAIL = gql`
+      query GetProductDetail {
+        product(id: "${productId}") {
+          id
+          name
+          inStock
+          gallery
+          description
+          attributes {
+            id
+            name
+            type
+            items {
+              displayValue
+              value
+              id
+            }
+          }
+          prices {
+            currency
+            amount
+          }
+          brand
+        }
+      }    
+    `;
+    this.props.apolloClient
+      .query({
+        query: GET_PRODUCT_DETAIL,
+      })
+      .then((result) => {
+        queryResult = result.data;
+        console.log("queryResult: ", queryResult);
+        if (queryResult.product !== null) {
+          this.setState(
+            {
+              productDetail: queryResult,
+            },
+            () => {
+              this.setState({ loading: false });
+            }
+          );
+        } else {
+          this.setState(
+            {
+              productDetail: false,
+            },
+            () => {
+              console.log("query result failed: ", this.state.productDetail.product);
+              this.setState({ loading: false });
+            }
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+  render() {
+    return this.props.loading ? (
+      <Loading />
+    ) : this.state.productDetail ? (
+      <div className="cart-item">
+        <div class="cart-item-col-1">
+          <div class="item-brand">{this.state.productDetail.product.brand}</div>
+          <div class="item-name">{this.state.productDetail.product.name}</div>
+          <div class="item-price">
+            {this.props.currency}{" "}
+            {
+              this.state.productDetail.product.prices.filter(
+                (price) => price.currency === this.props.currency
+              )[0].amount
+            }
+          </div>
+          <div class="attribute-selector">
+            {this.state.productDetail.product.attributes.length > 0 &&
+              this.state.productDetail.product.attributes[0].items.map(
+                (item) => (
+                  <>
+                    <input
+                      type="radio"
+                      className="attribute-item-radio"
+                      id={`${this.state.productDetail.product.name
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}-${item.id}`}
+                      name={this.state.productDetail.product.attributes[0].id}
+                      value={item.value}
+                      checked={
+                        this.props.attributes.filter(
+                          (attribute) =>
+                            attribute.attributeName ===
+                            this.state.productDetail.product.attributes[0].name
+                        )[0].attributeValue === item.value
+                      }
+                    />
+                    <label
+                      className="attribute-item-label"
+                      for={`${this.state.productDetail.product.name
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}-${item.id}`}
+                    >
+                      {item.displayValue}
+                    </label>
+                  </>
+                )
+              )}
+          </div>
+        </div>
+        <div class="cart-item-col-2">
+          <div class="qty-counter">
+            <button>+</button>
+            <span>{this.props.quantity}</span>
+            <button>-</button>
+          </div>
+        </div>
+        <div class="cart-item-col-3">
+          <div class="cart-gallery">
+            <div class="gallery-arrow-container">
+              <div class="gallery-arrow-left">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 18L9 12L15 6"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </div>
             </div>
-            <div class="cart-item-col-2">
-              <div class="qty-counter">
-                <button>+</button>
-                <span>15</span>
-                <button>-</button>
-              </div>
-            </div>
-            <div class="cart-item-col-3">
-              <div class="cart-gallery">
-                <div class="gallery-arrow-container">
-                  <div class="gallery-arrow-left">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15 18L9 12L15 6"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <img
-                  src="http://unsplash.it/150/200?random&gravity=center"
-                  alt=""
-                />
-                <div class="gallery-arrow-container">
-                  <div class="gallery-arrow-right">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9 18L15 12L9 6"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
+            <img
+              src="http://unsplash.it/150/200?random&gravity=center"
+              alt=""
+            />
+            <div class="gallery-arrow-container">
+              <div class="gallery-arrow-right">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
-      </Wrapper>
+      </div>
+    ) : (
+      <NoMatch404 />
     );
   }
 }

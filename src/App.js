@@ -12,15 +12,29 @@ class App extends Component {
 
     this.state = {
       currency: "USD",
+      cart: [],
     };
 
     this.currencyHandler = this.currencyHandler.bind(this);
+    this.cartHandler = this.cartHandler.bind(this);
   }
 
   currencyHandler(newCurrency) {
     this.setState({
       currency: newCurrency,
     });
+  }
+
+  cartHandler(newCartItem) {
+    this.setState(
+      (state) => ({
+        cart: [...state.cart, newCartItem]
+      }),
+      () => {
+        console.log("cart:", this.state.cart);
+      }
+    );
+    console.log(this.state.cart);
   }
 
   render() {
@@ -30,6 +44,8 @@ class App extends Component {
           apolloClient={this.props.apolloClient}
           currencyHandler={this.currencyHandler}
           currency={this.state.currency}
+          cartHandler={this.cartHandler}
+          cart={this.state.cart}
         />
         <Switch>
           <Route
@@ -42,6 +58,8 @@ class App extends Component {
                   currentCategoryName=""
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  cartHandler={this.cartHandler}
+                  cart={this.state.cart}
                 />
               </>
             )}
@@ -56,6 +74,8 @@ class App extends Component {
                   currentCategoryName={match.params.categoryName}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  cartHandler={this.cartHandler}
+                  cart={this.state.cart}
                 />
               </>
             )}
@@ -63,20 +83,29 @@ class App extends Component {
 
           <Route
             path="/products/:productId"
-            render={({ match }) => (
+            render={({ match, history }) => (
               <>
                 <ProductPage
                   apolloClient={this.props.apolloClient}
+                  history={history}
                   productId={match.params.productId}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  cartHandler={this.cartHandler}
+                  cart={this.state.cart}
                 />
               </>
             )}
           />
 
           <Route path="/cart">
-            <CartPage currencyHandler={this.currencyHandler} />
+            <CartPage
+              apolloClient={this.props.apolloClient}
+              currencyHandler={this.currencyHandler}
+              currency={this.state.currency}
+              cartHandler={this.cartHandler}
+              cart={this.state.cart}
+            />
           </Route>
 
           <Route path="*">
