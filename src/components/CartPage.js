@@ -166,6 +166,8 @@ export default class CartPage extends Component {
               productId={cartItem.productId}
               quantity={cartItem.quantity}
               attributes={cartItem.attributes}
+              addItemToCart={this.props.addItemToCart}
+              decreaseItemFromCart={this.props.decreaseItemFromCart}
               key={cartItem.productId}
             />
           ))}
@@ -241,7 +243,10 @@ class CartItem extends Component {
               productDetail: false,
             },
             () => {
-              console.log("query result failed: ", this.state.productDetail.product);
+              console.log(
+                "query result failed: ",
+                this.state.productDetail.product
+              );
               this.setState({ loading: false });
             }
           );
@@ -278,7 +283,9 @@ class CartItem extends Component {
                         .replace(/\s+/g, "-")
                         .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
                         .replace(/\s+/g, "-")
-                        .toLowerCase()}-${item.id}`}
+                        .toLowerCase()}-${item.id
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}`}
                       name={this.state.productDetail.product.attributes[0].id}
                       value={item.value}
                       checked={
@@ -295,7 +302,9 @@ class CartItem extends Component {
                         .replace(/\s+/g, "-")
                         .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
                         .replace(/\s+/g, "-")
-                        .toLowerCase()}-${item.id}`}
+                        .toLowerCase()}-${item.id
+                        .replace(/\s+/g, "-")
+                        .toLowerCase()}`}
                     >
                       {item.displayValue}
                     </label>
@@ -306,9 +315,27 @@ class CartItem extends Component {
         </div>
         <div class="cart-item-col-2">
           <div class="qty-counter">
-            <button>+</button>
+            <button
+              onClick={() => {
+                let cartItem = {
+                  productId: this.state.productDetail.product.id,
+                  quantity: 1,
+                  attributes: this.props.attributes,
+                };
+                this.props.addItemToCart(cartItem);
+              }}
+            >
+              +
+            </button>
             <span>{this.props.quantity}</span>
-            <button>-</button>
+            <button
+              onClick={() => {
+                this.props.decreaseItemFromCart(this.props.productId);
+                console.log("decreased?");
+              }}
+            >
+              -
+            </button>
           </div>
         </div>
         <div class="cart-item-col-3">

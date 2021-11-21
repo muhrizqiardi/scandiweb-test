@@ -288,7 +288,7 @@ export default class ProductPage extends Component {
                 }
                 console.log("added to cartData: ", cartItem);
                 console.log("preadded:",this.props.cart)
-                this.props.cartHandler(cartItem);
+                this.props.addItemToCart(cartItem);
                 this.setState({
                   formSubmitted: true
                 });

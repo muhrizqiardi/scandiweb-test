@@ -16,7 +16,8 @@ class App extends Component {
     };
 
     this.currencyHandler = this.currencyHandler.bind(this);
-    this.cartHandler = this.cartHandler.bind(this);
+    this.addItemToCart = this.addItemToCart.bind(this);
+    this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this)
   }
 
   currencyHandler(newCurrency) {
@@ -25,16 +26,54 @@ class App extends Component {
     });
   }
 
-  cartHandler(newCartItem) {
+  addItemToCart(newCartItem) {
     this.setState(
-      (state) => ({
-        cart: [...state.cart, newCartItem]
-      }),
+      (state) => {
+        let sameCartItem = state.cart.filter(
+          (cartItem) => cartItem.attributeName === newCartItem.attributeName
+        )[0];
+        if (sameCartItem) {
+          let newCart = [...state.cart];
+          let indexOfSameCartItem = newCart.indexOf(sameCartItem);
+          newCartItem.quantity = newCart[indexOfSameCartItem].quantity + 1;
+          newCart[indexOfSameCartItem] = newCartItem;
+          return {
+            cart: newCart,
+          };
+        } else {
+          return {
+            cart: [...state.cart, newCartItem],
+          };
+        }
+      },
       () => {
         console.log("cart:", this.state.cart);
       }
     );
     console.log(this.state.cart);
+  }
+
+  decreaseItemFromCart(productId) {
+    this.setState(state => {
+      let productInCart = state.cart.filter(
+        (cartItem) => cartItem.productId === productId
+      )[0];
+      console.log(productInCart);
+
+      if (productInCart) {
+        let newCart = [...state.cart];
+        let indexOfItem = newCart.indexOf(productInCart);
+        newCart[indexOfItem].quantity--;
+        if (newCart[indexOfItem].quantity < 1) {
+          newCart = newCart.filter((item) => item !== newCart[indexOfItem]);
+        }
+        console.log(state.cart);
+        console.log(newCart);
+        return {
+          cart: newCart
+        }
+      }
+    })
   }
 
   render() {
@@ -44,7 +83,7 @@ class App extends Component {
           apolloClient={this.props.apolloClient}
           currencyHandler={this.currencyHandler}
           currency={this.state.currency}
-          cartHandler={this.cartHandler}
+          addItemToCart={this.addItemToCart}
           cart={this.state.cart}
         />
         <Switch>
@@ -58,7 +97,7 @@ class App extends Component {
                   currentCategoryName=""
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  cartHandler={this.cartHandler}
+                  addItemToCart={this.addItemToCart}
                   cart={this.state.cart}
                 />
               </>
@@ -74,7 +113,7 @@ class App extends Component {
                   currentCategoryName={match.params.categoryName}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  cartHandler={this.cartHandler}
+                  addItemToCart={this.addItemToCart}
                   cart={this.state.cart}
                 />
               </>
@@ -91,7 +130,7 @@ class App extends Component {
                   productId={match.params.productId}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  cartHandler={this.cartHandler}
+                  addItemToCart={this.addItemToCart}
                   cart={this.state.cart}
                 />
               </>
@@ -103,7 +142,8 @@ class App extends Component {
               apolloClient={this.props.apolloClient}
               currencyHandler={this.currencyHandler}
               currency={this.state.currency}
-              cartHandler={this.cartHandler}
+              addItemToCart={this.addItemToCart}
+              decreaseItemFromCart={this.decreaseItemFromCart}
               cart={this.state.cart}
             />
           </Route>
