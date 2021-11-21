@@ -112,7 +112,7 @@ const Wrapper = styled.main`
           & img {
             width: 150px;
             height: 200px;
-            object-fit: contain;
+            object-fit: cover;
           }
           & .gallery-arrow-container {
             width: 0px;
@@ -127,10 +127,15 @@ const Wrapper = styled.main`
               display: flex;
               align-items: center;
               left: 0;
+              background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(255, 255, 255, 0) 100%
+              );
               &:hover {
                 background: linear-gradient(
                   90deg,
-                  rgba(0, 0, 0, 0.1) 0%,
+                  rgba(0, 0, 0, 0.4) 0%,
                   rgba(255, 255, 255, 0) 100%
                 );
               }
@@ -138,10 +143,15 @@ const Wrapper = styled.main`
             & .gallery-arrow-right {
               left: unset;
               right: 30px;
+              background: linear-gradient(
+                270deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(255, 255, 255, 0) 100%
+              );
               &:hover {
                 background: linear-gradient(
                   270deg,
-                  rgba(0, 0, 0, 0.1) 0%,
+                  rgba(0, 0, 0, 0.4) 0%,
                   rgba(255, 255, 255, 0) 100%
                 );
               }
@@ -183,6 +193,7 @@ class CartItem extends Component {
 
     this.state = {
       productDetail: null,
+      currentImage: 0,
     };
 
     this.getProductDetail = this.getProductDetail.bind(this);
@@ -341,7 +352,25 @@ class CartItem extends Component {
         <div class="cart-item-col-3">
           <div class="cart-gallery">
             <div class="gallery-arrow-container">
-              <div class="gallery-arrow-left">
+              <div
+                class="gallery-arrow-left"
+                onClick={() => {
+                  this.setState((state) => {
+                    console.log(state.currentImage);
+                    if (
+                      state.currentImage === 0
+                    ) {
+                      return {
+                        currentImage: this.state.productDetail.product.gallery.length - 1,
+                      };
+                    } else {
+                      return {
+                        currentImage: state.currentImage - 1,
+                      };
+                    }
+                  });
+                }}
+              >
                 <svg
                   width="24"
                   height="24"
@@ -360,11 +389,34 @@ class CartItem extends Component {
               </div>
             </div>
             <img
-              src="http://unsplash.it/150/200?random&gravity=center"
-              alt=""
+              src={
+                this.state.productDetail.product.gallery[
+                  this.state.currentImage
+                ]
+              }
+              alt="Image"
             />
             <div class="gallery-arrow-container">
-              <div class="gallery-arrow-right">
+              <div
+                class="gallery-arrow-right"
+                onClick={() => {
+                  this.setState((state) => {
+                    console.log(state.currentImage);
+                    if (
+                      state.currentImage >=
+                      this.state.productDetail.product.gallery.length - 1
+                    ) {
+                      return {
+                        currentImage: 0,
+                      };
+                    } else {
+                      return {
+                        currentImage: state.currentImage + 1,
+                      };
+                    }
+                  });
+                }}
+              >
                 <svg
                   width="24"
                   height="24"
