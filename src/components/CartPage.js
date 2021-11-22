@@ -342,7 +342,6 @@ class CartItem extends Component {
             <button
               onClick={() => {
                 this.props.decreaseItemFromCart(this.props.productId);
-                console.log("decreased?");
               }}
             >
               -

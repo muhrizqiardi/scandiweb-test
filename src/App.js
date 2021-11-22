@@ -17,7 +17,7 @@ class App extends Component {
 
     this.currencyHandler = this.currencyHandler.bind(this);
     this.addItemToCart = this.addItemToCart.bind(this);
-    this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this)
+    this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this);
   }
 
   currencyHandler(newCurrency) {
@@ -30,7 +30,7 @@ class App extends Component {
     this.setState(
       (state) => {
         let sameCartItem = state.cart.filter(
-          (cartItem) => cartItem.attributeName === newCartItem.attributeName
+          (cartItem) => cartItem.productId === newCartItem.productId
         )[0];
         if (sameCartItem) {
           let newCart = [...state.cart];
@@ -54,26 +54,31 @@ class App extends Component {
   }
 
   decreaseItemFromCart(productId) {
-    this.setState(state => {
-      let productInCart = state.cart.filter(
+    this.setState((state) => {
+      let productInCart = [...state.cart].filter(
         (cartItem) => cartItem.productId === productId
       )[0];
-      console.log(productInCart);
+      console.log("productInCart 1", productInCart.quantity);
 
       if (productInCart) {
         let newCart = [...state.cart];
         let indexOfItem = newCart.indexOf(productInCart);
-        newCart[indexOfItem].quantity--;
-        if (newCart[indexOfItem].quantity < 1) {
+        if (newCart[indexOfItem].quantity === 1) {
           newCart = newCart.filter((item) => item !== newCart[indexOfItem]);
-        }
-        console.log(state.cart);
-        console.log(newCart);
-        return {
-          cart: newCart
+          return {
+            ...state,
+            cart: newCart,
+          };
+        } else {
+          newCart[indexOfItem].quantity -= 1;
+          console.log(newCart[indexOfItem].quantity);
+          return {
+            ...state,
+            cart: newCart,
+          };
         }
       }
-    })
+    });
   }
 
   render() {
