@@ -144,12 +144,14 @@ export default class ProductPage extends Component {
       productDetail: null,
       attributeData: null,
       selectedImage: 0,
+      formSubmitted: false,
     };
     this.getProductDetail = this.getProductDetail.bind(this);
   }
 
   componentDidMount() {
     this.getProductDetail(this.props.productId);
+    console.log('onstart:', this.props.cart);
   }
 
   getProductDetail(productId = "") {
@@ -272,10 +274,26 @@ export default class ProductPage extends Component {
               className="product-detail"
               onSubmit={(event) => {
                 event.preventDefault();
+                let cartItem = {
+                  productId: this.state.productDetail.product.id,
+                  quantity: 1,
+                  attributes: [],
+                };
                 for (const attribute of this.state.productDetail.product
                   .attributes) {
-                  console.log("value", event.target[attribute.name].value);
+                  cartItem.attributes.push({
+                    attributeName: attribute.name,
+                    attributeValue: event.target[attribute.name].value,
+                  });
                 }
+                console.log("added to cartData: ", cartItem);
+                console.log("preadded:",this.props.cart)
+                this.props.addItemToCart(cartItem);
+                this.setState({
+                  formSubmitted: true
+                });
+                console.log("finished:", this.props.cart)
+                this.props.history.push("/cart");
               }}
             >
               <div className="brand-name">
@@ -314,13 +332,14 @@ export default class ProductPage extends Component {
               ))}
               <span className="price-title">Price:</span>
               <span className="price">
-                {this.props.currency}{" "}{
+                {this.props.currency}{" "}
+                {
                   this.state.productDetail.product.prices.filter(
                     (price) => price.currency === this.props.currency
                   )[0].amount
                 }
               </span>
-              <button className="add-to-cart" type="submit">
+              <button className="add-to-cart" type="submit" disabled={this.state.formSubmitted}>
                 ADD TO CART
               </button>
               <div

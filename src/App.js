@@ -12,14 +12,72 @@ class App extends Component {
 
     this.state = {
       currency: "USD",
+      cart: [],
     };
 
     this.currencyHandler = this.currencyHandler.bind(this);
+    this.addItemToCart = this.addItemToCart.bind(this);
+    this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this);
   }
 
   currencyHandler(newCurrency) {
     this.setState({
       currency: newCurrency,
+    });
+  }
+
+  addItemToCart(newCartItem) {
+    this.setState(
+      (state) => {
+        let sameCartItem = state.cart.filter(
+          (cartItem) => cartItem.productId === newCartItem.productId
+        )[0];
+        if (sameCartItem) {
+          let newCart = [...state.cart];
+          let indexOfSameCartItem = newCart.indexOf(sameCartItem);
+          newCartItem.quantity = newCart[indexOfSameCartItem].quantity + 1;
+          newCart[indexOfSameCartItem] = newCartItem;
+          return {
+            cart: newCart,
+          };
+        } else {
+          return {
+            cart: [...state.cart, newCartItem],
+          };
+        }
+      },
+      () => {
+        console.log("cart:", this.state.cart);
+      }
+    );
+    console.log(this.state.cart);
+  }
+
+  decreaseItemFromCart(productId) {
+    this.setState((state) => {
+      let productInCart = [...state.cart].filter(
+        (cartItem) => cartItem.productId === productId
+      )[0];
+      console.log("productInCart 1", productInCart.quantity);
+
+      if (productInCart) {
+        let newCart = [...state.cart];
+        let indexOfItem = newCart.indexOf(productInCart);
+        if (newCart[indexOfItem].quantity === 1) {
+          newCart = newCart.filter((item) => item !== newCart[indexOfItem]);
+          return {
+            ...state,
+            cart: newCart,
+          };
+        } else {
+          newCart[indexOfItem].quantity -= 1;
+          console.log(newCart[indexOfItem].quantity);
+          return {
+            ...state,
+            cart: newCart,
+          };
+        }
+      }
     });
   }
 
@@ -30,6 +88,8 @@ class App extends Component {
           apolloClient={this.props.apolloClient}
           currencyHandler={this.currencyHandler}
           currency={this.state.currency}
+          addItemToCart={this.addItemToCart}
+          cart={this.state.cart}
         />
         <Switch>
           <Route
@@ -42,6 +102,8 @@ class App extends Component {
                   currentCategoryName=""
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  addItemToCart={this.addItemToCart}
+                  cart={this.state.cart}
                 />
               </>
             )}
@@ -56,6 +118,8 @@ class App extends Component {
                   currentCategoryName={match.params.categoryName}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  addItemToCart={this.addItemToCart}
+                  cart={this.state.cart}
                 />
               </>
             )}
@@ -63,20 +127,30 @@ class App extends Component {
 
           <Route
             path="/products/:productId"
-            render={({ match }) => (
+            render={({ match, history }) => (
               <>
                 <ProductPage
                   apolloClient={this.props.apolloClient}
+                  history={history}
                   productId={match.params.productId}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
+                  addItemToCart={this.addItemToCart}
+                  cart={this.state.cart}
                 />
               </>
             )}
           />
 
           <Route path="/cart">
-            <CartPage currencyHandler={this.currencyHandler} />
+            <CartPage
+              apolloClient={this.props.apolloClient}
+              currencyHandler={this.currencyHandler}
+              currency={this.state.currency}
+              addItemToCart={this.addItemToCart}
+              decreaseItemFromCart={this.decreaseItemFromCart}
+              cart={this.state.cart}
+            />
           </Route>
 
           <Route path="*">
