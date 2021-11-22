@@ -15,13 +15,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={apolloClient}>
-      <BrowserRouter>
-        <GlobalStyle />
-        <App apolloClient={apolloClient} />
-      </BrowserRouter>
-    </ApolloProvider>
-  </React.StrictMode>,
+  <ApolloProvider client={apolloClient}>
+    <BrowserRouter>
+      <GlobalStyle />
+      <App apolloClient={apolloClient} />
+    </BrowserRouter>
+  </ApolloProvider>,
   document.getElementById("root")
 );
