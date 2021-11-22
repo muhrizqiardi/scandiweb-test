@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { gql } from "@apollo/client";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
+import { CartConsumer } from "../context/CartContext";
 
 const Wrapper = styled.main`
   padding: 80px 100px;
@@ -166,23 +167,27 @@ const Wrapper = styled.main`
 export default class CartPage extends Component {
   render() {
     return (
-      <Wrapper>
-        <h1>Cart</h1>
-        <div className="cart-list">
-          {this.props.cart.map((cartItem) => (
-            <CartItem
-              apolloClient={this.props.apolloClient}
-              currency={this.props.currency}
-              productId={cartItem.productId}
-              quantity={cartItem.quantity}
-              attributes={cartItem.attributes}
-              addItemToCart={this.props.addItemToCart}
-              decreaseItemFromCart={this.props.decreaseItemFromCart}
-              key={cartItem.productId}
-            />
-          ))}
-        </div>
-      </Wrapper>
+      <CartConsumer>
+        {(context) => (
+          <Wrapper>
+            <h1>Cart</h1>
+            <div className="cart-list">
+              {context.cart.map((cartItem) => (
+                <CartItem
+                  apolloClient={this.props.apolloClient}
+                  currency={this.props.currency}
+                  productId={cartItem.productId}
+                  quantity={cartItem.quantity}
+                  attributes={cartItem.attributes}
+                  addItemToCart={context.addItemToCart}
+                  decreaseItemFromCart={context.decreaseItemFromCart}
+                  key={cartItem.productId}
+                />
+              ))}
+            </div>
+          </Wrapper>
+        )}
+      </CartConsumer>
     );
   }
 }
@@ -356,11 +361,10 @@ class CartItem extends Component {
                 onClick={() => {
                   this.setState((state) => {
                     console.log(state.currentImage);
-                    if (
-                      state.currentImage === 0
-                    ) {
+                    if (state.currentImage === 0) {
                       return {
-                        currentImage: this.state.productDetail.product.gallery.length - 1,
+                        currentImage:
+                          this.state.productDetail.product.gallery.length - 1,
                       };
                     } else {
                       return {

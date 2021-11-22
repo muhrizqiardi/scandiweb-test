@@ -16,15 +16,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <React.StrictMode>
-    <CartProvider>
-      <ApolloProvider client={apolloClient}>
-        <BrowserRouter>
-          <GlobalStyle />
-          <App apolloClient={apolloClient} />
-        </BrowserRouter>
-      </ApolloProvider>
-    </CartProvider>
-  </React.StrictMode>,
+  <CartProvider>
+    <ApolloProvider client={apolloClient}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <App apolloClient={apolloClient} />
+      </BrowserRouter>
+    </ApolloProvider>
+  </CartProvider>,
   document.getElementById("root")
 );
