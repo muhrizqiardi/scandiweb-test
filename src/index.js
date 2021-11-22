@@ -5,6 +5,7 @@ import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "./api/apolloClientSetup";
+import { CartProvider } from "./context/CartContext";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -15,11 +16,15 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <ApolloProvider client={apolloClient}>
-    <BrowserRouter>
-      <GlobalStyle />
-      <App apolloClient={apolloClient} />
-    </BrowserRouter>
-  </ApolloProvider>,
+  <React.StrictMode>
+    <CartProvider>
+      <ApolloProvider client={apolloClient}>
+        <BrowserRouter>
+          <GlobalStyle />
+          <App apolloClient={apolloClient} />
+        </BrowserRouter>
+      </ApolloProvider>
+    </CartProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );

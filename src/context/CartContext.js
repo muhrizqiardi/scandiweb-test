@@ -73,10 +73,16 @@ export class CartProvider extends React.Component {
 
   render() {
     return (
-      <CartContext.Consumer value={this.state.cart, this.addItemToCart, this.decreaseItemFromCart}>
+      <CartContext.Provider
+        value={{
+          cart: this.state.cart,
+          addItemToCart: this.addItemToCart,
+          decreaseItemFromCart: this.decreaseItemFromCart,
+        }}
+      >
         {this.props.children}
-      </CartContext.Consumer>
-    )
+      </CartContext.Provider>
+    );
   }
 }
 
