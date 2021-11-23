@@ -68,6 +68,28 @@ const Wrapper = styled.header`
         }
       }
     }
+    & .actions-item#cart-popup-button .cart-button-badge-container {
+      width: 0;
+      height: 0;
+      overflow: visible;
+      .cart-button-badge {
+        width: 20px;
+        height: 20px;
+        background-color: black;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+        color: white;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        position: relative;
+        bottom: 36px;
+        left: 15px;
+      }
+    }
     & .currency-popup-container .currency-popup {
       width: 120px;
       background-color: white;
@@ -176,6 +198,14 @@ const Wrapper = styled.header`
               object-fit: cover;
             }
           }
+        }
+        & .cart-skeleton {
+          height: 130px;
+          margin: 5px;
+          background-color: rgba(0,0,0,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
       & .cart-total {
@@ -432,6 +462,9 @@ export default class Header extends Component {
                       fill="#43464E"
                     />
                   </svg>
+                  <div class="cart-button-badge-container">
+                    <div class="cart-button-badge">{context.cart.length}</div>
+                  </div>
                 </div>
                 <div className="cart-popup-container" ref={this.cartPopupRef}>
                   {this.state.cartPopupIsOpen && (
@@ -623,7 +656,9 @@ class MiniCartItem extends React.Component {
         </div>
       </div>
     ) : (
-      <></>
+      <div class="cart-skeleton">
+        Loading item...
+      </div>
     );
   }
 }
