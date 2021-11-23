@@ -12,12 +12,7 @@ class App extends Component {
 
     this.state = {
       currency: "USD",
-      cart: [],
     };
-
-    this.currencyHandler = this.currencyHandler.bind(this);
-    this.addItemToCart = this.addItemToCart.bind(this);
-    this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this);
   }
 
   currencyHandler(newCurrency) {
@@ -26,84 +21,25 @@ class App extends Component {
     });
   }
 
-  addItemToCart(newCartItem) {
-    this.setState(
-      (state) => {
-        let sameCartItem = state.cart.filter(
-          (cartItem) => cartItem.productId === newCartItem.productId
-        )[0];
-        if (sameCartItem) {
-          let newCart = [...state.cart];
-          let indexOfSameCartItem = newCart.indexOf(sameCartItem);
-          newCartItem.quantity = newCart[indexOfSameCartItem].quantity + 1;
-          newCart[indexOfSameCartItem] = newCartItem;
-          return {
-            cart: newCart,
-          };
-        } else {
-          return {
-            cart: [...state.cart, newCartItem],
-          };
-        }
-      },
-      () => {
-        console.log("cart:", this.state.cart);
-      }
-    );
-    console.log(this.state.cart);
-  }
-
-  decreaseItemFromCart(productId) {
-    this.setState((state) => {
-      let productInCart = [...state.cart].filter(
-        (cartItem) => cartItem.productId === productId
-      )[0];
-      console.log("productInCart 1", productInCart.quantity);
-
-      if (productInCart) {
-        let newCart = [...state.cart];
-        let indexOfItem = newCart.indexOf(productInCart);
-        if (newCart[indexOfItem].quantity === 1) {
-          newCart = newCart.filter((item) => item !== newCart[indexOfItem]);
-          return {
-            ...state,
-            cart: newCart,
-          };
-        } else {
-          newCart[indexOfItem].quantity -= 1;
-          console.log(newCart[indexOfItem].quantity);
-          return {
-            ...state,
-            cart: newCart,
-          };
-        }
-      }
-    });
-  }
-
   render() {
     return (
       <>
-        <Header
-          apolloClient={this.props.apolloClient}
-          currencyHandler={this.currencyHandler}
-          currency={this.state.currency}
-          addItemToCart={this.addItemToCart}
-          cart={this.state.cart}
-        />
         <Switch>
           <Route
             exact
             path="/"
             render={() => (
               <>
+                <Header
+                  apolloClient={this.props.apolloClient}
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
+                />
                 <Main
                   apolloClient={this.props.apolloClient}
                   currentCategoryName=""
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  addItemToCart={this.addItemToCart}
-                  cart={this.state.cart}
                 />
               </>
             )}
@@ -113,13 +49,16 @@ class App extends Component {
             path="/categories/:categoryName"
             render={({ match }) => (
               <>
+                <Header
+                  apolloClient={this.props.apolloClient}
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
+                />
                 <Main
                   apolloClient={this.props.apolloClient}
                   currentCategoryName={match.params.categoryName}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  addItemToCart={this.addItemToCart}
-                  cart={this.state.cart}
                 />
               </>
             )}
@@ -129,31 +68,41 @@ class App extends Component {
             path="/products/:productId"
             render={({ match, history }) => (
               <>
+                <Header
+                  apolloClient={this.props.apolloClient}
+                  currencyHandler={this.currencyHandler}
+                  currency={this.state.currency}
+                />
                 <ProductPage
                   apolloClient={this.props.apolloClient}
                   history={history}
                   productId={match.params.productId}
                   currencyHandler={this.currencyHandler}
                   currency={this.state.currency}
-                  addItemToCart={this.addItemToCart}
-                  cart={this.state.cart}
                 />
               </>
             )}
           />
 
           <Route path="/cart">
+            <Header
+              apolloClient={this.props.apolloClient}
+              currencyHandler={this.currencyHandler}
+              currency={this.state.currency}
+            />
             <CartPage
               apolloClient={this.props.apolloClient}
               currencyHandler={this.currencyHandler}
               currency={this.state.currency}
-              addItemToCart={this.addItemToCart}
-              decreaseItemFromCart={this.decreaseItemFromCart}
-              cart={this.state.cart}
             />
           </Route>
 
           <Route path="*">
+            <Header
+              apolloClient={this.props.apolloClient}
+              currencyHandler={this.currencyHandler}
+              currency={this.state.currency}
+            />
             <NoMatch404 />
           </Route>
         </Switch>

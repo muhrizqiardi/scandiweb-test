@@ -69,7 +69,6 @@ class Main extends Component {
         }
       }    
     `;
-    console.log("query:", print(GET_PRODUCTS_LIST));
     this.props.apolloClient
       .query({
         query: GET_PRODUCTS_LIST,
@@ -110,6 +109,9 @@ class Main extends Component {
       <main>
         {this.state.loading ? (
           <Wrapper>
+            <Helmet>
+              <title>{`Loading...`}</title>
+            </Helmet>
             <img src={mainSkeleton} class="main-skeleton-loading"></img>
           </Wrapper>
         ) : (
