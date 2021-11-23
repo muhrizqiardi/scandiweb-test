@@ -4,7 +4,7 @@ import styled from "styled-components";
 import NoMatch404 from "./NoMatch404";
 import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
-import productPageSkeleton from "../assets/skeleton/product-page-skeleton.png"
+import productPageSkeleton from "../assets/skeleton/product-page-skeleton.png";
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -202,6 +202,8 @@ export default class ProductPage extends Component {
             },
             () => {
               this.setState({ loading: false });
+              console.log(this.state.productDetail.product);
+              console.log(this.state.productDetail.product.attributes);
             }
           );
         } else {
@@ -279,9 +281,9 @@ export default class ProductPage extends Component {
                           this.state.selectedImage
                         ]
                       }
-                      alt={`${
-                        this.state.productDetail.product.name
-                      }, ${Number(this.state.selectedImage) + 1}`}
+                      alt={`${this.state.productDetail.product.name}, ${
+                        Number(this.state.selectedImage) + 1
+                      }`}
                     />
                   </div>
                 </div>
@@ -345,6 +347,22 @@ export default class ProductPage extends Component {
                                   .replace(/\s+/g, "-")
                                   .toLowerCase()}-${item.id}`}
                               >
+                                {attribute.type === "swatch" && (
+                                  <div
+                                    style={{
+                                      width: 13,
+                                      height: 13,
+                                      marginRight: 10,
+                                      borderRadius: "100%",
+                                      border: "1px solid black",
+                                      background:
+                                        attribute.type === "swatch"
+                                          ? item.value
+                                          : "unset",
+                                    }}
+                                    className="swatch-view"
+                                  ></div>
+                                )}
                                 {item.displayValue}
                               </label>
                             </>

@@ -207,6 +207,7 @@ class CartItem extends Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.productId);
+    console.log(this.props.cartItem);
   }
 
   getProductDetail(productId = "") {
@@ -282,7 +283,9 @@ class CartItem extends Component {
             <div className="item-brand">
               {this.state.productDetail.product.brand}
             </div>
-            <div className="item-name">{this.state.productDetail.product.name}</div>
+            <div className="item-name">
+              {this.state.productDetail.product.name}
+            </div>
             <div className="item-price">
               {this.props.currency}{" "}
               {Math.round(
@@ -315,20 +318,13 @@ class CartItem extends Component {
                           .toLowerCase()}`}
                         name={this.state.productDetail.product.attributes[0].id}
                         value={item.value}
-                        checked={() => {
-                          if (this.props.attributes) {
-                            return (
-                              this.props.attributes.filter(
-                                (attribute) =>
-                                  attribute.attributeName ===
-                                  this.state.productDetail.product.attributes[0]
-                                    .name
-                              )[0].attributeValue === item.value
-                            );
-                          } else {
-                            return false;
-                          }
-                        }}
+                        checked={
+                          this.props.cartItem.attributes[0] !== undefined &&
+                          this.props.cartItem.attributes[0].attributeValue ===
+                            item.value
+                            ? true
+                            : false
+                        }
                       />
                       <label
                         className="attribute-item-label"
@@ -340,6 +336,24 @@ class CartItem extends Component {
                           .replace(/\s+/g, "-")
                           .toLowerCase()}`}
                       >
+                        {this.state.productDetail.product.attributes[0].type ===
+                          "swatch" && (
+                          <div
+                            style={{
+                              width: 13,
+                              height: 13,
+                              marginRight: 10,
+                              borderRadius: "100%",
+                              border: "1px solid black",
+                              background:
+                                this.state.productDetail.product.attributes[0]
+                                  .type === "swatch"
+                                  ? item.value
+                                  : "unset",
+                            }}
+                            className="swatch-view"
+                          ></div>
+                        )}
                         {item.displayValue}
                       </label>
                     </>
