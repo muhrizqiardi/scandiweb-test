@@ -136,22 +136,36 @@ const Wrapper = styled.header`
             line-height: 160%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: start;
             & .cart-item-price {
+              margin-bottom: auto;
               font-weight: 500;
             }
-            & .cart-item-size-selector {
+            & .cart-item-attribute-selector {
+              width: 170px;
               display: flex;
               flex-direction: row;
-              & .size-item {
-                width: 24px;
+              flex-wrap: wrap;
+              /* overflow-x: scroll;
+              -ms-overflow-style: none; 
+              scrollbar-width: none; 
+              &::-webkit-scrollbar {
+                display: none;
+              } */
+              & .attribute-item {
                 height: 24px;
                 padding: 2px;
                 margin-right: 3px;
+                margin-bottom: 3px;
                 font-size: 14px;
                 background: white;
                 border: 1px solid black;
                 text-align: center;
+                &.selected {
+                  border: 1px solid black;
+                  color: white;
+                  background-color: black;
+                }
                 &.not-available {
                   border: 1px solid gray;
                   color: gray;
@@ -462,7 +476,11 @@ export default class Header extends Component {
                     />
                   </svg>
                   <div class="cart-button-badge-container">
-                    {context.cart.length > 0 ? <div class="cart-button-badge">{context.cart.length}</div> : <></>}
+                    {context.cart.length > 0 ? (
+                      <div class="cart-button-badge">{context.cart.length}</div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
                 <div className="cart-popup-container" ref={this.cartPopupRef}>
@@ -620,12 +638,25 @@ class MiniCartItem extends React.Component {
               )[0].amount * this.props.cartItem.quantity
             )}
           </div>
-          <div className="cart-item-size-selector">
-            <div className="size-item">XS</div>
-            <div className="size-item">S</div>
-            <div className="size-item">M</div>
-            <div className="size-item not-available">L</div>
-          </div>
+          {this.state.productDetail.product.attributes[0] !== undefined && (
+            <div className="cart-item-attribute-selector">
+              {this.state.productDetail.product.attributes[0].items.map(
+                (item) => (
+                  <div
+                    className={`attribute-item ${
+                      this.props.cartItem.attributes[0] !== undefined &&
+                      this.props.cartItem.attributes[0].attributeValue ===
+                        item.value
+                        ? "selected"
+                        : ""
+                    }`}
+                  >
+                    {item.displayValue}
+                  </div>
+                )
+              )}
+            </div>
+          )}
         </div>
         <div className="cart-item-col-2">
           <button
