@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { CartConsumer } from "../context/CartContext";
+import { CartConsumer } from "../contexts/CartContext";
 export default class ProductItem extends Component {
   constructor(props) {
     super(props);

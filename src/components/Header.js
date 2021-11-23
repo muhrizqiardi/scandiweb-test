@@ -3,7 +3,7 @@ import styled from "styled-components";
 import logo from "../assets/store-logo.png";
 import { createPopper } from "@popperjs/core";
 import { Link, NavLink } from "react-router-dom";
-import { CartConsumer } from "../context/CartContext";
+import { CartConsumer } from "../contexts/CartContext";
 import { gql } from "@apollo/client";
 
 const Wrapper = styled.header`

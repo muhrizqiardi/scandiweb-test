@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 import styled from "styled-components";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
-import { CartConsumer } from "../context/CartContext";
+import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
 import productPageSkeleton from "../assets/skeleton/product-page-skeleton.png"
 
