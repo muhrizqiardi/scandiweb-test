@@ -142,19 +142,18 @@ const Wrapper = styled.header`
               font-weight: 500;
             }
             .cart-item-attribute-selector {
-              width: 170px;
+              width: 150px;
               display: flex;
               flex-direction: row;
-              flex-wrap: wrap;
-              /* overflow-x: scroll;
+              overflow-x: scroll;
               -ms-overflow-style: none; 
               scrollbar-width: none; 
               &::-webkit-scrollbar {
                 display: none;
-              } */
+              }
               .attribute-item {
                 height: 24px;
-                padding: 2px;
+                padding: 2px 6px;
                 margin-right: 3px;
                 margin-bottom: 3px;
                 font-size: 14px;

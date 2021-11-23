@@ -7,48 +7,48 @@ import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
 const Wrapper = styled.main`
   padding: 80px 100px;
-  & h1 {
+  h1 {
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 60px;
   }
-  & .cart-list {
-    & .cart-item {
+  .cart-list {
+    .cart-item {
       height: 200px;
       padding: 16px;
       border-top: 1px solid #e5e5e5;
       display: grid;
       grid-template-columns: 1fr 45px 150px;
       gap: 20px;
-      & .cart-item-col-1 {
+      .cart-item-col-1 {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        & .item-brand {
+        .item-brand {
           font-size: 32px;
           font-weight: 700;
         }
-        & .item-name {
+        .item-name {
           font-size: 32px;
         }
-        & .item-price {
+        .item-price {
           font-size: 24px;
           font-weight: bold;
         }
-        & .attribute-selector {
+        .attribute-selector {
           margin-top: 32px;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          & .attribute-item-radio {
+          .attribute-item-radio {
             width: 0;
             height: 0;
             background: none;
             border: none;
             display: none;
           }
-          & .attribute-item-radio {
-            & + .attribute-item-label {
+          .attribute-item-radio {
+            + .attribute-item-label {
               height: 40px;
               padding: 0 15px;
               margin: 0 10px 10px 0;
@@ -72,10 +72,10 @@ const Wrapper = styled.main`
                 cursor: not-allowed;
               }
             }
-            & > * {
+            > * {
               cursor: pointer;
             }
-            & input[type="radio"] {
+            input[type="radio"] {
               width: 0;
               height: 0;
               border: none;
@@ -84,14 +84,14 @@ const Wrapper = styled.main`
           }
         }
       }
-      & .cart-item-col-2 {
-        & .qty-counter {
+      .cart-item-col-2 {
+        .qty-counter {
           height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           align-items: center;
-          & button {
+          button {
             border: none;
             background: none;
             padding: 0;
@@ -103,24 +103,24 @@ const Wrapper = styled.main`
           }
         }
       }
-      & .cart-item-col-3 {
+      .cart-item-col-3 {
         width: 150px;
         height: 200px;
-        & .cart-gallery {
+        .cart-gallery {
           display: flex;
           flex-direction: row;
           align-items: stretch;
-          & img {
+          img {
             width: 150px;
             height: 200px;
             object-fit: cover;
           }
-          & .gallery-arrow-container {
+          .gallery-arrow-container {
             width: 0px;
             height: 200px;
             overflow-x: visible;
-            & .gallery-arrow-left,
-            & .gallery-arrow-right {
+            .gallery-arrow-left,
+            .gallery-arrow-right {
               z-index: 2;
               width: 30px;
               height: 200px;
@@ -141,7 +141,7 @@ const Wrapper = styled.main`
                 );
               }
             }
-            & .gallery-arrow-right {
+            .gallery-arrow-right {
               left: unset;
               right: 30px;
               background: linear-gradient(
