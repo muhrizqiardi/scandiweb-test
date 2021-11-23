@@ -4,8 +4,8 @@ import { gql } from "@apollo/client";
 import styled from "styled-components";
 import ProductItem from "./ProductItem";
 import { print } from "graphql";
-import Loading from "./Loading";
 import { Helmet } from "react-helmet";
+import mainSkeleton from "../assets/skeleton/main-skeleton.png"
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -24,6 +24,9 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+  .main-skeleton-loading {
+    width: 80vw;
   }
 `;
 
@@ -106,13 +109,13 @@ class Main extends Component {
     return (
       <main>
         {this.state.loading ? (
-          <Loading />
+          <Wrapper>
+            <img src={mainSkeleton} class="main-skeleton-loading"></img>
+          </Wrapper>
         ) : (
           <Wrapper>
             <Helmet>
-              <title>
-                {`ScandiStore`}
-              </title>
+              <title>{`ScandiStore`}</title>
             </Helmet>
 
             <h1>{this.props.currentCategoryName || "All items"}</h1>

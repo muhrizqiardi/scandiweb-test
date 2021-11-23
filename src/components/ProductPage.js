@@ -5,6 +5,7 @@ import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
 import { CartConsumer } from "../context/CartContext";
 import { Helmet } from "react-helmet";
+import productPageSkeleton from "../assets/skeleton/product-page-skeleton.png"
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -13,6 +14,11 @@ const Wrapper = styled.div`
   }
   & .description {
     font-family: Roboto, Arial, Helvetica, sans-serif;
+  }
+  & .product-page-skeleton {
+    img {
+      width: 100%;
+    }
   }
   & .product-page-grid {
     display: grid;
@@ -222,7 +228,11 @@ export default class ProductPage extends Component {
 
   render() {
     return this.state.loading ? (
-      <Loading />
+      <Wrapper>
+        <div class="product-page-skeleton">
+          <img src={productPageSkeleton} alt="" />
+        </div>
+      </Wrapper>
     ) : this.state.productDetail ? (
       <CartConsumer>
         {(context) => (
