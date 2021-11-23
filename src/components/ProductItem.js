@@ -22,26 +22,26 @@ export default class ProductItem extends Component {
       &:hover {
         filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
       }
-      & .product-item {
+      .product-item {
         text-decoration: none;
         color: black;
 
-        & img.product-thumbnail {
+        img.product-thumbnail {
           width: 300px;
           height: 300px;
           margin-bottom: 24px;
           object-fit: contain;
         }
-        & .product-desc .product-price {
+        .product-desc .product-price {
           font-weight: 500;
         }
       }
-      & .product-action {
+      .product-action {
         width: 1px;
         height: 1px;
         overflow: visible;
         display: ${this.state.hovered ? "block" : "none"};
-        & button.action-button {
+        button.action-button {
           width: 52px;
           height: 52px;
           padding: 0;

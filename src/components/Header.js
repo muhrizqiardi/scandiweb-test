@@ -331,7 +331,7 @@ export default class Header extends Component {
   render() {
     return (
       <CartConsumer>
-        {(context) => (
+        {(cartContext) => (
           <>
             <Wrapper>
               <nav>
@@ -476,8 +476,8 @@ export default class Header extends Component {
                     />
                   </svg>
                   <div class="cart-button-badge-container">
-                    {context.cart.length > 0 ? (
-                      <div class="cart-button-badge">{context.cart.length}</div>
+                    {cartContext.cart.length > 0 ? (
+                      <div class="cart-button-badge">{cartContext.cart.length}</div>
                     ) : (
                       <></>
                     )}
@@ -486,9 +486,9 @@ export default class Header extends Component {
                 <div className="cart-popup-container" ref={this.cartPopupRef}>
                   {this.state.cartPopupIsOpen && (
                     <CartPopup
-                      context={context}
+                      context={cartContext}
                       apolloClient={this.props.apolloClient}
-                      cartContext={context}
+                      cartContext={cartContext}
                       currency={this.props.currency}
                     />
                   )}
