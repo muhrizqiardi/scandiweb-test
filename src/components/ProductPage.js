@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
 import { CartConsumer } from "../context/CartContext";
+import { Helmet } from "react-helmet";
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -226,6 +227,13 @@ export default class ProductPage extends Component {
       <CartConsumer>
         {(context) => (
           <main>
+            <Helmet>
+              <title>
+                {this.state.productDetail.product.brand && this.state.productDetail.product.name
+                  ? `${this.state.productDetail.product.brand} ${this.state.productDetail.product.name} | ScandiStore`
+                  : "ScandiStore"}
+              </title>
+            </Helmet>
             <Wrapper>
               <div className="product-page-grid">
                 <div className="gallery">

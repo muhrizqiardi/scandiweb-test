@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
@@ -15,6 +16,9 @@ export default class NoMatch404 extends Component {
   render() {
     return (
       <Wrapper>
+        <Helmet>
+          <title>404 Not Found | ScandiStore</title>
+        </Helmet>
         <h1>404 Not Found</h1>
         <br/>
         <Link to="/">Go back to home</Link>

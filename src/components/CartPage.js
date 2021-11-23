@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
 import { CartConsumer } from "../context/CartContext";
-
+import { Helmet } from "react-helmet";
 const Wrapper = styled.main`
   padding: 80px 100px;
   & h1 {
@@ -274,174 +274,186 @@ class CartItem extends Component {
 
   render() {
     return this.props.loading ? (
-      <Loading />
+      <>
+        <Loading />
+      </>
     ) : this.state.productDetail ? (
-      <div className="cart-item">
-        <div class="cart-item-col-1">
-          <div class="item-brand">{this.state.productDetail.product.brand}</div>
-          <div class="item-name">{this.state.productDetail.product.name}</div>
-          <div class="item-price">
-            {this.props.currency}{" "}
-            {
-              Math.round(this.props.cartItem.prices.filter(
-                (price) => price.currency === this.props.currency
-              )[0].amount * this.props.cartItem.quantity)
-            }
-          </div>
-          <div class="attribute-selector">
-            {this.state.productDetail.product.attributes.length > 0 &&
-              this.state.productDetail.product.attributes[0].items.map(
-                (item) => (
-                  <>
-                    <input
-                      type="radio"
-                      className="attribute-item-radio"
-                      id={`${this.state.productDetail.product.name
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}-${item.id
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}`}
-                      name={this.state.productDetail.product.attributes[0].id}
-                      value={item.value}
-                      checked={
-                        this.props.attributes.filter(
-                          (attribute) =>
-                            attribute.attributeName ===
-                            this.state.productDetail.product.attributes[0].name
-                        )[0].attributeValue === item.value
-                      }
-                    />
-                    <label
-                      className="attribute-item-label"
-                      for={`${this.state.productDetail.product.name
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}-${item.id
-                        .replace(/\s+/g, "-")
-                        .toLowerCase()}`}
-                    >
-                      {item.displayValue}
-                    </label>
-                  </>
-                )
+      <>
+        <Helmet>
+          <title>
+            {`Cart Page | ScandiStore`}
+          </title>
+        </Helmet>
+        <div className="cart-item">
+          <div class="cart-item-col-1">
+            <div class="item-brand">
+              {this.state.productDetail.product.brand}
+            </div>
+            <div class="item-name">{this.state.productDetail.product.name}</div>
+            <div class="item-price">
+              {this.props.currency}{" "}
+              {Math.round(
+                this.props.cartItem.prices.filter(
+                  (price) => price.currency === this.props.currency
+                )[0].amount * this.props.cartItem.quantity
               )}
-          </div>
-        </div>
-        <div class="cart-item-col-2">
-          <div class="qty-counter">
-            <button
-              onClick={() => {
-                let cartItem = {
-                  productId: this.state.productDetail.product.id,
-                  quantity: 1,
-                  prices: this.state.productDetail.product.prices,
-                  attributes: this.props.attributes,
-                };
-                this.props.addItemToCart(cartItem);
-              }}
-            >
-              +
-            </button>
-            <span>{this.props.quantity}</span>
-            <button
-              onClick={() => {
-                this.props.decreaseItemFromCart(this.props.productId);
-              }}
-            >
-              -
-            </button>
-          </div>
-        </div>
-        <div class="cart-item-col-3">
-          <div class="cart-gallery">
-            <div class="gallery-arrow-container">
-              <div
-                class="gallery-arrow-left"
-                onClick={() => {
-                  this.setState((state) => {
-                    console.log(state.currentImage);
-                    if (state.currentImage === 0) {
-                      return {
-                        currentImage:
-                          this.state.productDetail.product.gallery.length - 1,
-                      };
-                    } else {
-                      return {
-                        currentImage: state.currentImage - 1,
-                      };
-                    }
-                  });
-                }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 18L9 12L15 6"
-                    stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
             </div>
-            <img
-              src={
-                this.state.productDetail.product.gallery[
-                  this.state.currentImage
-                ]
-              }
-              alt="Image"
-            />
-            <div class="gallery-arrow-container">
-              <div
-                class="gallery-arrow-right"
-                onClick={() => {
-                  this.setState((state) => {
-                    console.log(state.currentImage);
-                    if (
-                      state.currentImage >=
-                      this.state.productDetail.product.gallery.length - 1
-                    ) {
-                      return {
-                        currentImage: 0,
-                      };
-                    } else {
-                      return {
-                        currentImage: state.currentImage + 1,
-                      };
-                    }
-                  });
-                }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
+            <div class="attribute-selector">
+              {this.state.productDetail.product.attributes.length > 0 &&
+                this.state.productDetail.product.attributes[0].items.map(
+                  (item) => (
+                    <>
+                      <input
+                        type="radio"
+                        className="attribute-item-radio"
+                        id={`${this.state.productDetail.product.name
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${item.id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}`}
+                        name={this.state.productDetail.product.attributes[0].id}
+                        value={item.value}
+                        checked={
+                          this.props.attributes.filter(
+                            (attribute) =>
+                              attribute.attributeName ===
+                              this.state.productDetail.product.attributes[0]
+                                .name
+                          )[0].attributeValue === item.value
+                        }
+                      />
+                      <label
+                        className="attribute-item-label"
+                        for={`${this.state.productDetail.product.name
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${item.id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}`}
+                      >
+                        {item.displayValue}
+                      </label>
+                    </>
+                  )
+                )}
             </div>
           </div>
+          <div class="cart-item-col-2">
+            <div class="qty-counter">
+              <button
+                onClick={() => {
+                  let cartItem = {
+                    productId: this.state.productDetail.product.id,
+                    quantity: 1,
+                    prices: this.state.productDetail.product.prices,
+                    attributes: this.props.attributes,
+                  };
+                  this.props.addItemToCart(cartItem);
+                }}
+              >
+                +
+              </button>
+              <span>{this.props.quantity}</span>
+              <button
+                onClick={() => {
+                  this.props.decreaseItemFromCart(this.props.productId);
+                }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+          <div class="cart-item-col-3">
+            <div class="cart-gallery">
+              <div class="gallery-arrow-container">
+                <div
+                  class="gallery-arrow-left"
+                  onClick={() => {
+                    this.setState((state) => {
+                      console.log(state.currentImage);
+                      if (state.currentImage === 0) {
+                        return {
+                          currentImage:
+                            this.state.productDetail.product.gallery.length - 1,
+                        };
+                      } else {
+                        return {
+                          currentImage: state.currentImage - 1,
+                        };
+                      }
+                    });
+                  }}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 18L9 12L15 6"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <img
+                src={
+                  this.state.productDetail.product.gallery[
+                    this.state.currentImage
+                  ]
+                }
+                alt="Image"
+              />
+              <div class="gallery-arrow-container">
+                <div
+                  class="gallery-arrow-right"
+                  onClick={() => {
+                    this.setState((state) => {
+                      console.log(state.currentImage);
+                      if (
+                        state.currentImage >=
+                        this.state.productDetail.product.gallery.length - 1
+                      ) {
+                        return {
+                          currentImage: 0,
+                        };
+                      } else {
+                        return {
+                          currentImage: state.currentImage + 1,
+                        };
+                      }
+                    });
+                  }}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 18L15 12L9 6"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     ) : (
       <NoMatch404 />
     );
