@@ -4,7 +4,7 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "./api/apolloClientSetup";
+import { apolloClient } from "./apollo/apolloClientSetup";
 import { CartProvider } from "./context/CartContext";
 
 const GlobalStyle = createGlobalStyle`

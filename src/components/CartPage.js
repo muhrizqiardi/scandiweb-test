@@ -176,6 +176,7 @@ export default class CartPage extends Component {
                 <CartItem
                   apolloClient={this.props.apolloClient}
                   currency={this.props.currency}
+                  cartItem={cartItem}
                   productId={cartItem.productId}
                   quantity={cartItem.quantity}
                   attributes={cartItem.attributes}
@@ -282,9 +283,9 @@ class CartItem extends Component {
           <div class="item-price">
             {this.props.currency}{" "}
             {
-              this.state.productDetail.product.prices.filter(
+              Math.round(this.props.cartItem.prices.filter(
                 (price) => price.currency === this.props.currency
-              )[0].amount
+              )[0].amount * this.props.cartItem.quantity)
             }
           </div>
           <div class="attribute-selector">
@@ -336,6 +337,7 @@ class CartItem extends Component {
                 let cartItem = {
                   productId: this.state.productDetail.product.id,
                   quantity: 1,
+                  prices: this.state.productDetail.product.prices,
                   attributes: this.props.attributes,
                 };
                 this.props.addItemToCart(cartItem);

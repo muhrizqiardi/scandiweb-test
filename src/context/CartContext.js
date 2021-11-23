@@ -14,6 +14,17 @@ export class CartProvider extends React.Component {
 
     this.addItemToCart = this.addItemToCart.bind(this);
     this.decreaseItemFromCart = this.decreaseItemFromCart.bind(this);
+    this.getTotal = this.getTotal.bind(this);
+  }
+
+  getTotal(currency) {
+    let total = 0;
+    for (const item of this.state.cart) {
+      console.log(item);
+      total += item.prices.filter((price) => price.currency === currency)[0]
+        .amount * item.quantity;
+    }
+    return total;
   }
 
   addItemToCart(newCartItem) {
@@ -78,6 +89,7 @@ export class CartProvider extends React.Component {
           cart: this.state.cart,
           addItemToCart: this.addItemToCart,
           decreaseItemFromCart: this.decreaseItemFromCart,
+          getTotal: this.getTotal,
         }}
       >
         {this.props.children}

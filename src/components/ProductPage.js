@@ -280,6 +280,7 @@ export default class ProductPage extends Component {
                     let cartItem = {
                       productId: this.state.productDetail.product.id,
                       quantity: 1,
+                      prices: this.state.productDetail.product.prices,
                       attributes: [],
                     };
                     for (const attribute of this.state.productDetail.product
