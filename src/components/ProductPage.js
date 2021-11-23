@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 import styled from "styled-components";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
+import { CartConsumer } from "../context/CartContext";
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -151,7 +152,7 @@ export default class ProductPage extends Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.productId);
-    console.log('onstart:', this.props.cart);
+    console.log("onstart:", this.props.cart);
   }
 
   getProductDetail(productId = "") {
@@ -222,136 +223,149 @@ export default class ProductPage extends Component {
     return this.state.loading ? (
       <Loading />
     ) : this.state.productDetail ? (
-      <main>
-        <Wrapper>
-          <div className="product-page-grid">
-            <div className="gallery">
-              <form
-                id="image-selector"
-                className="image-selector"
-                onChange={(event) =>
-                  this.setState({ selectedImage: event.target.value })
-                }
-              >
-                {this.state.productDetail.product.gallery.map((image) => {
-                  const indexOfImage =
-                    this.state.productDetail.product.gallery.indexOf(image);
-                  return (
-                    <>
-                      <input
-                        type="radio"
-                        name="imageGallery"
-                        id={`imageGalleryItem${indexOfImage + 1}`}
-                        defaultChecked={indexOfImage === 0}
-                        value={indexOfImage}
-                      />
-                      <label for={`imageGalleryItem${indexOfImage + 1}`}>
-                        <img
-                          src={image}
-                          alt={`Image of ${
-                            this.state.productDetail.product.name
-                          }, ${indexOfImage + 1}`}
-                        />
-                      </label>
-                    </>
-                  );
-                })}
-              </form>
-              <div className="gallery-image">
-                <img
-                  src={
-                    this.state.productDetail.product.gallery[
-                      this.state.selectedImage
-                    ]
-                  }
-                  alt={`Image of ${this.state.productDetail.product.name}, ${
-                    Number(this.state.selectedImage) + 1
-                  }`}
-                />
-              </div>
-            </div>
-            <form
-              className="product-detail"
-              onSubmit={(event) => {
-                event.preventDefault();
-                let cartItem = {
-                  productId: this.state.productDetail.product.id,
-                  quantity: 1,
-                  attributes: [],
-                };
-                for (const attribute of this.state.productDetail.product
-                  .attributes) {
-                  cartItem.attributes.push({
-                    attributeName: attribute.name,
-                    attributeValue: event.target[attribute.name].value,
-                  });
-                }
-                console.log("added to cartData: ", cartItem);
-                console.log("preadded:",this.props.cart)
-                this.props.addItemToCart(cartItem);
-                this.setState({
-                  formSubmitted: true
-                });
-                console.log("finished:", this.props.cart)
-                this.props.history.push("/cart");
-              }}
-            >
-              <div className="brand-name">
-                {this.state.productDetail.product.brand}
-              </div>
-              <div className="product-name">
-                {this.state.productDetail.product.name}
-              </div>
-              {this.state.productDetail.product.attributes.map((attribute) => (
-                <>
-                  <span className="attribute-title">{attribute.name}:</span>
-                  <div className="attribute-selector">
-                    {attribute.items.map((item) => (
-                      <>
-                        <input
-                          type="radio"
-                          className="attribute-item-radio"
-                          id={`${attribute.id
-                            .replace(/\s+/g, "-")
-                            .toLowerCase()}-${item.id}`}
-                          name={attribute.id}
-                          value={item.value}
-                        />
-                        <label
-                          className="attribute-item-label"
-                          for={`${attribute.id
-                            .replace(/\s+/g, "-")
-                            .toLowerCase()}-${item.id}`}
-                        >
-                          {item.displayValue}
-                        </label>
-                      </>
-                    ))}
+      <CartConsumer>
+        {(context) => (
+          <main>
+            <Wrapper>
+              <div className="product-page-grid">
+                <div className="gallery">
+                  <form
+                    id="image-selector"
+                    className="image-selector"
+                    onChange={(event) =>
+                      this.setState({ selectedImage: event.target.value })
+                    }
+                  >
+                    {this.state.productDetail.product.gallery.map((image) => {
+                      const indexOfImage =
+                        this.state.productDetail.product.gallery.indexOf(image);
+                      return (
+                        <>
+                          <input
+                            type="radio"
+                            name="imageGallery"
+                            id={`imageGalleryItem${indexOfImage + 1}`}
+                            defaultChecked={indexOfImage === 0}
+                            value={indexOfImage}
+                          />
+                          <label for={`imageGalleryItem${indexOfImage + 1}`}>
+                            <img
+                              src={image}
+                              alt={`Image of ${
+                                this.state.productDetail.product.name
+                              }, ${indexOfImage + 1}`}
+                            />
+                          </label>
+                        </>
+                      );
+                    })}
+                  </form>
+                  <div className="gallery-image">
+                    <img
+                      src={
+                        this.state.productDetail.product.gallery[
+                          this.state.selectedImage
+                        ]
+                      }
+                      alt={`Image of ${
+                        this.state.productDetail.product.name
+                      }, ${Number(this.state.selectedImage) + 1}`}
+                    />
                   </div>
-                </>
-              ))}
-              <span className="price-title">Price:</span>
-              <span className="price">
-                {this.props.currency}{" "}
-                {
-                  this.state.productDetail.product.prices.filter(
-                    (price) => price.currency === this.props.currency
-                  )[0].amount
-                }
-              </span>
-              <button className="add-to-cart" type="submit" disabled={this.state.formSubmitted}>
-                ADD TO CART
-              </button>
-              <div
-                className="description"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.productDetail.product.description,
-                }}
-              />
-            </form>
-          </div>
-        </Wrapper>
-      </main>
+                </div>
+                <form
+                  className="product-detail"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    let cartItem = {
+                      productId: this.state.productDetail.product.id,
+                      quantity: 1,
+                      prices: this.state.productDetail.product.prices,
+                      attributes: [],
+                    };
+                    for (const attribute of this.state.productDetail.product
+                      .attributes) {
+                      cartItem.attributes.push({
+                        attributeName: attribute.name,
+                        attributeValue: event.target[attribute.name].value,
+                      });
+                    }
+                    console.log("added to cartData: ", cartItem);
+                    console.log("preadded:", this.props.cart);
+                    context.addItemToCart(cartItem);
+                    this.setState({
+                      formSubmitted: true,
+                    });
+                    console.log("finished:", context.cart);
+                    this.props.history.push("/cart");
+                  }}
+                >
+                  <div className="brand-name">
+                    {this.state.productDetail.product.brand}
+                  </div>
+                  <div className="product-name">
+                    {this.state.productDetail.product.name}
+                  </div>
+                  {this.state.productDetail.product.attributes.map(
+                    (attribute) => (
+                      <>
+                        <span className="attribute-title">
+                          {attribute.name}:
+                        </span>
+                        <div className="attribute-selector">
+                          {attribute.items.map((item) => (
+                            <>
+                              <input
+                                type="radio"
+                                className="attribute-item-radio"
+                                id={`${attribute.id
+                                  .replace(/\s+/g, "-")
+                                  .toLowerCase()}-${item.id}`}
+                                name={attribute.id}
+                                value={item.value}
+                              />
+                              <label
+                                className="attribute-item-label"
+                                for={`${attribute.id
+                                  .replace(/\s+/g, "-")
+                                  .toLowerCase()}-${item.id}`}
+                              >
+                                {item.displayValue}
+                              </label>
+                            </>
+                          ))}
+                        </div>
+                      </>
+                    )
+                  )}
+                  <span className="price-title">Price:</span>
+                  <span className="price">
+                    {this.props.currency}{" "}
+                    {
+                      this.state.productDetail.product.prices.filter(
+                        (price) => price.currency === this.props.currency
+                      )[0].amount
+                    }
+                  </span>
+                  <button
+                    className="add-to-cart"
+                    type="submit"
+                    disabled={this.state.formSubmitted}
+                  >
+                    ADD TO CART
+                  </button>
+                  <div
+                    className="description"
+                    dangerouslySetInnerHTML={{
+                      __html: this.state.productDetail.product.description,
+                    }}
+                  />
+                </form>
+              </div>
+            </Wrapper>
+          </main>
+        )}
+      </CartConsumer>
     ) : (
       <NoMatch404 />
     );
