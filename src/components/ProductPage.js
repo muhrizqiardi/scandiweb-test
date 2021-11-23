@@ -3,43 +3,43 @@ import { gql } from "@apollo/client";
 import styled from "styled-components";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
-import { CartConsumer } from "../context/CartContext";
+import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
 import productPageSkeleton from "../assets/skeleton/product-page-skeleton.png"
 
 const Wrapper = styled.div`
   padding: 80px 100px;
-  & h1 {
+  h1 {
     font-weight: normal;
   }
-  & .description {
+  .description {
     font-family: Roboto, Arial, Helvetica, sans-serif;
   }
-  & .product-page-skeleton {
+  .product-page-skeleton {
     img {
       width: 100%;
     }
   }
-  & .product-page-grid {
+  .product-page-grid {
     display: grid;
     grid-template-columns: 1fr 360px;
     gap: 50px;
-    & .gallery {
+    .gallery {
       display: grid;
       grid-template-columns: 96px 1fr;
       gap: 20px;
-      & .image-selector {
+      .image-selector {
         height: 360px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        & input[type="radio"] {
+        input[type="radio"] {
           display: none;
         }
-        & input[type="radio"]:checked + label img {
+        input[type="radio"]:checked + label img {
           border: 3px solid #5ece7b;
         }
-        & label img {
+        label img {
           width: 73px;
           height: 73px;
           margin-bottom: 10px;
@@ -51,47 +51,47 @@ const Wrapper = styled.div`
           }
         }
       }
-      & .gallery-image img {
+      .gallery-image img {
         width: 100%;
         height: 360px;
         background-color: lightgray;
         object-fit: contain;
       }
     }
-    & .product-detail {
+    .product-detail {
       width: 360px;
       display: flex;
       flex-direction: column;
-      & .brand-name {
+      .brand-name {
         margin-bottom: 4px;
         font-size: 32px;
         font-weight: 500;
       }
-      & .product-name {
+      .product-name {
         margin-bottom: 32px;
         font-size: 32px;
       }
-      & .attribute-title,
-      & .price-title {
+      .attribute-title,
+      .price-title {
         margin-bottom: 5px;
         font-family: Roboto, Arial, Helvetica, sans-serif;
         font-weight: bold;
         text-transform: uppercase;
       }
-      & .attribute-selector {
+      .attribute-selector {
         margin-bottom: 32px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        & .attribute-item-radio {
+        .attribute-item-radio {
           width: 0;
           height: 0;
           background: none;
           border: none;
           display: none;
         }
-        & .attribute-item-radio {
-          & + .attribute-item-label {
+        .attribute-item-radio {
+          + .attribute-item-label {
             height: 40px;
             padding: 0 15px;
             margin: 0 10px 10px 0;
@@ -115,10 +115,10 @@ const Wrapper = styled.div`
               cursor: not-allowed;
             }
           }
-          & > * {
+          > * {
             cursor: pointer;
           }
-          & input[type="radio"] {
+          input[type="radio"] {
             width: 0;
             height: 0;
             border: none;
@@ -126,11 +126,11 @@ const Wrapper = styled.div`
           }
         }
       }
-      & .price {
+      .price {
         font-size: 24px;
         font-weight: bold;
       }
-      & .add-to-cart {
+      .add-to-cart {
         height: 52px;
         margin: 20px 0;
         background-color: #5ece7b;

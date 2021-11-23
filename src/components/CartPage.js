@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { gql } from "@apollo/client";
 import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
-import { CartConsumer } from "../context/CartContext";
+import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
 const Wrapper = styled.main`
   padding: 80px 100px;

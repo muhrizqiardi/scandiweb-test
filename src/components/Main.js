@@ -3,22 +3,21 @@ import { withRouter } from "react-router";
 import { gql } from "@apollo/client";
 import styled from "styled-components";
 import ProductItem from "./ProductItem";
-import { print } from "graphql";
 import { Helmet } from "react-helmet";
 import mainSkeleton from "../assets/skeleton/main-skeleton.png"
 
 const Wrapper = styled.div`
   padding: 80px 100px;
-  & h1 {
+  h1 {
     font-weight: normal;
     text-transform: capitalize;
   }
-  & .product-grid {
+  .product-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
   }
-  & .product-error {
+  .product-error {
     height: 80vh;
     display: flex;
     align-items: center;
@@ -69,7 +68,6 @@ class Main extends Component {
         }
       }    
     `;
-    console.log("query:", print(GET_PRODUCTS_LIST));
     this.props.apolloClient
       .query({
         query: GET_PRODUCTS_LIST,
@@ -110,6 +108,9 @@ class Main extends Component {
       <main>
         {this.state.loading ? (
           <Wrapper>
+            <Helmet>
+              <title>{`Loading...`}</title>
+            </Helmet>
             <img src={mainSkeleton} class="main-skeleton-loading"></img>
           </Wrapper>
         ) : (
