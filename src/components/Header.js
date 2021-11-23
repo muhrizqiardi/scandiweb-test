@@ -202,7 +202,6 @@ const Wrapper = styled.header`
         & .cart-skeleton {
           height: 130px;
           margin: 5px;
-          background-color: rgba(0,0,0,0.1);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -463,7 +462,7 @@ export default class Header extends Component {
                     />
                   </svg>
                   <div class="cart-button-badge-container">
-                    <div class="cart-button-badge">{context.cart.length}</div>
+                    {context.cart.length > 0 ? <div class="cart-button-badge">{context.cart.length}</div> : <></>}
                   </div>
                 </div>
                 <div className="cart-popup-container" ref={this.cartPopupRef}>
@@ -657,7 +656,210 @@ class MiniCartItem extends React.Component {
       </div>
     ) : (
       <div class="cart-skeleton">
-        Loading item...
+        <svg
+          width="293"
+          height="137"
+          viewBox="0 0 293 137"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="162"
+            y="54"
+            width="8"
+            height="26"
+            rx="4"
+            fill="url(#paint0_linear_30687_36)"
+          />
+          <rect
+            y="2"
+            width="136"
+            height="52"
+            rx="6"
+            fill="url(#paint1_linear_30687_36)"
+          />
+          <rect
+            y="59"
+            width="52"
+            height="26"
+            rx="6"
+            fill="url(#paint2_linear_30687_36)"
+          />
+          <rect
+            x="188"
+            width="105"
+            height="137"
+            rx="6"
+            fill="url(#paint3_linear_30687_36)"
+          />
+          <rect
+            x="154"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint4_linear_30687_36)"
+          />
+          <rect
+            x="154"
+            y="113"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint5_linear_30687_36)"
+          />
+          <rect
+            y="112"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint6_linear_30687_36)"
+          />
+          <rect
+            y="112"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint7_linear_30687_36)"
+          />
+          <rect
+            x="32"
+            y="112"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint8_linear_30687_36)"
+          />
+          <rect
+            x="32"
+            y="112"
+            width="24"
+            height="24"
+            rx="6"
+            fill="url(#paint9_linear_30687_36)"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_30687_36"
+              x1="160.066"
+              y1="65.0535"
+              x2="171.275"
+              y2="65.0535"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint1_linear_30687_36"
+              x1="-32.8791"
+              y1="24.107"
+              x2="157.67"
+              y2="24.107"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint2_linear_30687_36"
+              x1="-12.5714"
+              y1="70.0535"
+              x2="60.2857"
+              y2="70.0535"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint3_linear_30687_36"
+              x1="162.615"
+              y1="58.2433"
+              x2="309.731"
+              y2="58.2433"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint4_linear_30687_36"
+              x1="148.198"
+              y1="10.2032"
+              x2="181.824"
+              y2="10.2032"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint5_linear_30687_36"
+              x1="148.198"
+              y1="123.203"
+              x2="181.824"
+              y2="123.203"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint6_linear_30687_36"
+              x1="-5.8022"
+              y1="122.203"
+              x2="27.8242"
+              y2="122.203"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint7_linear_30687_36"
+              x1="-5.8022"
+              y1="122.203"
+              x2="27.8242"
+              y2="122.203"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint8_linear_30687_36"
+              x1="26.1978"
+              y1="122.203"
+              x2="59.8242"
+              y2="122.203"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+            <linearGradient
+              id="paint9_linear_30687_36"
+              x1="26.1978"
+              y1="122.203"
+              x2="59.8242"
+              y2="122.203"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#F1EFEF" />
+              <stop offset="0.53125" stop-color="#F9F8F8" />
+              <stop offset="0.992158" stop-color="#E7E5E5" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     );
   }

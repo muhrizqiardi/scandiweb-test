@@ -280,9 +280,7 @@ class CartItem extends Component {
     ) : this.state.productDetail ? (
       <>
         <Helmet>
-          <title>
-            {`Cart Page | ScandiStore`}
-          </title>
+          <title>{`Cart Page | ScandiStore`}</title>
         </Helmet>
         <div className="cart-item">
           <div class="cart-item-col-1">
@@ -315,14 +313,20 @@ class CartItem extends Component {
                           .toLowerCase()}`}
                         name={this.state.productDetail.product.attributes[0].id}
                         value={item.value}
-                        checked={
-                          this.props.attributes.filter(
-                            (attribute) =>
-                              attribute.attributeName ===
-                              this.state.productDetail.product.attributes[0]
-                                .name
-                          )[0].attributeValue === item.value
-                        }
+                        checked={() => {
+                          if (this.props.attributes) {
+                            return (
+                              this.props.attributes.filter(
+                                (attribute) =>
+                                  attribute.attributeName ===
+                                  this.state.productDetail.product.attributes[0]
+                                    .name
+                              )[0].attributeValue === item.value
+                            );
+                          } else {
+                            return false;
+                          }
+                        }}
                       />
                       <label
                         className="attribute-item-label"
