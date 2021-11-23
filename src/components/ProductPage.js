@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { gql } from "@apollo/client";
 import styled from "styled-components";
-import Loading from "./Loading";
 import NoMatch404 from "./NoMatch404";
 import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
@@ -159,7 +158,6 @@ export default class ProductPage extends Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.productId);
-    console.log("onstart:", this.props.cart);
   }
 
   getProductDetail(productId = "") {
@@ -197,17 +195,12 @@ export default class ProductPage extends Component {
       })
       .then((result) => {
         queryResult = result.data;
-        console.log("queryResult: ", queryResult);
         if (queryResult.product !== null) {
           this.setState(
             {
               productDetail: queryResult,
             },
             () => {
-              console.log(
-                "query result for product detail " + productId,
-                this.state.productDetail
-              );
               this.setState({ loading: false });
             }
           );
@@ -217,7 +210,6 @@ export default class ProductPage extends Component {
               productDetail: false,
             },
             () => {
-              console.log("query result failed: ", this.state.productDetail);
               this.setState({ loading: false });
             }
           );
@@ -229,8 +221,8 @@ export default class ProductPage extends Component {
   render() {
     return this.state.loading ? (
       <Wrapper>
-        <div class="product-page-skeleton">
-          <img src={productPageSkeleton} alt="" />
+        <div className="product-page-skeleton">
+          <img src={productPageSkeleton} alt="Product page skeleton" />
         </div>
       </Wrapper>
     ) : this.state.productDetail ? (
@@ -239,7 +231,8 @@ export default class ProductPage extends Component {
           <main>
             <Helmet>
               <title>
-                {this.state.productDetail.product.brand && this.state.productDetail.product.name
+                {this.state.productDetail.product.brand &&
+                this.state.productDetail.product.name
                   ? `${this.state.productDetail.product.brand} ${this.state.productDetail.product.name} | ScandiStore`
                   : "ScandiStore"}
               </title>
@@ -263,15 +256,16 @@ export default class ProductPage extends Component {
                             type="radio"
                             name="imageGallery"
                             id={`imageGalleryItem${indexOfImage + 1}`}
+                            key={`imageGalleryItem${indexOfImage + 1}`}
                             defaultChecked={indexOfImage === 0}
                             value={indexOfImage}
                           />
                           <label for={`imageGalleryItem${indexOfImage + 1}`}>
                             <img
                               src={image}
-                              alt={`Image of ${
-                                this.state.productDetail.product.name
-                              }, ${indexOfImage + 1}`}
+                              alt={`${this.state.productDetail.product.name}, ${
+                                indexOfImage + 1
+                              }`}
                             />
                           </label>
                         </>
@@ -285,7 +279,7 @@ export default class ProductPage extends Component {
                           this.state.selectedImage
                         ]
                       }
-                      alt={`Image of ${
+                      alt={`${
                         this.state.productDetail.product.name
                       }, ${Number(this.state.selectedImage) + 1}`}
                     />
@@ -308,13 +302,10 @@ export default class ProductPage extends Component {
                         attributeValue: event.target[attribute.name].value,
                       });
                     }
-                    console.log("added to cartData: ", cartItem);
-                    console.log("preadded:", this.props.cart);
                     context.addItemToCart(cartItem);
                     this.setState({
                       formSubmitted: true,
                     });
-                    console.log("finished:", context.cart);
                     this.props.history.push("/cart");
                   }}
                 >
@@ -339,11 +330,17 @@ export default class ProductPage extends Component {
                                 id={`${attribute.id
                                   .replace(/\s+/g, "-")
                                   .toLowerCase()}-${item.id}`}
+                                key={`${attribute.id
+                                  .replace(/\s+/g, "-")
+                                  .toLowerCase()}-${item.id}`}
                                 name={attribute.id}
                                 value={item.value}
                               />
                               <label
                                 className="attribute-item-label"
+                                key={`${attribute.id
+                                  .replace(/\s+/g, "-")
+                                  .toLowerCase()}-${item.id}`}
                                 for={`${attribute.id
                                   .replace(/\s+/g, "-")
                                   .toLowerCase()}-${item.id}`}

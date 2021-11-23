@@ -283,7 +283,6 @@ export default class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.currentCategoryName);
     this.currencyPopper = createPopper(
       this.currencyPopupButtonRef.current,
       this.currencyPopupRef.current,
@@ -354,7 +353,7 @@ export default class Header extends Component {
               </nav>
               <div className="logo">
                 <Link to="/">
-                  <img src={logo} alt="" />
+                  <img src={logo} alt="ScandiStore's logo" />
                 </Link>
               </div>
               <div className="actions">
@@ -380,8 +379,8 @@ export default class Header extends Component {
                     <path
                       d="M1 0.5L4 3.5L7 0.5"
                       stroke="black"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -475,9 +474,9 @@ export default class Header extends Component {
                       fill="#43464E"
                     />
                   </svg>
-                  <div class="cart-button-badge-container">
+                  <div className="cart-button-badge-container">
                     {cartContext.cart.length > 0 ? (
-                      <div class="cart-button-badge">{cartContext.cart.length}</div>
+                      <div className="cart-button-badge">{cartContext.cart.length}</div>
                     ) : (
                       <></>
                     )}

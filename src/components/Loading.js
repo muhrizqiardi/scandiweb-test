@@ -59,7 +59,7 @@ export default class Loading extends Component {
         </Helmet>
 
         <Spinner>
-          <div class="spinner-container">
+          <div className="spinner-container">
             <div className="lds-ring">
               <div></div>
               <div></div>

@@ -111,7 +111,11 @@ class Main extends Component {
             <Helmet>
               <title>{`Loading...`}</title>
             </Helmet>
-            <img src={mainSkeleton} class="main-skeleton-loading"></img>
+            <img
+              src={mainSkeleton}
+              className="main-skeleton-loading"
+              alt="Main skeleton loading"
+            ></img>
           </Wrapper>
         ) : (
           <Wrapper>
@@ -124,8 +128,9 @@ class Main extends Component {
               <div className="product-grid">
                 {this.state.productList.category.products.map((product) => (
                   <ProductItem
-                    productId={product.id}
+                    key={product.id}
                     productName={product.name}
+                    productId={product.id}
                     productThumbnail={product.gallery[0]}
                     productPrices={product.prices}
                     currency={this.props.currency}
@@ -133,7 +138,7 @@ class Main extends Component {
                 ))}
               </div>
             ) : (
-              <div class="product-error">
+              <div className="product-error">
                 <h1>The product listing is currently empty</h1>
               </div>
             )}

@@ -16,7 +16,6 @@ export default class CartPopup extends React.Component {
         </div>
         <div className="cart-list">
           {this.props.context.cart.map((cartItem) => {
-            console.log(cartItem);
             return (
               <MiniCartItem
                 apolloClient={this.props.apolloClient}
@@ -24,6 +23,7 @@ export default class CartPopup extends React.Component {
                 cartItem={cartItem}
                 currency={this.props.currency}
                 productId={cartItem.productId}
+                key={cartItem.productId}
               />
             );
           })}
@@ -39,7 +39,7 @@ export default class CartPopup extends React.Component {
           <Link to="/cart" className="view-bag-button">
             View Bag
           </Link>
-          <a className="check-out-button">Check Out</a>
+          <a href="/" className="check-out-button">Check Out</a>
         </div>
       </div>
     );
@@ -96,7 +96,6 @@ class MiniCartItem extends React.Component {
       })
       .then((result) => {
         queryResult = result.data;
-        console.log("queryResult for mini cart item: ", queryResult);
         if (queryResult.product !== null) {
           this.setState(
             {
@@ -112,10 +111,6 @@ class MiniCartItem extends React.Component {
               productDetail: false,
             },
             () => {
-              console.log(
-                "query result failed: ",
-                this.state.productDetail.product
-              );
               this.setState({ loading: false });
             }
           );
@@ -154,6 +149,7 @@ class MiniCartItem extends React.Component {
                         ? "selected"
                         : ""
                     }`}
+                    key={item.value}
                   >
                     {item.displayValue}
                   </div>
@@ -186,11 +182,14 @@ class MiniCartItem extends React.Component {
           </button>
         </div>
         <div className="cart-item-col-3">
-          <img src={this.state.productDetail.product.gallery[0]} alt="" />
+          <img
+            src={this.state.productDetail.product.gallery[0]}
+            alt={this.state.productDetail.product.name}
+          />
         </div>
       </div>
     ) : (
-      <div class="cart-skeleton">
+      <div className="cart-skeleton">
         <img src={cartItemSkeleton} alt="cart item skeleton" />
       </div>
     );

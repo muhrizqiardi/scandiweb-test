@@ -244,7 +244,6 @@ class CartItem extends Component {
       })
       .then((result) => {
         queryResult = result.data;
-        console.log("queryResult: ", queryResult);
         if (queryResult.product !== null) {
           this.setState(
             {
@@ -260,10 +259,6 @@ class CartItem extends Component {
               productDetail: false,
             },
             () => {
-              console.log(
-                "query result failed: ",
-                this.state.productDetail.product
-              );
               this.setState({ loading: false });
             }
           );
@@ -283,12 +278,12 @@ class CartItem extends Component {
           <title>{`Cart Page | ScandiStore`}</title>
         </Helmet>
         <div className="cart-item">
-          <div class="cart-item-col-1">
-            <div class="item-brand">
+          <div className="cart-item-col-1">
+            <div className="item-brand">
               {this.state.productDetail.product.brand}
             </div>
-            <div class="item-name">{this.state.productDetail.product.name}</div>
-            <div class="item-price">
+            <div className="item-name">{this.state.productDetail.product.name}</div>
+            <div className="item-price">
               {this.props.currency}{" "}
               {Math.round(
                 this.props.cartItem.prices.filter(
@@ -296,7 +291,7 @@ class CartItem extends Component {
                 )[0].amount * this.props.cartItem.quantity
               )}
             </div>
-            <div class="attribute-selector">
+            <div className="attribute-selector">
               {this.state.productDetail.product.attributes.length > 0 &&
                 this.state.productDetail.product.attributes[0].items.map(
                   (item) => (
@@ -305,6 +300,13 @@ class CartItem extends Component {
                         type="radio"
                         className="attribute-item-radio"
                         id={`${this.state.productDetail.product.name
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${item.id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}`}
+                        key={`${this.state.productDetail.product.name
                           .replace(/\s+/g, "-")
                           .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
                           .replace(/\s+/g, "-")
@@ -345,8 +347,8 @@ class CartItem extends Component {
                 )}
             </div>
           </div>
-          <div class="cart-item-col-2">
-            <div class="qty-counter">
+          <div className="cart-item-col-2">
+            <div className="qty-counter">
               <button
                 onClick={() => {
                   let cartItem = {
@@ -370,14 +372,13 @@ class CartItem extends Component {
               </button>
             </div>
           </div>
-          <div class="cart-item-col-3">
-            <div class="cart-gallery">
-              <div class="gallery-arrow-container">
+          <div className="cart-item-col-3">
+            <div className="cart-gallery">
+              <div className="gallery-arrow-container">
                 <div
-                  class="gallery-arrow-left"
+                  className="gallery-arrow-left"
                   onClick={() => {
                     this.setState((state) => {
-                      console.log(state.currentImage);
                       if (state.currentImage === 0) {
                         return {
                           currentImage:
@@ -392,8 +393,8 @@ class CartItem extends Component {
                   }}
                 >
                   <svg
-                    width="24"
-                    height="24"
+                    width={24}
+                    height={24}
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -401,9 +402,9 @@ class CartItem extends Component {
                     <path
                       d="M15 18L9 12L15 6"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -414,14 +415,13 @@ class CartItem extends Component {
                     this.state.currentImage
                   ]
                 }
-                alt="Image"
+                alt={this.state.productDetail.product.name}
               />
-              <div class="gallery-arrow-container">
+              <div className="gallery-arrow-container">
                 <div
-                  class="gallery-arrow-right"
+                  className="gallery-arrow-right"
                   onClick={() => {
                     this.setState((state) => {
-                      console.log(state.currentImage);
                       if (
                         state.currentImage >=
                         this.state.productDetail.product.gallery.length - 1
@@ -438,8 +438,8 @@ class CartItem extends Component {
                   }}
                 >
                   <svg
-                    width="24"
-                    height="24"
+                    width={24}
+                    height={24}
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -447,9 +447,9 @@ class CartItem extends Component {
                     <path
                       d="M9 18L15 12L9 6"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>

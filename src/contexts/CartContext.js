@@ -20,7 +20,6 @@ export class CartProvider extends React.Component {
   getTotal(currency) {
     let total = 0;
     for (const item of this.state.cart) {
-      console.log(item);
       total += item.prices.filter((price) => price.currency === currency)[0]
         .amount * item.quantity;
     }
@@ -48,10 +47,8 @@ export class CartProvider extends React.Component {
         }
       },
       () => {
-        console.log("cart:", this.state.cart);
       }
     );
-    console.log(this.state.cart);
   }
 
   decreaseItemFromCart(productId) {
@@ -59,7 +56,6 @@ export class CartProvider extends React.Component {
       let productInCart = [...state.cart].filter(
         (cartItem) => cartItem.productId === productId
       )[0];
-      console.log("productInCart 1", productInCart.quantity);
 
       if (productInCart) {
         let newCart = [...state.cart];
@@ -72,7 +68,6 @@ export class CartProvider extends React.Component {
           };
         } else {
           newCart[indexOfItem].quantity -= 1;
-          console.log(newCart[indexOfItem].quantity);
           return {
             ...state,
             cart: newCart,
