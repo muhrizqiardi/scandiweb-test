@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 
 const Spinner = styled.div`
@@ -50,16 +51,24 @@ const Spinner = styled.div`
 export default class Loading extends Component {
   render() {
     return (
-      <Spinner>
-        <div class="spinner-container">
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+      <>
+        <Helmet>
+          <title>
+            {`Loading...`}
+          </title>
+        </Helmet>
+
+        <Spinner>
+          <div class="spinner-container">
+            <div className="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
-        </div>
-      </Spinner>
+        </Spinner>
+      </>
     );
   }
 }

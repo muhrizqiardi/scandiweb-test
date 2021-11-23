@@ -91,7 +91,6 @@ const Wrapper = styled.header`
       padding: 16px;
       margin-top: 30px;
       background: white;
-      filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
       & .cart-title {
         font-weight: 700;
         & .item-count {
@@ -311,9 +310,9 @@ export default class Header extends Component {
                 </NavLink>
               </nav>
               <div className="logo">
-                <a href="/">
+                <Link to="/">
                   <img src={logo} alt="" />
-                </a>
+                </Link>
               </div>
               <div className="actions">
                 <div

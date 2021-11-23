@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ProductItem from "./ProductItem";
 import { print } from "graphql";
 import Loading from "./Loading";
+import { Helmet } from "react-helmet";
 
 const Wrapper = styled.div`
   padding: 80px 100px;
@@ -108,6 +109,12 @@ class Main extends Component {
           <Loading />
         ) : (
           <Wrapper>
+            <Helmet>
+              <title>
+                {`ScandiStore`}
+              </title>
+            </Helmet>
+
             <h1>{this.props.currentCategoryName || "All items"}</h1>
             {this.state.productList ? (
               <div className="product-grid">
