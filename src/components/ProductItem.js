@@ -72,7 +72,7 @@ export default class ProductItem extends Component {
             >
               <img
                 src={this.props.productThumbnail}
-                alt={"Image of " + this.props.productName}
+                alt={this.props.productName}
                 className="product-thumbnail"
               />
               <div className="product-desc">

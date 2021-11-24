@@ -7,48 +7,48 @@ import { CartConsumer } from "../contexts/CartContext";
 import { Helmet } from "react-helmet";
 const Wrapper = styled.main`
   padding: 80px 100px;
-  & h1 {
+  h1 {
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 60px;
   }
-  & .cart-list {
-    & .cart-item {
+  .cart-list {
+    .cart-item {
       height: 200px;
       padding: 16px;
       border-top: 1px solid #e5e5e5;
       display: grid;
       grid-template-columns: 1fr 45px 150px;
       gap: 20px;
-      & .cart-item-col-1 {
+      .cart-item-col-1 {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        & .item-brand {
+        .item-brand {
           font-size: 32px;
           font-weight: 700;
         }
-        & .item-name {
+        .item-name {
           font-size: 32px;
         }
-        & .item-price {
+        .item-price {
           font-size: 24px;
           font-weight: bold;
         }
-        & .attribute-selector {
+        .attribute-selector {
           margin-top: 32px;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          & .attribute-item-radio {
+          .attribute-item-radio {
             width: 0;
             height: 0;
             background: none;
             border: none;
             display: none;
           }
-          & .attribute-item-radio {
-            & + .attribute-item-label {
+          .attribute-item-radio {
+            + .attribute-item-label {
               height: 40px;
               padding: 0 15px;
               margin: 0 10px 10px 0;
@@ -72,10 +72,10 @@ const Wrapper = styled.main`
                 cursor: not-allowed;
               }
             }
-            & > * {
+            > * {
               cursor: pointer;
             }
-            & input[type="radio"] {
+            input[type="radio"] {
               width: 0;
               height: 0;
               border: none;
@@ -84,14 +84,14 @@ const Wrapper = styled.main`
           }
         }
       }
-      & .cart-item-col-2 {
-        & .qty-counter {
+      .cart-item-col-2 {
+        .qty-counter {
           height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           align-items: center;
-          & button {
+          button {
             border: none;
             background: none;
             padding: 0;
@@ -103,24 +103,24 @@ const Wrapper = styled.main`
           }
         }
       }
-      & .cart-item-col-3 {
+      .cart-item-col-3 {
         width: 150px;
         height: 200px;
-        & .cart-gallery {
+        .cart-gallery {
           display: flex;
           flex-direction: row;
           align-items: stretch;
-          & img {
+          img {
             width: 150px;
             height: 200px;
             object-fit: cover;
           }
-          & .gallery-arrow-container {
+          .gallery-arrow-container {
             width: 0px;
             height: 200px;
             overflow-x: visible;
-            & .gallery-arrow-left,
-            & .gallery-arrow-right {
+            .gallery-arrow-left,
+            .gallery-arrow-right {
               z-index: 2;
               width: 30px;
               height: 200px;
@@ -141,7 +141,7 @@ const Wrapper = styled.main`
                 );
               }
             }
-            & .gallery-arrow-right {
+            .gallery-arrow-right {
               left: unset;
               right: 30px;
               background: linear-gradient(
@@ -207,6 +207,7 @@ class CartItem extends Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.productId);
+    console.log(this.props.cartItem);
   }
 
   getProductDetail(productId = "") {
@@ -244,7 +245,6 @@ class CartItem extends Component {
       })
       .then((result) => {
         queryResult = result.data;
-        console.log("queryResult: ", queryResult);
         if (queryResult.product !== null) {
           this.setState(
             {
@@ -260,10 +260,6 @@ class CartItem extends Component {
               productDetail: false,
             },
             () => {
-              console.log(
-                "query result failed: ",
-                this.state.productDetail.product
-              );
               this.setState({ loading: false });
             }
           );
@@ -283,12 +279,14 @@ class CartItem extends Component {
           <title>{`Cart Page | ScandiStore`}</title>
         </Helmet>
         <div className="cart-item">
-          <div class="cart-item-col-1">
-            <div class="item-brand">
+          <div className="cart-item-col-1">
+            <div className="item-brand">
               {this.state.productDetail.product.brand}
             </div>
-            <div class="item-name">{this.state.productDetail.product.name}</div>
-            <div class="item-price">
+            <div className="item-name">
+              {this.state.productDetail.product.name}
+            </div>
+            <div className="item-price">
               {this.props.currency}{" "}
               {Math.round(
                 this.props.cartItem.prices.filter(
@@ -296,7 +294,7 @@ class CartItem extends Component {
                 )[0].amount * this.props.cartItem.quantity
               )}
             </div>
-            <div class="attribute-selector">
+            <div className="attribute-selector">
               {this.state.productDetail.product.attributes.length > 0 &&
                 this.state.productDetail.product.attributes[0].items.map(
                   (item) => (
@@ -311,22 +309,22 @@ class CartItem extends Component {
                           .toLowerCase()}-${item.id
                           .replace(/\s+/g, "-")
                           .toLowerCase()}`}
+                        key={`${this.state.productDetail.product.name
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}-${item.id
+                          .replace(/\s+/g, "-")
+                          .toLowerCase()}`}
                         name={this.state.productDetail.product.attributes[0].id}
                         value={item.value}
-                        checked={() => {
-                          if (this.props.attributes) {
-                            return (
-                              this.props.attributes.filter(
-                                (attribute) =>
-                                  attribute.attributeName ===
-                                  this.state.productDetail.product.attributes[0]
-                                    .name
-                              )[0].attributeValue === item.value
-                            );
-                          } else {
-                            return false;
-                          }
-                        }}
+                        checked={
+                          this.props.cartItem.attributes[0] !== undefined &&
+                          this.props.cartItem.attributes[0].attributeValue ===
+                            item.value
+                            ? true
+                            : false
+                        }
                       />
                       <label
                         className="attribute-item-label"
@@ -338,6 +336,26 @@ class CartItem extends Component {
                           .replace(/\s+/g, "-")
                           .toLowerCase()}`}
                       >
+                        {this.state.productDetail.product.attributes[0].type ===
+                          "swatch" && (
+                          <div
+                            style={{
+                              width: 13,
+                              height: 13,
+                              marginRight: 10,
+                              borderRadius: "100%",
+                              border: `1px solid ${
+                                item.value === "#000000" ? "white" : "black"
+                              }`,
+                              background:
+                                this.state.productDetail.product.attributes[0]
+                                  .type === "swatch"
+                                  ? item.value
+                                  : "unset",
+                            }}
+                            className="swatch-view"
+                          ></div>
+                        )}
                         {item.displayValue}
                       </label>
                     </>
@@ -345,8 +363,8 @@ class CartItem extends Component {
                 )}
             </div>
           </div>
-          <div class="cart-item-col-2">
-            <div class="qty-counter">
+          <div className="cart-item-col-2">
+            <div className="qty-counter">
               <button
                 onClick={() => {
                   let cartItem = {
@@ -370,14 +388,13 @@ class CartItem extends Component {
               </button>
             </div>
           </div>
-          <div class="cart-item-col-3">
-            <div class="cart-gallery">
-              <div class="gallery-arrow-container">
+          <div className="cart-item-col-3">
+            <div className="cart-gallery">
+              <div className="gallery-arrow-container">
                 <div
-                  class="gallery-arrow-left"
+                  className="gallery-arrow-left"
                   onClick={() => {
                     this.setState((state) => {
-                      console.log(state.currentImage);
                       if (state.currentImage === 0) {
                         return {
                           currentImage:
@@ -392,8 +409,8 @@ class CartItem extends Component {
                   }}
                 >
                   <svg
-                    width="24"
-                    height="24"
+                    width={24}
+                    height={24}
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -401,9 +418,9 @@ class CartItem extends Component {
                     <path
                       d="M15 18L9 12L15 6"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
@@ -414,14 +431,13 @@ class CartItem extends Component {
                     this.state.currentImage
                   ]
                 }
-                alt="Image"
+                alt={this.state.productDetail.product.name}
               />
-              <div class="gallery-arrow-container">
+              <div className="gallery-arrow-container">
                 <div
-                  class="gallery-arrow-right"
+                  className="gallery-arrow-right"
                   onClick={() => {
                     this.setState((state) => {
-                      console.log(state.currentImage);
                       if (
                         state.currentImage >=
                         this.state.productDetail.product.gallery.length - 1
@@ -438,8 +454,8 @@ class CartItem extends Component {
                   }}
                 >
                   <svg
-                    width="24"
-                    height="24"
+                    width={24}
+                    height={24}
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -447,9 +463,9 @@ class CartItem extends Component {
                     <path
                       d="M9 18L15 12L9 6"
                       stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>
