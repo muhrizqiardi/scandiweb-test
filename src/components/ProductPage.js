@@ -354,7 +354,11 @@ export default class ProductPage extends Component {
                                       height: 13,
                                       marginRight: 10,
                                       borderRadius: "100%",
-                                      border: "1px solid black",
+                                      border: `1px solid ${
+                                        item.value === "#000000"
+                                          ? "white"
+                                          : "black"
+                                      }`,
                                       background:
                                         attribute.type === "swatch"
                                           ? item.value

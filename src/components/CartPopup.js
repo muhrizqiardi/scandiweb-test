@@ -42,24 +42,26 @@ const Wrapper = styled.div`
           width: 150px;
           display: flex;
           flex-direction: row;
-          overflow-x: scroll;
+          flex-wrap: wrap;
+          /* overflow-x: scroll;
           -ms-overflow-style: none;
           scrollbar-width: none;
           &::-webkit-scrollbar {
             display: none;
-          }
+          } */
           .attribute-item {
-            height: 24px;
+            height: 16px;
             width: max-content;
-            padding: 2px 6px;
+            padding: 1px 4px;
             margin-right: 3px;
             margin-bottom: 3px;
-            font-size: 14px;
+            font-size: 9px;
             background: white;
             border: 1px solid black;
             text-align: center;
             display: flex;
             align-items: center;
+            white-space: nowrap;
             &.selected {
               border: 1px solid black;
               color: white;
@@ -314,20 +316,24 @@ class MiniCartItem extends React.Component {
                     key={item.value}
                   >
                     {this.state.productDetail.product.attributes[0].type ===
-                      "swatch" && (
-                      <div
-                        style={{
-                          width: 13,
-                          height: 13,
-                          marginRight: 5,
-                          borderRadius: "100%",
-                          border: "1px solid black",
-                          background: item.value,
-                        }}
-                        className="swatch-view"
-                      ></div>
+                    "swatch" ? (
+                      <>
+                        <div
+                          style={{
+                            width: 10,
+                            height: 10,
+                            marginRight: 2,
+                            borderRadius: "100%",
+                            border: `1px solid ${item.value === "#000000" ? "white" : "black"}`,
+                            background: item.value,
+                          }}
+                          className="swatch-view"
+                        ></div>
+                        {item.displayValue}
+                      </>
+                    ) : (
+                      item.displayValue
                     )}
-                    {item.displayValue}
                   </div>
                 )
               )}
