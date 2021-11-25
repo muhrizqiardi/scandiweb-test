@@ -13,6 +13,8 @@ class App extends Component {
     this.state = {
       currency: "USD",
     };
+
+    this.currencyHandler = this.currencyHandler.bind(this);
   }
 
   currencyHandler(newCurrency) {
