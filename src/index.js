@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "./apollo/apolloClientSetup";
 import { CartProvider } from "./contexts/CartContext";
+import { Provider } from "react-redux";
+import store from "./store/";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -17,12 +19,14 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <CartProvider>
-    <ApolloProvider client={apolloClient}>
-      <BrowserRouter>
-        <GlobalStyle />
-        <App apolloClient={apolloClient} />
-      </BrowserRouter>
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={apolloClient}>
+        <BrowserRouter>
+          <GlobalStyle />
+          <App apolloClient={apolloClient} />
+        </BrowserRouter>
+      </ApolloProvider>
+    </Provider>
   </CartProvider>,
   document.getElementById("root")
 );
