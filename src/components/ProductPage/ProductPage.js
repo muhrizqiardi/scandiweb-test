@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { gql } from "@apollo/client";
-import styled from "styled-components";
 import NoMatch404 from "../NoMatch404";
 import { CartConsumer } from "../../contexts/CartContext";
 import { Helmet } from "react-helmet";
