@@ -174,19 +174,24 @@ class ProductPage extends Component {
                   onSubmit={(event) => {
                     event.preventDefault();
                     let cartItem = {
-                      productId: this.state.productDetail.product.id,
+                      id: this.state.productDetail.product.id,
                       quantity: 1,
                       prices: this.state.productDetail.product.prices,
                       attributes: [],
                     };
                     for (const attribute of this.state.productDetail.product
                       .attributes) {
+                      if (!event.target[attribute.name].value) {
+                        alert("Please enter the attributes correctly");
+                        return;
+                      }
                       cartItem.attributes.push({
                         attributeName: attribute.name,
                         attributeValue: event.target[attribute.name].value,
                       });
                     }
                     context.addItemToCart(cartItem);
+                    this.props.addItem(cartItem);
                     this.setState({
                       formSubmitted: true,
                     });
@@ -200,45 +205,50 @@ class ProductPage extends Component {
                     {this.state.productDetail.product.name}
                   </ProductName>
                   {this.state.productDetail.product.attributes.map(
-                    (attribute) => (
-                      <>
-                        <AttributeTitle className="attribute-title">
-                          {attribute.name}:
-                        </AttributeTitle>
-                        <AttributeSelector className="attribute-selector">
-                          {attribute.items.map((item) => (
-                            <>
-                              <input
-                                type="radio"
-                                className="attribute-item-radio"
-                                id={`${attribute.id
-                                  .replace(/\s+/g, "-")
-                                  .toLowerCase()}-${item.id}`}
-                                key={`${attribute.id
-                                  .replace(/\s+/g, "-")
-                                  .toLowerCase()}-${item.id}`}
-                                name={attribute.id}
-                                value={item.value}
-                              />
-                              <label
-                                className="attribute-item-label"
-                                key={`${attribute.id
-                                  .replace(/\s+/g, "-")
-                                  .toLowerCase()}-${item.id}`}
-                                for={`${attribute.id
-                                  .replace(/\s+/g, "-")
-                                  .toLowerCase()}-${item.id}`}
-                              >
-                                {attribute.type === "swatch" && (
-                                  <SwatchView itemValue={item.value} />
-                                )}
-                                {item.displayValue}
-                              </label>
-                            </>
-                          ))}
-                        </AttributeSelector>
-                      </>
-                    )
+                    (attribute) => {
+                      // const radioGroupName = 
+                      return (
+                        <>
+                          <AttributeTitle className="attribute-title">
+                            {attribute.name}:
+                          </AttributeTitle>
+                          <AttributeSelector className="attribute-selector">
+                            {attribute.items.map((item) => {
+                              return (
+                                <>
+                                  <input
+                                    type="radio"
+                                    className="attribute-item-radio"
+                                    id={`${attribute.id
+                                      .replace(/\s+/g, "-")
+                                      .toLowerCase()}-${item.id}`}
+                                    key={`${attribute.id
+                                      .replace(/\s+/g, "-")
+                                      .toLowerCase()}-${item.id}`}
+                                    name={attribute.id}
+                                    value={item.value}
+                                  />
+                                  <label
+                                    className="attribute-item-label"
+                                    key={`${attribute.id
+                                      .replace(/\s+/g, "-")
+                                      .toLowerCase()}-${item.id}`}
+                                    for={`${attribute.id
+                                      .replace(/\s+/g, "-")
+                                      .toLowerCase()}-${item.id}`}
+                                  >
+                                    {attribute.type === "swatch" && (
+                                      <SwatchView itemValue={item.value} />
+                                    )}
+                                    {item.displayValue}
+                                  </label>
+                                </>
+                              );
+                            })}
+                          </AttributeSelector>
+                        </>
+                      );
+                    }
                   )}
                   <PriceTitle>Price:</PriceTitle>
                   <Price>
@@ -273,7 +283,7 @@ class ProductPage extends Component {
   }
 }
 
-export default connect(({ cart, currency }) => ({ cart, currency }), {
+export default connect(({ cart, currency }) => ({ cart /* currency */ }), {
   incrementItem,
   decrementItem,
 })(ProductPage);
