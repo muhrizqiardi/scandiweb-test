@@ -1,4 +1,4 @@
-import searchArray from "../../utils/searchArray";
+import searchArray from "../../utils/searchArray"
 import {
   ADD_ITEM,
   DECREMENT_ITEM,

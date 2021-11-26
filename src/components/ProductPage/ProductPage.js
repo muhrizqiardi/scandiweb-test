@@ -22,8 +22,11 @@ import {
   ProductPageWrapper,
   SwatchView,
 } from "./styles";
+import { connect } from "react-redux";
+import incrementItem from "../../store/actions/incrementItem";
+import decrementItem from "../../store/actions/decrementItem";
 
-export default class ProductPage extends Component {
+class ProductPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -270,3 +273,8 @@ export default class ProductPage extends Component {
     );
   }
 }
+
+export default connect(({ cart, currency }) => ({ cart, currency }), {
+  incrementItem,
+  decrementItem,
+})(ProductPage);
