@@ -1,12 +1,9 @@
 import { createStore } from "redux";
-import cartReducer from "./reducers/cartReducer";
-
-const initialState = { cart: [], latestCartItemId: 0 };
+import reducer from "./reducers/reducer";
 
 function configureStore() {
   return createStore(
-    cartReducer,
-    initialState,
+    reducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 }

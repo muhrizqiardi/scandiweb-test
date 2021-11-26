@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { MiniCartItem } from "./MiniCartItem";
 import {
@@ -9,7 +10,7 @@ import {
   MiniCartWrapper,
 } from "./styles";
 
-export class MiniCartPopup extends React.Component {
+class MiniCartPopup extends React.Component {
   render() {
     return (
       <MiniCartWrapper>
@@ -53,3 +54,5 @@ export class MiniCartPopup extends React.Component {
     );
   }
 }
+
+export default connect(({cart}) => cart,null)(MiniCartPopup)

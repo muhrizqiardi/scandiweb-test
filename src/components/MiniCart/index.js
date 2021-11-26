@@ -1,2 +1,2 @@
-import { MiniCartPopup } from "./MiniCartPopup";
+import MiniCartPopup from "./MiniCartPopup";
 export default MiniCartPopup;
