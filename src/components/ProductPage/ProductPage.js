@@ -24,6 +24,8 @@ import {
 import { connect } from "react-redux";
 import incrementItem from "../../store/actions/incrementItem";
 import decrementItem from "../../store/actions/decrementItem";
+import AttributeItem from "./AttributeItem";
+import kebabCase from "../../utils/kebabCase"
 
 class ProductPage extends Component {
   constructor(props) {
@@ -206,7 +208,6 @@ class ProductPage extends Component {
                   </ProductName>
                   {this.state.productDetail.product.attributes.map(
                     (attribute) => {
-                      // const radioGroupName = 
                       return (
                         <>
                           <AttributeTitle className="attribute-title">
@@ -214,35 +215,16 @@ class ProductPage extends Component {
                           </AttributeTitle>
                           <AttributeSelector className="attribute-selector">
                             {attribute.items.map((item) => {
+                              const radioGroupName = kebabCase(`${this.state.productDetail.product.name} ${attribute.name} radio group`);
+                              const attributeItemId = kebabCase(`${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`);
+
                               return (
-                                <>
-                                  <input
-                                    type="radio"
-                                    className="attribute-item-radio"
-                                    id={`${attribute.id
-                                      .replace(/\s+/g, "-")
-                                      .toLowerCase()}-${item.id}`}
-                                    key={`${attribute.id
-                                      .replace(/\s+/g, "-")
-                                      .toLowerCase()}-${item.id}`}
-                                    name={attribute.id}
-                                    value={item.value}
-                                  />
-                                  <label
-                                    className="attribute-item-label"
-                                    key={`${attribute.id
-                                      .replace(/\s+/g, "-")
-                                      .toLowerCase()}-${item.id}`}
-                                    for={`${attribute.id
-                                      .replace(/\s+/g, "-")
-                                      .toLowerCase()}-${item.id}`}
-                                  >
-                                    {attribute.type === "swatch" && (
-                                      <SwatchView itemValue={item.value} />
-                                    )}
-                                    {item.displayValue}
-                                  </label>
-                                </>
+                                <AttributeItem
+                                  radioGroupName={radioGroupName}
+                                  attributeItemId={attributeItemId}
+                                  attribute={attribute}
+                                  item={item}
+                                />
                               );
                             })}
                           </AttributeSelector>

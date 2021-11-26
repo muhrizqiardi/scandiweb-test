@@ -8,18 +8,18 @@ export default class AttributeItem extends Component {
         <input
           type="radio"
           className="attribute-item-radio"
-          id={this.props.attributeId}
-          key={this.props.attributeId}
+          id={this.props.attributeItemId}
+          key={this.props.attributeItemId}
           name={this.props.radioGroupName}
-          value={item.value}
+          value={this.props.item.value}
         />
         <label
           className="attribute-item-label"
-          key={this.props.attributeId}
-          for={this.props.attributeId}
+          key={this.props.attributeItemId + "-label"}
+          for={this.props.attributeItemId}
         >
-          {attribute.type === "swatch" && <SwatchView itemValue={item.value} />}
-          {item.displayValue}
+          {this.props.attribute.type === "swatch" && <SwatchView itemValue={this.props.item.value} />}
+          {this.props.item.displayValue}
         </label>
       </>
     );
