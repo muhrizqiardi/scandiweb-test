@@ -22,10 +22,10 @@ import {
   SwatchView,
 } from "./styles";
 import { connect } from "react-redux";
-import incrementItem from "../../store/actions/incrementItem";
+import addItem from "../../store/actions/addItem";
 import decrementItem from "../../store/actions/decrementItem";
 import AttributeItem from "./AttributeItem";
-import kebabCase from "../../utils/kebabCase"
+import kebabCase from "../../utils/kebabCase";
 
 class ProductPage extends Component {
   constructor(props) {
@@ -183,13 +183,17 @@ class ProductPage extends Component {
                     };
                     for (const attribute of this.state.productDetail.product
                       .attributes) {
-                      if (!event.target[attribute.name].value) {
+                      const radioGroupName = kebabCase(
+                        `${this.state.productDetail.product.name} ${attribute.name} radio group`
+                      );
+                      console.log("value",event.target[radioGroupName].value);
+                      if (!event.target[radioGroupName].value) {
                         alert("Please enter the attributes correctly");
                         return;
                       }
                       cartItem.attributes.push({
-                        attributeName: attribute.name,
-                        attributeValue: event.target[attribute.name].value,
+                        attributeName: radioGroupName,
+                        attributeValue: event.target[radioGroupName].value,
                       });
                     }
                     context.addItemToCart(cartItem);
@@ -215,9 +219,12 @@ class ProductPage extends Component {
                           </AttributeTitle>
                           <AttributeSelector className="attribute-selector">
                             {attribute.items.map((item) => {
-                              const radioGroupName = kebabCase(`${this.state.productDetail.product.name} ${attribute.name} radio group`);
-                              const attributeItemId = kebabCase(`${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`);
-
+                              const radioGroupName = kebabCase(
+                                `${this.state.productDetail.product.name} ${attribute.name} radio group`
+                              );
+                              const attributeItemId = kebabCase(
+                                `${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`
+                              );
                               return (
                                 <AttributeItem
                                   radioGroupName={radioGroupName}
@@ -266,6 +273,6 @@ class ProductPage extends Component {
 }
 
 export default connect(({ cart, currency }) => ({ cart /* currency */ }), {
-  incrementItem,
+  addItem,
   decrementItem,
 })(ProductPage);
