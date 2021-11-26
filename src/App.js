@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
-import CartPage from "./components/CartPage";
-import Header from "./components/Header";
-import NoMatch404 from "./components/NoMatch404";
-import ProductPage from "./components/ProductPage";
 import { Root } from "./pages";
 import Error from "./pages/404";
 import Carts from "./pages/carts";
