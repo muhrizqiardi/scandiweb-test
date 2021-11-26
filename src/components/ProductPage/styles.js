@@ -59,7 +59,7 @@ export const ProductPageImageSelector = styled.div`
   }
 `;
 
-export const ProductPageDetail = styled.div`
+export const ProductPageDetail = styled.form`
   width: 360px;
   display: flex;
   flex-direction: column;

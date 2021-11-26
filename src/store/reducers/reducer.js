@@ -8,6 +8,16 @@ import {
 
 const initialState = { cart: [], latestCartItemId: 0 };
 
+/* 
+cartItem = {
+  cartId
+  id
+  quantity
+  attributes
+  prices
+}
+*/
+
 export default (state = initialState, action) => {
   let newCart;
   switch (action.type) {
