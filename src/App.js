@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import NoMatch404 from "./components/NoMatch404";
 import ProductPage from "./components/ProductPage";
 import { Root } from "./pages";
+import Error from "./pages/404";
 import Carts from "./pages/carts";
 import { Categories } from "./pages/categories";
 import { Products } from "./pages/products";
@@ -76,12 +77,11 @@ class App extends Component {
           </Route>
 
           <Route path="*">
-            <Header
+            <Error
               apolloClient={this.props.apolloClient}
               currencyHandler={this.currencyHandler}
               currency={this.state.currency}
             />
-            <NoMatch404 />
           </Route>
         </Switch>
       </>
