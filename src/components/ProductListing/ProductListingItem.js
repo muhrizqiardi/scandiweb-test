@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { CartConsumer } from "../contexts/CartContext";
+import { CartConsumer } from "../../contexts/CartContext";
+import { ActionButton, ProductListingItemAction, ProductListingItemWrapper } from "./styles";
+
 export default class ProductItem extends Component {
   constructor(props) {
     super(props);
@@ -9,61 +10,10 @@ export default class ProductItem extends Component {
   }
 
   render() {
-    const Wrapper = styled.div`
-      width: 300px;
-      height: 400px;
-      padding: 16px;
-      background-color: white;
-      justify-self: center;
-      align-self: center;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      &:hover {
-        filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
-      }
-      .product-item {
-        text-decoration: none;
-        color: black;
-
-        img.product-thumbnail {
-          width: 300px;
-          height: 300px;
-          margin-bottom: 24px;
-          object-fit: contain;
-        }
-        .product-desc .product-price {
-          font-weight: 500;
-        }
-      }
-      .product-action {
-        width: 1px;
-        height: 1px;
-        overflow: visible;
-        display: ${this.state.hovered ? "block" : "none"};
-        button.action-button {
-          width: 52px;
-          height: 52px;
-          padding: 0;
-          background-color: #5ece7b;
-          border: none;
-          border-radius: 100%;
-          filter: drop-shadow(0px 4px 11px rgba(29, 31, 34, 0.1));
-          position: relative;
-          bottom: 90px;
-          left: 230px;
-          &:hover {
-            filter: brightness(0.8);
-            cursor: pointer;
-          }
-        }
-      }
-    `;
-
     return (
       <CartConsumer>
         {(cartContext) => (
-          <Wrapper>
+          <ProductListingItemWrapper>
             <Link
               to={`/products/${this.props.productId}`}
               className="product-item"
@@ -87,8 +37,8 @@ export default class ProductItem extends Component {
                 </div>
               </div>
             </Link>
-            <div className="product-action">
-              <button
+            <ProductListingItemAction hovered={this.state.hovered} className="product-action">
+              <ActionButton
                 className="action-button"
                 onMouseEnter={() => this.setState({ hovered: true })}
                 onMouseLeave={() => this.setState({ hovered: false })}
@@ -122,9 +72,9 @@ export default class ProductItem extends Component {
                     fill="white"
                   />
                 </svg>
-              </button>
-            </div>
-          </Wrapper>
+              </ActionButton>
+            </ProductListingItemAction>
+          </ProductListingItemWrapper>
         )}
       </CartConsumer>
     );

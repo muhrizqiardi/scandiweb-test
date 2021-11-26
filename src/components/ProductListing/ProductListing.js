@@ -1,35 +1,18 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { gql } from "@apollo/client";
-import styled from "styled-components";
-import ProductItem from "./ProductItem";
+import ProductItem from "./ProductListingItem";
 import { Helmet } from "react-helmet";
-import mainSkeleton from "../assets/skeleton/main-skeleton.png"
+import mainSkeleton from "../../assets/skeleton/main-skeleton.png";
+import {
+  ProductListingError,
+  ProductListingGrid,
+  ProductListingSkeletonWrapper,
+  ProductListingTitle,
+  ProductListingWrapper,
+} from "./styles";
 
-const Wrapper = styled.div`
-  padding: 80px 100px;
-  h1 {
-    font-weight: normal;
-    text-transform: capitalize;
-  }
-  .product-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-  }
-  .product-error {
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .main-skeleton-loading {
-    width: 80vw;
-  }
-`;
-
-class Main extends Component {
+class ProductListing extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -107,7 +90,7 @@ class Main extends Component {
     return (
       <main>
         {this.state.loading ? (
-          <Wrapper>
+          <ProductListingSkeletonWrapper>
             <Helmet>
               <title>{`Loading...`}</title>
             </Helmet>
@@ -116,16 +99,18 @@ class Main extends Component {
               className="main-skeleton-loading"
               alt="Main skeleton loading"
             ></img>
-          </Wrapper>
+          </ProductListingSkeletonWrapper>
         ) : (
-          <Wrapper>
+          <ProductListingWrapper>
             <Helmet>
               <title>{`ScandiStore`}</title>
             </Helmet>
 
-            <h1>{this.props.currentCategoryName || "All items"}</h1>
+            <ProductListingTitle>
+              {this.props.currentCategoryName || "All items"}
+            </ProductListingTitle>
             {this.state.productList ? (
-              <div className="product-grid">
+              <ProductListingGrid>
                 {this.state.productList.category.products.map((product) => (
                   <ProductItem
                     key={product.id}
@@ -136,17 +121,17 @@ class Main extends Component {
                     currency={this.props.currency}
                   />
                 ))}
-              </div>
+              </ProductListingGrid>
             ) : (
-              <div className="product-error">
+              <ProductListingError>
                 <h1>The product listing is currently empty</h1>
-              </div>
+              </ProductListingError>
             )}
-          </Wrapper>
+          </ProductListingWrapper>
         )}
       </main>
     );
   }
 }
 
-export default withRouter(Main);
+export default withRouter(ProductListing);
