@@ -100,13 +100,13 @@ export class CartItem extends Component {
         </Helmet>
         <CartItemWrapper>
           <CartItemCol1>
-            <ItemBrand className="item-brand">
+            <ItemBrand >
               {this.state.productDetail.product.brand}
             </ItemBrand>
-            <ItemName className="item-name">
+            <ItemName >
               {this.state.productDetail.product.name}
             </ItemName>
-            <ItemPrice className="item-price">
+            <ItemPrice >
               {this.props.currency}{" "}
               {Math.round(
                 this.props.cartItem.prices.filter(
@@ -114,7 +114,7 @@ export class CartItem extends Component {
                 )[0].amount * this.props.cartItem.quantity
               )}
             </ItemPrice>
-            <AttributeSelector className="attribute-selector">
+            <AttributeSelector >
               {this.state.productDetail.product.attributes.length > 0 &&
                 this.state.productDetail.product.attributes[0].items.map(
                   (item) => (
@@ -183,7 +183,7 @@ export class CartItem extends Component {
                 )}
             </AttributeSelector>
           </CartItemCol1>
-          <CartItemCol2 className="cart-item-col-2">
+          <CartItemCol2 >
             <div className="qty-counter">
               <button
                 onClick={() => {
@@ -208,8 +208,8 @@ export class CartItem extends Component {
               </button>
             </div>
           </CartItemCol2>
-          <CartItemCol3 className="cart-item-col-3">
-            <CartItemGallery className="cart-gallery">
+          <CartItemCol3 >
+            <CartItemGallery >
               <div className="gallery-arrow-container">
                 <div
                   className="gallery-arrow-left"

@@ -4,7 +4,7 @@ import logo from "../assets/store-logo.png";
 import { createPopper } from "@popperjs/core";
 import { Link, NavLink } from "react-router-dom";
 import { CartConsumer } from "../contexts/CartContext";
-import CartPopup from "./CartPopup";
+import MiniCartPopup from "./MiniCart/";
 
 const Wrapper = styled.header`
   z-index: 4;
@@ -330,7 +330,7 @@ export default class Header extends Component {
                 </div>
                 <div className="cart-popup-container" ref={this.cartPopupRef}>
                   {this.state.cartPopupIsOpen && (
-                    <CartPopup
+                    <MiniCartPopup
                       context={cartContext}
                       apolloClient={this.props.apolloClient}
                       cartContext={cartContext}

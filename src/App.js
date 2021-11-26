@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Root } from "./pages";
-import Error from "./pages/404";
-import Carts from "./pages/carts";
+import { Error } from "./pages/404";
+import { Carts } from "./pages/carts";
 import { Categories } from "./pages/categories";
 import { Products } from "./pages/products";
 

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import CartPage from "../../components/CartPage/index"
-import Header from '../../components/Header';
+import React, { Component } from "react";
+import { CartPage } from "../../components/CartPage/";
+import Header from "../../components/Header";
 
-export default class Carts extends Component {
+export class Carts extends Component {
   render() {
     return (
       <>

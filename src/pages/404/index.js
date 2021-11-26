@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import Header from '../../components/Header';
-import NoMatch404 from '../../components/NoMatch404';
+import React, { Component } from "react";
+import Header from "../../components/Header";
+import NoMatch404 from "../../components/NoMatch404";
 
-export default class Error extends Component {
+export class Error extends Component {
   render() {
     return (
       <>
