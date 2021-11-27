@@ -35,7 +35,6 @@ export default (state = initialState, action) => {
         typeof action.payload.id === "undefined" ||
         typeof action.payload.quantity === "undefined" ||
         typeof action.payload.attributes === "undefined" ||
-        action.payload.attributes.length === 0 ||
         typeof action.payload.prices === "undefined"
       ) {
         return _.cloneDeep(state);
