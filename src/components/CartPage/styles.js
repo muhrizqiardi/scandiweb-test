@@ -178,3 +178,7 @@ export const CartItemGallery = styled.div`
     }
   }
 `;
+
+export const CartItemSkeletonWrapper = styled.div`
+  padding: 16px;
+`;
