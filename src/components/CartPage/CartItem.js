@@ -34,7 +34,6 @@ class CartItem extends Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.cartItem.id);
-    console.log(this.props.cartItem);
   }
 
   getProductDetail(productId = "") {

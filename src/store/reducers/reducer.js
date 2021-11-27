@@ -90,7 +90,6 @@ export default (state = initialState, action) => {
         (cartItem) => cartItem.cartId === action.payload
       );
       newCart.splice(indexOfItemToBeRemoved, 1);
-      console.log(newCart);
       return { ...state, cart: [...newCart] };
 
     case INCREMENT_ITEM:

@@ -24,7 +24,6 @@ class MiniCartItem extends React.Component {
 
   componentDidMount() {
     this.getProductDetail(this.props.cartItem.id);
-    console.log(this.props.currency);
   }
 
   getProductDetail(productId = "") {
@@ -148,8 +147,6 @@ class MiniCartItem extends React.Component {
           <button
             onClick={() => {
               this.props.incrementItem(this.props.cartItem.cartId);
-              console.log(this.props.cartItem.quantity);
-              // this.props.cartContext.addItemToCart(addCartItem);
             }}
           >
             +
@@ -158,7 +155,6 @@ class MiniCartItem extends React.Component {
           <button
             onClick={() => {
               this.props.decrementItem(this.props.cartItem.cartId);
-              // this.props.cartContext.decreaseItemFromCart(this.props.productId);
             }}
           >
             -

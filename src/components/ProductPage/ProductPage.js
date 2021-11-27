@@ -82,8 +82,6 @@ class ProductPage extends Component {
             },
             () => {
               this.setState({ loading: false });
-              console.log(this.state.productDetail.product);
-              console.log(this.state.productDetail.product.attributes);
             }
           );
         } else {

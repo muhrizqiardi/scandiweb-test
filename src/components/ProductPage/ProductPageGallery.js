@@ -20,7 +20,6 @@ export default class ProductPageGallery extends Component {
           }
         >
           {this.props.gallery.map((image) => {
-            console.log("props:", this.props);
             const indexOfImage = this.props.gallery.indexOf(image);
             return (
               <>
