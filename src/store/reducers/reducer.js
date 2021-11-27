@@ -35,6 +35,7 @@ export default (state = initialState, action) => {
         typeof action.payload.id === "undefined" ||
         typeof action.payload.quantity === "undefined" ||
         typeof action.payload.attributes === "undefined" ||
+        action.payload.attributes.length === 0 ||
         typeof action.payload.prices === "undefined"
       ) {
         return _.cloneDeep(state);
@@ -45,26 +46,20 @@ export default (state = initialState, action) => {
         cartId: state.latestCartItemId + 1,
       };
 
-      const existingItem = state.cart.filter((cartItem) => {
-        const sameId = newCartItem.id === cartItem.id;
-        const sameAttributes = cartItem.attributes.every((attributeItem) => {
-          return (
-            attributeItem.attributeValue ===
-            searchArray(
-              newCartItem.attributes,
-              "attributeName",
-              attributeItem.attributeName
-            )[0].attributeValue
-          );
-        });
-        return sameId && sameAttributes;
-      });
+      let existingItem;
 
-      if (existingItem.length > 0) {
-        // newCart = [...state.cart];
+      for (const cartItem of _.cloneDeep(state.cart)) {
+        if (cartItem.id !== newCartItem.id) {
+          continue;
+        } else if (_.isEqual(cartItem.attributes, newCartItem.attributes)) {
+          existingItem = cartItem;
+        }
+      }
+
+      if (existingItem) {
         newCart = _.cloneDeep(state.cart);
         const indexOfExistingItem = newCart.findIndex(
-          (cartItem) => cartItem.id === existingItem[0].id
+          (cartItem) => cartItem.id === existingItem.id
         );
         newCart[indexOfExistingItem] = {
           ...newCart[indexOfExistingItem],
