@@ -4,7 +4,6 @@ import searchArray from "../../utils/searchArray"
 
 export default class AttributeItem extends Component {
   render() {
-    const checked = searchArray(this.props.attribute.items)
     return (
       <>
         <input

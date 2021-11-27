@@ -89,10 +89,12 @@ export const SwatchView = styled.div`
   height: 13px;
   margin-right: 10px;
   border-radius: 100%;
+  border-width: 1px;
+  border-style: solid;
   border-color: ${({ itemValue }) =>
     itemValue === "#000000" ? "white" : "black"};
   background-color: ${({ itemValue }) => itemValue};
-  input:checked[type="radio"] + label + & {
+  .attribute-item-radio:checked + .attribute-item-label > & {
     border-color: white;
   }
 `;
