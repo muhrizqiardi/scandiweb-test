@@ -28,8 +28,18 @@ cartItem = {
 export default (state = initialState, action) => {
   let newCart;
   let newState;
+
   switch (action.type) {
     case ADD_ITEM:
+      if (
+        typeof action.payload.id === "undefined" ||
+        typeof action.payload.quantity === "undefined" ||
+        typeof action.payload.attributes === "undefined" ||
+        typeof action.payload.prices === "undefined"
+      ) {
+        return _.cloneDeep(state);
+      }
+
       const newCartItem = {
         ...action.payload,
         cartId: state.latestCartItemId + 1,
@@ -49,7 +59,7 @@ export default (state = initialState, action) => {
         });
         return sameId && sameAttributes;
       });
-      console.log("existingItem:", existingItem);
+
       if (existingItem.length > 0) {
         // newCart = [...state.cart];
         newCart = _.cloneDeep(state.cart);
