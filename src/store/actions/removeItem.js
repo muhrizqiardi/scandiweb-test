@@ -1,6 +1,8 @@
 import { REMOVE_ITEM } from "./actionTypes";
 
-export default (cartId) => ({
+const removeItem = (cartId) => ({
   type: REMOVE_ITEM,
   payload: cartId,
 });
+
+export default removeItem;

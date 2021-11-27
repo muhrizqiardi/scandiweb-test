@@ -1,8 +1,8 @@
 import { ADD_ITEM } from "./actionTypes";
 
-export default function addItem(item) {
-  return {
-    type: ADD_ITEM,
-    payload: item,
-  };
-}
+const addItem = (item) => ({
+  type: ADD_ITEM,
+  payload: item,
+});
+
+export default addItem;

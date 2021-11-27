@@ -1,6 +1,8 @@
 import { DECREMENT_ITEM } from "./actionTypes";
 
-export default (cartItemId) => ({
+const decrementItem = (cartItemId) => ({
   type: DECREMENT_ITEM,
   payload: cartItemId,
 });
+
+export default decrementItem;
