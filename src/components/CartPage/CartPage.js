@@ -24,7 +24,7 @@ class CartPage extends Component {
                   attributes={cartItem.attributes}
                   addItemToCart={context.addItemToCart}
                   decreaseItemFromCart={context.decreaseItemFromCart}
-                  key={cartItem.productId}
+                  key={cartItem.id}
                 />
               ))}
             </div>

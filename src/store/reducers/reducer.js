@@ -84,7 +84,7 @@ export default (state = initialState, action) => {
         (cartItem) => cartItem.cartId === action.payload
       );
       newCart.splice(indexOfItemToBeRemoved, 1);
-      return _.cloneDeep({ ...state, cart: [...newCart] });
+      return _.cloneDeep({ ...state, cart: _.cloneDeep(newCart) });
 
     case INCREMENT_ITEM:
       newCart = _.cloneDeep(state.cart);
@@ -92,19 +92,19 @@ export default (state = initialState, action) => {
         (cartItem) => cartItem.cartId === action.payload
       );
       newCart[indexOfItemToBeIncremented].quantity++;
-      return _.cloneDeep({ ...state, cart: [...newCart] });
+      return _.cloneDeep({ ...state, cart: _.cloneDeep(newCart) });
 
     case DECREMENT_ITEM:
       newCart = _.cloneDeep(state.cart);
       const indexOfItemToBeDecremented = newCart.findIndex(
         (cartItem) => cartItem.cartId === action.payload
       );
-      if (newCart[indexOfItemToBeDecremented].quantity <= 1) {
+      if (_.find(newCart, { cartId: action.payload }).quantity <= 1) {
         newCart.splice(indexOfItemToBeDecremented, 1);
       } else {
         newCart[indexOfItemToBeDecremented].quantity--;
       }
-      return _.cloneDeep({ ...state, cart: [...newCart] });
+      return _.cloneDeep({ ...state, cart: _.cloneDeep(newCart) });
 
     case CHANGE_CURRENCY:
       newState = { ...state, cart: [...state.cart], currency: action.payload };

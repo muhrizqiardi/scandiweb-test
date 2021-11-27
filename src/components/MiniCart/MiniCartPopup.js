@@ -37,7 +37,7 @@ class MiniCartPopup extends React.Component {
               <MiniCartItem
                 apolloClient={this.props.apolloClient}
                 cartItem={cartItem}
-                key={cartItem.productId}
+                key={cartItem.id}
               />
             );
           })}
