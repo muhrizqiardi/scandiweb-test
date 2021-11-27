@@ -12,14 +12,12 @@ import {
   PriceTitle,
   ProductName,
   ProductPageDescription,
-  ProductPageDetail,
-  ProductPageGallery,
+  ProductPageDetailWrapper,
   ProductPageGrid,
-  ProductPageImageSelector,
   ProductPageSkeletonWrapper,
   ProductPageWrapper,
-  SwatchView,
 } from "./styles";
+import ProductPageGallery from "./ProductPageGallery";
 import { connect } from "react-redux";
 import addItem from "../../store/actions/addItem";
 import AttributeItem from "./AttributeItem";
@@ -121,53 +119,11 @@ class ProductPage extends Component {
         </Helmet>
         <ProductPageWrapper>
           <ProductPageGrid>
-            <ProductPageGallery className="gallery">
-              <ProductPageImageSelector
-                id="image-selector"
-                className="image-selector"
-                onChange={(event) =>
-                  this.setState({ selectedImage: event.target.value })
-                }
-              >
-                {this.state.productDetail.product.gallery.map((image) => {
-                  const indexOfImage =
-                    this.state.productDetail.product.gallery.indexOf(image);
-                  return (
-                    <>
-                      <input
-                        type="radio"
-                        name="imageGallery"
-                        id={`imageGalleryItem${indexOfImage + 1}`}
-                        key={`imageGalleryItem${indexOfImage + 1}`}
-                        defaultChecked={indexOfImage === 0}
-                        value={indexOfImage}
-                      />
-                      <label for={`imageGalleryItem${indexOfImage + 1}`}>
-                        <img
-                          src={image}
-                          alt={`${this.state.productDetail.product.name}, ${
-                            indexOfImage + 1
-                          }`}
-                        />
-                      </label>
-                    </>
-                  );
-                })}
-              </ProductPageImageSelector>
-              <div className="gallery-image">
-                <img
-                  src={
-                    this.state.productDetail.product.gallery[
-                      this.state.selectedImage
-                    ]
-                  }
-                  alt={`${this.state.productDetail.product.name}, ${
-                    Number(this.state.selectedImage) + 1
-                  }`}
-                />
-              </div>
-            </ProductPageGallery>
-            <ProductPageDetail
+            <ProductPageGallery
+              gallery={this.state.productDetail.product.gallery}
+              productName={this.state.productDetail.product.name}
+            />
+            <ProductPageDetailWrapper
               className="product-detail"
               onSubmit={(event) => {
                 event.preventDefault();
@@ -250,7 +206,7 @@ class ProductPage extends Component {
                   __html: this.state.productDetail.product.description,
                 }}
               />
-            </ProductPageDetail>
+            </ProductPageDetailWrapper>
           </ProductPageGrid>
         </ProductPageWrapper>
       </main>

@@ -23,7 +23,7 @@ export const ProductPageGrid = styled.div`
   gap: 50px;
 `;
 
-export const ProductPageGallery = styled.div`
+export const ProductPageGalleryWrapper = styled.div`
   display: grid;
   grid-template-columns: 96px 1fr;
   gap: 20px;
@@ -59,7 +59,7 @@ export const ProductPageImageSelector = styled.div`
   }
 `;
 
-export const ProductPageDetail = styled.form`
+export const ProductPageDetailWrapper = styled.form`
   width: 360px;
   display: flex;
   flex-direction: column;
