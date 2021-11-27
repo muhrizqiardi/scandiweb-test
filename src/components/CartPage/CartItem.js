@@ -120,10 +120,10 @@ class CartItem extends Component {
                 this.state.productDetail.product.attributes[0].items.map(
                   (item) => {
                     const radioGroupName = kebabCase(
-                      `${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} radio group`
+                      `cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} radio group`
                     );
                     const attributeItemId = kebabCase(
-                      `${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
+                      `$cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
                     );
                     const checkedValue = searchArray(
                       this.props.cartItem.attributes,

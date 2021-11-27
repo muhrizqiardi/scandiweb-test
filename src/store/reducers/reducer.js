@@ -15,7 +15,12 @@ cartItem = {
   cartId
   id
   quantity
-  attributes
+  attributes: [
+    {
+      attributeName
+      attributeValue
+    }
+  ]
   prices
 }
 */
@@ -31,17 +36,20 @@ export default (state = initialState, action) => {
       };
 
       const existingItem = state.cart.filter((cartItem) => {
-        return (
-          newCartItem.id === cartItem.id &&
-          cartItem.attributes.every(
-            (attributeItem) =>
-              attributeItem.value ===
-              searchArray(newCartItem.attributes, "name", attributeItem.name)[0]
-                .value
-          )
-        );
+        const sameId = newCartItem.id === cartItem.id;
+        const sameAttributes = cartItem.attributes.every((attributeItem) => {
+          return (
+            attributeItem.attributeValue ===
+            searchArray(
+              newCartItem.attributes,
+              "attributeName",
+              attributeItem.attributeName
+            )[0].attributeValue
+          );
+        });
+        return sameId && sameAttributes;
       });
-
+      console.log("existingItem:", existingItem);
       if (existingItem.length > 0) {
         // newCart = [...state.cart];
         newCart = _.cloneDeep(state.cart);

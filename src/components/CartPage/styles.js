@@ -112,6 +112,10 @@ export const CartItemCol2 = styled.div`
       width: 45px;
       height: 45px;
       border: 1px solid black;
+      cursor: pointer;
+      &:hover {
+        background-color: lightgrey;
+      }
     }
   }
 `;
