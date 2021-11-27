@@ -192,7 +192,7 @@ class ProductPage extends Component {
                         return;
                       }
                       cartItem.attributes.push({
-                        attributeName: radioGroupName,
+                        attributeName: attribute.name,
                         attributeValue: event.target[radioGroupName].value,
                       });
                     }

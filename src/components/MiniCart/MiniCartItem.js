@@ -1,5 +1,8 @@
 import { gql } from "@apollo/client";
 import React from "react";
+import { connect } from "react-redux";
+import decrementItem from "../../store/actions/decrementItem";
+import incrementItem from "../../store/actions/incrementItem";
 import cartItemSkeleton from "../../assets/skeleton/mini-cart-item-skeleton.png";
 import {
   MiniCartItemCol1,
@@ -9,7 +12,7 @@ import {
   MiniCartItemWrapper,
 } from "./styles";
 
-export class MiniCartItem extends React.Component {
+class MiniCartItem extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,8 +23,9 @@ export class MiniCartItem extends React.Component {
     this.getProductDetail = this.getProductDetail.bind(this);
   }
 
-  async componentDidMount() {
-    this.getProductDetail(this.props.productId);
+  componentDidMount() {
+    this.getProductDetail(this.props.cartItem.id);
+    console.log(this.props.currency);
   }
 
   getProductDetail(productId = "") {
@@ -144,13 +148,9 @@ export class MiniCartItem extends React.Component {
         <MiniCartItemCol2>
           <button
             onClick={() => {
-              let addCartItem = {
-                productId: this.state.productDetail.product.id,
-                quantity: 1,
-                prices: this.state.productDetail.product.prices,
-                attributes: this.props.cartItem.attributes,
-              };
-              this.props.cartContext.addItemToCart(addCartItem);
+              this.props.incrementItem(this.props.cartItem.cartId);
+              console.log(this.props.cartItem.quantity);
+              // this.props.cartContext.addItemToCart(addCartItem);
             }}
           >
             +
@@ -158,7 +158,8 @@ export class MiniCartItem extends React.Component {
           <span>{this.props.cartItem.quantity}</span>
           <button
             onClick={() => {
-              this.props.cartContext.decreaseItemFromCart(this.props.productId);
+              this.props.decrementItem(this.props.cartItem.cartId);
+              // this.props.cartContext.decreaseItemFromCart(this.props.productId);
             }}
           >
             -
@@ -178,3 +179,8 @@ export class MiniCartItem extends React.Component {
     );
   }
 }
+
+export default connect(({ currency }) => ({ currency: currency }), {
+  incrementItem,
+  decrementItem,
+})(MiniCartItem);

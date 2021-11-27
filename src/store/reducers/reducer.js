@@ -6,7 +6,7 @@ import {
   REMOVE_ITEM,
 } from "../actions/actionTypes";
 
-const initialState = { cart: [], latestCartItemId: 0 };
+const initialState = { cart: [], latestCartItemId: 0, currency: "USD" };
 
 /* 
 cartItem = {
@@ -50,13 +50,13 @@ export default (state = initialState, action) => {
         };
         return {
           ...state,
-          cart: newCart,
+          cart: [...newCart],
           latestCartItemId: state.latestCartItemId + 1,
         };
       } else {
         return {
           ...state,
-          cart: [...state.cart, newCartItem],
+          cart: [...state.cart, {...newCartItem}],
           latestCartItemId: state.latestCartItemId + 1,
         };
       }
