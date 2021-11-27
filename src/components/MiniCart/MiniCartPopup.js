@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import decrementItem from "../../store/actions/decrementItem";
+import incrementItem from "../../store/actions/incrementItem";
 import { MiniCartItem } from "./MiniCartItem";
 import {
   MiniCartAction,
@@ -17,12 +19,12 @@ class MiniCartPopup extends React.Component {
         <MiniCartTitle>
           My Bag,{" "}
           <span className="item-count">
-            {this.props.context.cart.length} item
-            {this.props.context.cart.length > 1 ? "s" : ""}
+            {this.props.cart.length} item
+            {this.props.cart.length > 1 ? "s" : ""}
           </span>
         </MiniCartTitle>
         <MiniCartList>
-          {this.props.context.cart.map((cartItem) => {
+          {this.props.cart.map((cartItem) => {
             return (
               <MiniCartItem
                 apolloClient={this.props.apolloClient}
@@ -55,4 +57,7 @@ class MiniCartPopup extends React.Component {
   }
 }
 
-export default connect(({cart}) => cart,null)(MiniCartPopup)
+export default connect(({ cart }) => ({ cart }), {
+  incrementItem,
+  decrementItem,
+})(MiniCartPopup);
