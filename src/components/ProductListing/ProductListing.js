@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { gql } from "@apollo/client";
-import ProductItem from "./ProductListingItem";
+import ProductListingItem from "./ProductListingItem";
 import { Helmet } from "react-helmet";
 import mainSkeleton from "../../assets/skeleton/main-skeleton.png";
 import {
@@ -43,6 +43,14 @@ class ProductListing extends Component {
             id 
             name
             gallery
+            attributes {
+              name
+              type
+              items {
+                value
+                displayValue
+              }
+            }            
             prices {
               currency
               amount
@@ -112,12 +120,13 @@ class ProductListing extends Component {
             {this.state.productList ? (
               <ProductListingGrid>
                 {this.state.productList.category.products.map((product) => (
-                  <ProductItem
+                  <ProductListingItem
                     key={product.id}
                     productName={product.name}
                     productId={product.id}
                     productThumbnail={product.gallery[0]}
                     productPrices={product.prices}
+                    productAttributes={product.attributes}
                     currency={this.props.currency}
                   />
                 ))}
