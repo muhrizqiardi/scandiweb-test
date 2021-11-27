@@ -15,8 +15,7 @@ import {
   AttributeSelector,
 } from "./styles";
 import AttributeItem from "./AttributeItem";
-import _, { kebabCase } from "lodash";
-import searchArray from "../../utils/searchArray";
+import { kebabCase, find } from "lodash";
 import { connect } from "react-redux";
 import { decrementItem, incrementItem } from "../../store/actions";
 
@@ -124,11 +123,11 @@ class CartItem extends Component {
                     const attributeItemId = kebabCase(
                       `$cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
                     );
-                    const checkedValue = _.find(
+                    const checkedValue = find(
                       this.props.cartItem.attributes,
                       {
                         attributeName:
-                          this.state.productDetail.product.attributes[0],
+                          this.state.productDetail.product.attributes[0].name,
                       }
                     ).attributeValue;
                     return (
