@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import logo from "../../assets/store-logo.png";
 import { createPopper } from "@popperjs/core";
 import { Link, NavLink } from "react-router-dom";
-import { CartConsumer } from "../../contexts/CartContext";
 import MiniCartPopup from "../MiniCart";
 import {
   Actions,
@@ -15,8 +14,9 @@ import {
 import ChevronDownIcon from "../Icons/ChevronDownIcon";
 import CartIcon from "../Icons/CartIcon";
 import { CurrencyPopup } from "../CurrencyPopup";
+import { connect } from "react-redux";
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
 
@@ -81,88 +81,80 @@ export default class Header extends Component {
 
   render() {
     return (
-      <CartConsumer>
-        {(cartContext) => (
-          <>
-            <HeaderWrapper>
-              <Nav>
-                <NavLink
-                  to="/categories/tech"
-                  className={(isActive) =>
-                    `nav-item ${isActive ? "selected" : ""}`
-                  }
-                >
-                  Tech
-                </NavLink>
-                <NavLink
-                  to="/categories/clothes"
-                  className={(isActive) =>
-                    `nav-item ${isActive ? "selected" : ""}`
-                  }
-                >
-                  Clothes
-                </NavLink>
-              </Nav>
-              <Logo>
-                <Link to="/">
-                  <img src={logo} alt="ScandiStore's logo" />
-                </Link>
-              </Logo>
-              <Actions>
-                <ActionsItem
-                  id="currency-popup-button"
-                  className="actions-item"
-                  ref={this.currencyPopupButtonRef}
-                  onClick={this.currencyButtonHandleClick}
-                >
-                  $
-                  <ChevronDownIcon
-                    currencyPopupIsOpen={this.state.currencyPopupIsOpen}
-                  />
-                </ActionsItem>
-                <ActionsItem
-                  className="currency-popup-container"
-                  ref={this.currencyPopupRef}
-                >
-                  {this.state.currencyPopupIsOpen && (
-                    <CurrencyPopup
-                      currencyButtonHandleClick={this.currencyButtonHandleClick}
-                    />
-                  )}
-                </ActionsItem>
-                <ActionsItem
-                  id="cart-popup-button"
-                  className="actions-item"
-                  ref={this.cartPopupButtonRef}
-                  onClick={this.cartButtonHandleClick}
-                >
-                  <CartIcon />
-                  <div className="cart-button-badge-container">
-                    {cartContext.cart.length > 0 ? (
-                      <div className="cart-button-badge">
-                        {cartContext.cart.length}
-                      </div>
-                    ) : (
-                      <></>
-                    )}
+      <>
+        <HeaderWrapper>
+          <Nav>
+            <NavLink
+              to="/categories/tech"
+              className={(isActive) => `nav-item ${isActive ? "selected" : ""}`}
+            >
+              Tech
+            </NavLink>
+            <NavLink
+              to="/categories/clothes"
+              className={(isActive) => `nav-item ${isActive ? "selected" : ""}`}
+            >
+              Clothes
+            </NavLink>
+          </Nav>
+          <Logo>
+            <Link to="/">
+              <img src={logo} alt="ScandiStore's logo" />
+            </Link>
+          </Logo>
+          <Actions>
+            <ActionsItem
+              id="currency-popup-button"
+              className="actions-item"
+              ref={this.currencyPopupButtonRef}
+              onClick={this.currencyButtonHandleClick}
+            >
+              $
+              <ChevronDownIcon
+                currencyPopupIsOpen={this.state.currencyPopupIsOpen}
+              />
+            </ActionsItem>
+            <ActionsItem
+              className="currency-popup-container"
+              ref={this.currencyPopupRef}
+            >
+              {this.state.currencyPopupIsOpen && (
+                <CurrencyPopup
+                  currencyButtonHandleClick={this.currencyButtonHandleClick}
+                />
+              )}
+            </ActionsItem>
+            <ActionsItem
+              id="cart-popup-button"
+              className="actions-item"
+              ref={this.cartPopupButtonRef}
+              onClick={this.cartButtonHandleClick}
+            >
+              <CartIcon />
+              <div className="cart-button-badge-container">
+                {this.props.cart.length > 0 ? (
+                  <div className="cart-button-badge">
+                    {this.props.cart.length}
                   </div>
-                </ActionsItem>
-                <div className="cart-popup-container" ref={this.cartPopupRef}>
-                  {this.state.cartPopupIsOpen && (
-                    <MiniCartPopup
-                      context={cartContext}
-                      apolloClient={this.props.apolloClient}
-                      cartContext={cartContext}
-                      currency={this.props.currency}
-                    />
-                  )}
-                </div>
-              </Actions>
-            </HeaderWrapper>
-            <Backdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
-          </>
-        )}
-      </CartConsumer>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </ActionsItem>
+            <div className="cart-popup-container" ref={this.cartPopupRef}>
+              {this.state.cartPopupIsOpen && (
+                <MiniCartPopup
+                  apolloClient={this.props.apolloClient}
+                  currency={this.props.currency}
+                />
+              )}
+            </div>
+          </Actions>
+        </HeaderWrapper>
+        <Backdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
+      </>
     );
   }
 }
+
+export default connect(({ cart }) => ({ cart }), null)(Header);

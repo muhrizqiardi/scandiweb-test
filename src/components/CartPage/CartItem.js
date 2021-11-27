@@ -130,10 +130,6 @@ class CartItem extends Component {
                       "attributeName",
                       this.state.productDetail.product.attributes[0].name
                     )[0].attributeValue;
-                    console.log(
-                      "type:",
-                      this.state.productDetail.product.attributes[0].type
-                    );
                     return (
                       <AttributeItem
                         attributeItemId={attributeItemId}
@@ -142,7 +138,7 @@ class CartItem extends Component {
                           this.state.productDetail.product.attributes[0]
                         }
                         item={item}
-                        checkedValue={checkedValue}
+                        checkedValue={checkedValue ? checkedValue : false}
                       />
                     );
                   }

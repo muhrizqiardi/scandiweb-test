@@ -11,6 +11,16 @@ import {
 } from "./styles";
 
 class MiniCartPopup extends React.Component {
+  getTotal(currency) {
+    let total = 0;
+    for (const item of this.props.cart) {
+      total +=
+        item.prices.filter((price) => price.currency === currency)[0].amount *
+        item.quantity;
+    }
+    return total;
+  }
+
   render() {
     return (
       <MiniCartWrapper>
@@ -36,7 +46,7 @@ class MiniCartPopup extends React.Component {
           <span>Total</span>
           <span>
             {this.props.currency}{" "}
-            {Math.round(this.props.context.getTotal(this.props.currency))}
+            {Math.round(this.getTotal(this.props.currency))}
           </span>
         </MiniCartTotal>
         <MiniCartAction className="cart-action">
