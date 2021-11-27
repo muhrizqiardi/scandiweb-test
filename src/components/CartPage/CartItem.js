@@ -67,6 +67,7 @@ class CartItem extends Component {
     this.props.apolloClient
       .query({
         query: GET_PRODUCT_DETAIL,
+        fetchPolicy: "network-only",
       })
       .then((result) => {
         queryResult = result.data;
@@ -123,13 +124,10 @@ class CartItem extends Component {
                     const attributeItemId = kebabCase(
                       `$cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
                     );
-                    const checkedValue = find(
-                      this.props.cartItem.attributes,
-                      {
-                        attributeName:
-                          this.state.productDetail.product.attributes[0].name,
-                      }
-                    ).attributeValue;
+                    const checkedValue = find(this.props.cartItem.attributes, {
+                      attributeName:
+                        this.state.productDetail.product.attributes[0].name,
+                    }).attributeValue;
                     return (
                       <AttributeItem
                         attributeItemId={attributeItemId}
@@ -256,7 +254,4 @@ class CartItem extends Component {
   }
 }
 
-export default connect(
-  null,
-  { incrementItem, decrementItem }
-)(CartItem)
+export default connect(null, { incrementItem, decrementItem })(CartItem);

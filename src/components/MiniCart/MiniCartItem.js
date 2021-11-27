@@ -58,6 +58,7 @@ class MiniCartItem extends React.Component {
     this.props.apolloClient
       .query({
         query: GET_PRODUCT_DETAIL,
+        fetchPolicy: "network-only",
       })
       .then((result) => {
         queryResult = result.data;
