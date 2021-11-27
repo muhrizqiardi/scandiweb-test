@@ -1,9 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { CartConsumer } from "../../contexts/CartContext";
-import { ActionButton, ProductListingItemAction, ProductListingItemWrapper } from "./styles";
+import {
+  ActionButton,
+  ProductListingItemAction,
+  ProductListingItemWrapper,
+} from "./styles";
+import { addItem } from "../../store/actions";
 
-export default class ProductItem extends Component {
+class ProductListingItem extends Component {
   constructor(props) {
     super(props);
     this.state = { hovered: false };
@@ -37,7 +43,10 @@ export default class ProductItem extends Component {
                 </div>
               </div>
             </Link>
-            <ProductListingItemAction hovered={this.state.hovered} className="product-action">
+            <ProductListingItemAction
+              hovered={this.state.hovered}
+              className="product-action"
+            >
               <ActionButton
                 className="action-button"
                 onMouseEnter={() => this.setState({ hovered: true })}
@@ -80,3 +89,10 @@ export default class ProductItem extends Component {
     );
   }
 }
+
+export default connect(
+  ({ currency }) => ({
+    currency,
+  }),
+  { addItem }
+)(ProductListingItem);
