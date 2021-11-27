@@ -12,6 +12,19 @@ REACT_APP_API_URL=https://your-api-url.com
 
 ## Screenshots
 
+![Main Page](./src/assets/screenshots/main-page.png)
+
+![Category: Tech](./src/assets/screenshots/category-tech.png)
+
+![Category: Clothes](./src/assets/screenshots/category-clothes.png)
+
+![Currency Selector](./src/assets/screenshots/currency-selector.png)
+
+![Mini Cart Popup](./src/assets/screenshots/mini-cart-popup.png)
+
+![Product Detail Page](./src/assets/screenshots/product-detail-page.png)
+
+![Cart Page](./src/assets/screenshots/cart-page.png)
 
 ## Available Scripts
 
