@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
-import CartPage from "./components/CartPage";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import NoMatch404 from "./components/NoMatch404";
-import ProductPage from "./components/ProductPage";
+import { Root } from "./pages";
+import { Error } from "./pages/404";
+import { Carts } from "./pages/carts";
+import { Categories } from "./pages/categories";
+import { Products } from "./pages/products";
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +13,8 @@ class App extends Component {
     this.state = {
       currency: "USD",
     };
+
+    this.currencyHandler = this.currencyHandler.bind(this);
   }
 
   currencyHandler(newCurrency) {
@@ -29,68 +31,41 @@ class App extends Component {
             exact
             path="/"
             render={() => (
-              <>
-                <Header
-                  apolloClient={this.props.apolloClient}
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-                <Main
-                  apolloClient={this.props.apolloClient}
-                  currentCategoryName=""
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-              </>
+              <Root
+                apolloClient={this.props.apolloClient}
+                currencyHandler={this.currencyHandler}
+                currency={this.state.currency}
+              />
             )}
           />
 
           <Route
             path="/categories/:categoryName"
             render={({ match }) => (
-              <>
-                <Header
-                  apolloClient={this.props.apolloClient}
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-                <Main
-                  apolloClient={this.props.apolloClient}
-                  currentCategoryName={match.params.categoryName}
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-              </>
+              <Categories
+                apolloClient={this.props.apolloClient}
+                currencyHandler={this.currencyHandler}
+                currency={this.state.currency}
+                currentCategoryName={match.params.categoryName}
+              />
             )}
           />
 
           <Route
             path="/products/:productId"
             render={({ match, history }) => (
-              <>
-                <Header
-                  apolloClient={this.props.apolloClient}
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-                <ProductPage
-                  apolloClient={this.props.apolloClient}
-                  history={history}
-                  productId={match.params.productId}
-                  currencyHandler={this.currencyHandler}
-                  currency={this.state.currency}
-                />
-              </>
+              <Products
+                apolloClient={this.props.apolloClient}
+                currency={this.state.currency}
+                currencyHandler={this.currencyHandler}
+                history={history}
+                match={match}
+              />
             )}
           />
 
           <Route path="/cart">
-            <Header
-              apolloClient={this.props.apolloClient}
-              currencyHandler={this.currencyHandler}
-              currency={this.state.currency}
-            />
-            <CartPage
+            <Carts
               apolloClient={this.props.apolloClient}
               currencyHandler={this.currencyHandler}
               currency={this.state.currency}
@@ -98,12 +73,11 @@ class App extends Component {
           </Route>
 
           <Route path="*">
-            <Header
+            <Error
               apolloClient={this.props.apolloClient}
               currencyHandler={this.currencyHandler}
               currency={this.state.currency}
             />
-            <NoMatch404 />
           </Route>
         </Switch>
       </>
