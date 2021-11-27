@@ -132,6 +132,7 @@ class CartItem extends Component {
                     return (
                       <AttributeItem
                         attributeItemId={attributeItemId}
+                        key={attributeItemId}
                         radioGroupName={radioGroupName}
                         attribute={
                           this.state.productDetail.product.attributes[0]

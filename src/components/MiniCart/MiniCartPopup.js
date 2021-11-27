@@ -1,3 +1,4 @@
+import { kebabCase } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -37,7 +38,7 @@ class MiniCartPopup extends React.Component {
               <MiniCartItem
                 apolloClient={this.props.apolloClient}
                 cartItem={cartItem}
-                key={cartItem.id}
+                key={kebabCase(`${cartItem.cartId} ${cartItem.id}`)}
               />
             );
           })}

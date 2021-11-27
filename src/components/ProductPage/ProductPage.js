@@ -177,6 +177,7 @@ class ProductPage extends Component {
                             attributeItemId={attributeItemId}
                             attribute={attribute}
                             item={item}
+                            key={attributeItemId}
                           />
                         );
                       })}

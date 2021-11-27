@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { CartPageWrapper } from "./styles";
 import { connect } from "react-redux";
 import { incrementItem, decrementItem } from "../../store/actions";
+import { kebabCase } from "lodash";
 
 class CartPage extends Component {
   render() {
@@ -16,7 +17,7 @@ class CartPage extends Component {
               apolloClient={this.props.apolloClient}
               currency={this.props.currency}
               cartItem={cartItem}
-              key={cartItem.id}
+              key={kebabCase(`${cartItem.cartId} ${cartItem.id}`)}
             />
           ))}
         </div>
