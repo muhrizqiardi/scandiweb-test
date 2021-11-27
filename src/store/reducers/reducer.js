@@ -1,6 +1,8 @@
-import searchArray from "../../utils/searchArray"
+import searchArray from "../../utils/searchArray";
+import _ from "lodash";
 import {
   ADD_ITEM,
+  CHANGE_CURRENCY,
   DECREMENT_ITEM,
   INCREMENT_ITEM,
   REMOVE_ITEM,
@@ -40,7 +42,8 @@ export default (state = initialState, action) => {
       });
 
       if (existingItem.length > 0) {
-        newCart = [...state.cart];
+        // newCart = [...state.cart];
+        newCart = _.cloneDeep(state.cart);
         const indexOfExistingItem = newCart.findIndex(
           (cartItem) => cartItem.id === existingItem[0].id
         );
@@ -56,13 +59,14 @@ export default (state = initialState, action) => {
       } else {
         return {
           ...state,
-          cart: [...state.cart, {...newCartItem}],
+          cart: [...state.cart, { ...newCartItem }],
           latestCartItemId: state.latestCartItemId + 1,
         };
       }
 
     case REMOVE_ITEM:
-      newCart = [...state.cart];
+      // newCart = [...state.cart];
+      newCart = _.cloneDeep(state.cart);
       const indexOfItemToBeRemoved = newCart.findIndex(
         (cartItem) => cartItem.cartId === action.payload
       );
@@ -71,7 +75,7 @@ export default (state = initialState, action) => {
       return { ...state, cart: [...newCart] };
 
     case INCREMENT_ITEM:
-      newCart = [...state.cart];
+      newCart = _.cloneDeep(state.cart);
       const indexOfItemToBeIncremented = newCart.findIndex(
         (cartItem) => cartItem.cartId === action.payload
       );
@@ -79,7 +83,7 @@ export default (state = initialState, action) => {
       return { ...state, cart: [...newCart] };
 
     case DECREMENT_ITEM:
-      newCart = [...state.cart];
+      newCart = _.cloneDeep(state.cart);
       const indexOfItemToBeDecremented = newCart.findIndex(
         (cartItem) => cartItem.cartId === action.payload
       );
@@ -89,6 +93,9 @@ export default (state = initialState, action) => {
         newCart[indexOfItemToBeDecremented].quantity--;
       }
       return { ...state, cart: [...newCart] };
+
+    case CHANGE_CURRENCY:
+      return { ...state, cart: [...state.cart], currency: action.payload };
 
     default:
       return { ...state, cart: [...state.cart] };
