@@ -145,7 +145,6 @@ class Header extends Component {
               {this.state.cartPopupIsOpen && (
                 <MiniCartPopup
                   apolloClient={this.props.apolloClient}
-                  currency={this.props.currency}
                 />
               )}
             </div>

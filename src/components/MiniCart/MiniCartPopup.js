@@ -62,4 +62,7 @@ class MiniCartPopup extends React.Component {
   }
 }
 
-export default connect(({ cart }) => ({ cart: cart }), null)(MiniCartPopup);
+export default connect(
+  ({ cart, currency }) => ({ cart: cart, currency: currency }),
+  null
+)(MiniCartPopup);
