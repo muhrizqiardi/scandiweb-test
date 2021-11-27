@@ -62,6 +62,7 @@ class ProductListing extends Component {
     this.props.apolloClient
       .query({
         query: GET_PRODUCTS_LIST,
+        fetchPolicy: "network-only",
       })
       .then((result) => {
         queryResult = result.data;
