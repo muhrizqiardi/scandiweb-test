@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { gql } from "@apollo/client";
-import NoMatch404 from "../NoMatch404";
 import Loading from "../Loading";
+import cartItemSkeleton from "../../assets/skeleton/cart-item-skeleton.png";
 import {
   CartItemWrapper,
   CartItemCol1,
@@ -13,6 +13,7 @@ import {
   ItemPrice,
   ItemName,
   AttributeSelector,
+  CartItemSkeletonWrapper,
 } from "./styles";
 import AttributeItem from "./AttributeItem";
 import { kebabCase, find } from "lodash";
@@ -249,7 +250,9 @@ class CartItem extends Component {
         </CartItemWrapper>
       </>
     ) : (
-      <NoMatch404 />
+      <CartItemSkeletonWrapper>
+        <img src={cartItemSkeleton} />
+      </CartItemSkeletonWrapper>
     );
   }
 }
