@@ -22,6 +22,7 @@ cartItem = {
 
 export default (state = initialState, action) => {
   let newCart;
+  let newState;
   switch (action.type) {
     case ADD_ITEM:
       const newCartItem = {
@@ -95,7 +96,8 @@ export default (state = initialState, action) => {
       return { ...state, cart: [...newCart] };
 
     case CHANGE_CURRENCY:
-      return { ...state, cart: [...state.cart], currency: action.payload };
+      newState = { ...state, cart: [...state.cart], currency: action.payload };
+      return _.cloneDeep(newState);
 
     default:
       return { ...state, cart: [...state.cart] };

@@ -14,6 +14,7 @@ import {
 } from "./styles";
 import ChevronDownIcon from "../Icons/ChevronDownIcon";
 import CartIcon from "../Icons/CartIcon";
+import { CurrencyPopup } from "../CurrencyPopup";
 
 export default class Header extends Component {
   constructor(props) {
@@ -124,63 +125,9 @@ export default class Header extends Component {
                   ref={this.currencyPopupRef}
                 >
                   {this.state.currencyPopupIsOpen && (
-                    <div className="currency-popup">
-                      <div
-                        className={`currency-popup-item ${
-                          this.props.currency === "USD" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          this.props.currencyHandler("USD");
-                          this.currencyButtonHandleClick();
-                        }}
-                      >
-                        USD
-                      </div>
-                      <div
-                        className={`currency-popup-item ${
-                          this.props.currency === "GBP" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          this.props.currencyHandler("GBP");
-                          this.currencyButtonHandleClick();
-                        }}
-                      >
-                        GBP
-                      </div>
-                      <div
-                        className={`currency-popup-item ${
-                          this.props.currency === "AUD" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          this.props.currencyHandler("AUD");
-                          this.currencyButtonHandleClick();
-                        }}
-                      >
-                        AUD
-                      </div>
-                      <div
-                        className={`currency-popup-item ${
-                          this.props.currency === "JPY" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          this.props.currencyHandler("JPY");
-                          this.currencyButtonHandleClick();
-                        }}
-                      >
-                        JPY
-                      </div>
-                      <div
-                        className={`currency-popup-item ${
-                          this.props.currency === "RUB" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          this.props.currencyHandler("RUB");
-                          this.currencyButtonHandleClick();
-                        }}
-                      >
-                        RUB
-                      </div>
-                    </div>
+                    <CurrencyPopup
+                      currencyButtonHandleClick={this.currencyButtonHandleClick}
+                    />
                   )}
                 </ActionsItem>
                 <ActionsItem

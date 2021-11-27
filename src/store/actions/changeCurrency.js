@@ -1,8 +1,8 @@
 import { CHANGE_CURRENCY } from "./actionTypes";
 
-const changeCurrency = (item) => ({
+const changeCurrency = (newCurrency) => ({
   type: CHANGE_CURRENCY,
-  payload: item,
+  payload: newCurrency,
 });
 
 export default changeCurrency;
