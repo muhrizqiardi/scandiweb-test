@@ -14,8 +14,13 @@ import {
   ItemName,
   AttributeSelector,
 } from "./styles";
+import AttributeItem from "./AttributeItem";
+import { kebabCase } from "lodash";
+import searchArray from "../../utils/searchArray";
+import { connect } from "react-redux";
+import { decrementItem, incrementItem } from "../../store/actions";
 
-export class CartItem extends Component {
+class CartItem extends Component {
   constructor(props) {
     super(props);
 
@@ -28,7 +33,7 @@ export class CartItem extends Component {
   }
 
   componentDidMount() {
-    this.getProductDetail(this.props.productId);
+    this.getProductDetail(this.props.cartItem.id);
     console.log(this.props.cartItem);
   }
 
@@ -100,13 +105,9 @@ export class CartItem extends Component {
         </Helmet>
         <CartItemWrapper>
           <CartItemCol1>
-            <ItemBrand >
-              {this.state.productDetail.product.brand}
-            </ItemBrand>
-            <ItemName >
-              {this.state.productDetail.product.name}
-            </ItemName>
-            <ItemPrice >
+            <ItemBrand>{this.state.productDetail.product.brand}</ItemBrand>
+            <ItemName>{this.state.productDetail.product.name}</ItemName>
+            <ItemPrice>
               {this.props.currency}{" "}
               {Math.round(
                 this.props.cartItem.prices.filter(
@@ -114,102 +115,61 @@ export class CartItem extends Component {
                 )[0].amount * this.props.cartItem.quantity
               )}
             </ItemPrice>
-            <AttributeSelector >
+            <AttributeSelector>
               {this.state.productDetail.product.attributes.length > 0 &&
                 this.state.productDetail.product.attributes[0].items.map(
-                  (item) => (
-                    <>
-                      <input
-                        type="radio"
-                        className="attribute-item-radio"
-                        id={`${this.state.productDetail.product.name
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${item.id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}`}
-                        key={`${this.state.productDetail.product.name
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${item.id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}`}
-                        name={this.state.productDetail.product.attributes[0].id}
-                        value={item.value}
-                        checked={
-                          this.props.cartItem.attributes[0] !== undefined &&
-                          this.props.cartItem.attributes[0].attributeValue ===
-                            item.value
-                            ? true
-                            : false
+                  (item) => {
+                    const radioGroupName = kebabCase(
+                      `${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} radio group`
+                    );
+                    const attributeItemId = kebabCase(
+                      `${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
+                    );
+                    const checkedValue = searchArray(
+                      this.props.cartItem.attributes,
+                      "attributeName",
+                      this.state.productDetail.product.attributes[0].name
+                    )[0].attributeValue;
+                    console.log(
+                      "type:",
+                      this.state.productDetail.product.attributes[0].type
+                    );
+                    return (
+                      <AttributeItem
+                        attributeItemId={attributeItemId}
+                        radioGroupName={radioGroupName}
+                        attribute={
+                          this.state.productDetail.product.attributes[0]
                         }
+                        item={item}
+                        checkedValue={checkedValue}
                       />
-                      <label
-                        className="attribute-item-label"
-                        for={`${this.state.productDetail.product.name
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${this.state.productDetail.product.attributes[0].id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}-${item.id
-                          .replace(/\s+/g, "-")
-                          .toLowerCase()}`}
-                      >
-                        {this.state.productDetail.product.attributes[0].type ===
-                          "swatch" && (
-                          <div
-                            style={{
-                              width: 13,
-                              height: 13,
-                              marginRight: 10,
-                              borderRadius: "100%",
-                              border: `1px solid ${
-                                item.value === "#000000" ? "white" : "black"
-                              }`,
-                              background:
-                                this.state.productDetail.product.attributes[0]
-                                  .type === "swatch"
-                                  ? item.value
-                                  : "unset",
-                            }}
-                            className="swatch-view"
-                          ></div>
-                        )}
-                        {item.displayValue}
-                      </label>
-                    </>
-                  )
+                    );
+                  }
                 )}
             </AttributeSelector>
           </CartItemCol1>
-          <CartItemCol2 >
+          <CartItemCol2>
             <div className="qty-counter">
               <button
                 onClick={() => {
-                  let cartItem = {
-                    productId: this.state.productDetail.product.id,
-                    quantity: 1,
-                    prices: this.state.productDetail.product.prices,
-                    attributes: this.props.attributes,
-                  };
-                  this.props.addItemToCart(cartItem);
+                  this.props.incrementItem(this.props.cartItem.cartId);
                 }}
               >
                 +
               </button>
-              <span>{this.props.quantity}</span>
+              <span>{this.props.cartItem.quantity}</span>
               <button
                 onClick={() => {
-                  this.props.decreaseItemFromCart(this.props.productId);
+                  this.props.decrementItem(this.props.cartItem.cartId);
                 }}
               >
                 -
               </button>
             </div>
           </CartItemCol2>
-          <CartItemCol3 >
-            <CartItemGallery >
+          <CartItemCol3>
+            <CartItemGallery>
               <div className="gallery-arrow-container">
                 <div
                   className="gallery-arrow-left"
@@ -299,3 +259,8 @@ export class CartItem extends Component {
     );
   }
 }
+
+export default connect(
+  null,
+  { incrementItem, decrementItem }
+)(CartItem)

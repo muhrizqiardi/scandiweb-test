@@ -23,7 +23,6 @@ import {
 } from "./styles";
 import { connect } from "react-redux";
 import addItem from "../../store/actions/addItem";
-import decrementItem from "../../store/actions/decrementItem";
 import AttributeItem from "./AttributeItem";
 import kebabCase from "../../utils/kebabCase";
 
@@ -274,5 +273,4 @@ class ProductPage extends Component {
 
 export default connect(({ cart, currency }) => ({ cart /* currency */ }), {
   addItem,
-  decrementItem,
 })(ProductPage);

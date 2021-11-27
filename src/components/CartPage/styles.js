@@ -60,10 +60,6 @@ export const AttributeSelector = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
-    }
-    &:hover + .attribute-item-label {
-      background-color: lightgray;
     }
     &:checked + .attribute-item-label {
       background-color: black;
@@ -85,6 +81,19 @@ export const AttributeSelector = styled.div`
       border: none;
       opacity: 0;
     }
+  }
+`;
+
+export const SwatchView = styled.div`
+  width: 13px;
+  height: 13px;
+  margin-right: 10px;
+  border-radius: 100%;
+  border-color: ${({ itemValue }) =>
+    itemValue === "#000000" ? "white" : "black"};
+  background-color: ${({ itemValue }) => itemValue};
+  input:checked[type="radio"] + label + & {
+    border-color: white;
   }
 `;
 

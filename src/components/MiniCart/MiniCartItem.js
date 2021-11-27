@@ -1,8 +1,6 @@
 import { gql } from "@apollo/client";
 import React from "react";
 import { connect } from "react-redux";
-import decrementItem from "../../store/actions/decrementItem";
-import incrementItem from "../../store/actions/incrementItem";
 import cartItemSkeleton from "../../assets/skeleton/mini-cart-item-skeleton.png";
 import {
   MiniCartItemCol1,
@@ -11,6 +9,7 @@ import {
   MiniCartItemSkeleton,
   MiniCartItemWrapper,
 } from "./styles";
+import { incrementItem, decrementItem } from "../../store/actions";
 
 class MiniCartItem extends React.Component {
   constructor(props) {
