@@ -1,4 +1,3 @@
-import searchArray from "../../utils/searchArray";
 import _ from "lodash";
 import {
   ADD_ITEM,
@@ -25,7 +24,7 @@ cartItem = {
 }
 */
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   let newCart;
   let newState;
 
@@ -114,3 +113,5 @@ export default (state = initialState, action) => {
       return _.cloneDeep({ ...state, cart: [...state.cart] });
   }
 };
+
+export default reducer;

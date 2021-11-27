@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { SwatchView } from "./styles";
-import searchArray from "../../utils/searchArray"
 
 export default class AttributeItem extends Component {
   render() {

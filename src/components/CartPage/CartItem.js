@@ -252,7 +252,7 @@ class CartItem extends Component {
       </>
     ) : (
       <CartItemSkeletonWrapper>
-        <img src={cartItemSkeleton} />
+        <img src={cartItemSkeleton} alt="Cart Item Skeleton Loading"/>
       </CartItemSkeletonWrapper>
     );
   }
