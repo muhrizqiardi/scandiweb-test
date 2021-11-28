@@ -6,11 +6,10 @@ export class Categories extends Component {
   render() {
     return (
       <>
-        <Header
-          apolloClient={this.props.apolloClient}
-        />
+        <Header apolloClient={this.props.apolloClient} />
         <ProductListing
           apolloClient={this.props.apolloClient}
+          currentCategoryName={this.props.currentCategoryName}
         />
       </>
     );
