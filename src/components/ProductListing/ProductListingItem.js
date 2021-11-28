@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   ActionButton,
+  OutOfStockText,
   ProductListingItemAction,
   ProductListingItemWrapper,
 } from "./styles";
@@ -16,12 +17,16 @@ class ProductListingItem extends Component {
 
   render() {
     return (
-      <ProductListingItemWrapper>
+      <ProductListingItemWrapper productInStock={this.props.productInStock}>
         <Link
           to={`/products/${this.props.productId}`}
           className="product-item"
-          onMouseEnter={() => this.setState({ hovered: true })}
-          onMouseLeave={() => this.setState({ hovered: false })}
+          onMouseEnter={() => {
+            if (this.props.productInStock) this.setState({ hovered: true });
+          }}
+          onMouseLeave={() => {
+            if (this.props.productInStock) this.setState({ hovered: false });
+          }}
         >
           <img
             src={this.props.productThumbnail}
@@ -46,23 +51,29 @@ class ProductListingItem extends Component {
         >
           <ActionButton
             className="action-button"
-            onMouseEnter={() => this.setState({ hovered: true })}
-            onMouseLeave={() => this.setState({ hovered: false })}
+            onMouseEnter={() => {
+              if (this.props.productInStock) this.setState({ hovered: true });
+            }}
+            onMouseLeave={() => {
+              if (this.props.productInStock) this.setState({ hovered: false });
+            }}
             onClick={() => {
-              let selectedAttributes =[];
-              for (const attribute of this.props.productAttributes) {
-                selectedAttributes.push({
-                  attributeName: attribute.name,
-                  attributeValue: attribute.items[0].value,
-                });
+              if (this.props.productInStock) {
+                let selectedAttributes = [];
+                for (const attribute of this.props.productAttributes) {
+                  selectedAttributes.push({
+                    attributeName: attribute.name,
+                    attributeValue: attribute.items[0].value,
+                  });
+                }
+                let cartItem = {
+                  id: this.props.productId,
+                  quantity: 1,
+                  prices: this.props.productPrices,
+                  attributes: selectedAttributes,
+                };
+                this.props.addItem(cartItem);
               }
-              let cartItem = {
-                id: this.props.productId,
-                quantity: 1,
-                prices: this.props.productPrices,
-                attributes: selectedAttributes,
-              };
-              this.props.addItem(cartItem);
             }}
           >
             <svg
@@ -87,6 +98,9 @@ class ProductListingItem extends Component {
             </svg>
           </ActionButton>
         </ProductListingItemAction>
+        {!this.props.productInStock && <OutOfStockText>
+          <div className="text">OUT OF STOCK</div>
+        </OutOfStockText>}
       </ProductListingItemWrapper>
     );
   }

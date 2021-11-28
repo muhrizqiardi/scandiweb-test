@@ -40,19 +40,24 @@ export const ProductListingItemWrapper = styled.div`
   align-self: center;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+  cursor: ${({ productInStock }) => (productInStock ? "pointer" : "default")};
   &:hover {
     filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
   }
   .product-item {
     text-decoration: none;
-    color: black;
+    color: ${({ productInStock }) =>
+      productInStock ? "black" : "gray"} !important;
+    cursor: ${({ productInStock }) => (productInStock ? "pointer" : "default")};
 
     img.product-thumbnail {
       width: 300px;
       height: 300px;
       margin-bottom: 24px;
       object-fit: contain;
+      filter: ${({ productInStock }) =>
+        productInStock ? "grayscale(0)" : "grayscale(1)"};
+      opacity: ${({ productInStock }) => (productInStock ? "1" : "0.3")};
     }
     .product-desc .product-price {
       font-weight: 500;
@@ -81,5 +86,20 @@ export const ActionButton = styled.button`
   &:hover {
     filter: brightness(0.8);
     cursor: pointer;
+  }
+`;
+
+export const OutOfStockText = styled.div`
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 24px;
+  color: gray;
+  .text {
+    width: 300px;
+    position: relative;
+    bottom: 225px;
   }
 `;
