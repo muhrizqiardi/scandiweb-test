@@ -12,6 +12,7 @@ export default class AttributeItem extends Component {
           key={this.props.attributeItemId}
           name={this.props.radioGroupName}
           value={this.props.item.value}
+          disabled={this.props.disabled}
         />
         <label
           className="attribute-item-label"

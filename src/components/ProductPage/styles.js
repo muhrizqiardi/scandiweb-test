@@ -63,6 +63,7 @@ export const ProductPageDetailWrapper = styled.form`
   width: 360px;
   display: flex;
   flex-direction: column;
+  opacity: ${({ inStock }) => (inStock ? "1" : "0.3")};
 `;
 
 export const BrandName = styled.div`
@@ -105,6 +106,12 @@ export const AttributeSelector = styled.div`
     &:checked + .attribute-item-label {
       background-color: black;
       color: white;
+    }
+    &:disabled + .attribute-item-label {
+      cursor: default;
+    }
+    &:disabled:hover + .attribute-item-label {
+      background-color: unset;
     }
     &.not-available {
       filter: opacity(0.4);
@@ -149,6 +156,10 @@ export const AddToCartButton = styled.button`
   font-weight: 500;
   border: none;
   cursor: pointer;
+  &:disabled {
+    background-color: darkgray;
+    cursor: default;
+  }
 `;
 
 export const PriceTitle = styled.div`
