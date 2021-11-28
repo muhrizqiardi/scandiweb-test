@@ -7,22 +7,6 @@ import { Categories } from "./pages/categories";
 import { Products } from "./pages/products";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currency: "USD",
-    };
-
-    this.currencyHandler = this.currencyHandler.bind(this);
-  }
-
-  currencyHandler(newCurrency) {
-    this.setState({
-      currency: newCurrency,
-    });
-  }
-
   render() {
     return (
       <>
@@ -33,8 +17,6 @@ class App extends Component {
             render={() => (
               <Root
                 apolloClient={this.props.apolloClient}
-                currencyHandler={this.currencyHandler}
-                currency={this.state.currency}
               />
             )}
           />
@@ -56,8 +38,6 @@ class App extends Component {
             render={({ match, history }) => (
               <Products
                 apolloClient={this.props.apolloClient}
-                currency={this.state.currency}
-                currencyHandler={this.currencyHandler}
                 history={history}
                 match={match}
               />
@@ -65,19 +45,11 @@ class App extends Component {
           />
 
           <Route path="/cart">
-            <Carts
-              apolloClient={this.props.apolloClient}
-              currencyHandler={this.currencyHandler}
-              currency={this.state.currency}
-            />
+            <Carts apolloClient={this.props.apolloClient} />
           </Route>
 
           <Route path="*">
-            <Error
-              apolloClient={this.props.apolloClient}
-              currencyHandler={this.currencyHandler}
-              currency={this.state.currency}
-            />
+            <Error apolloClient={this.props.apolloClient} />
           </Route>
         </Switch>
       </>
