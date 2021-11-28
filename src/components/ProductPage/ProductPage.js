@@ -124,6 +124,7 @@ class ProductPage extends Component {
             />
             <ProductPageDetailWrapper
               className="product-detail"
+              inStock={this.state.productDetail.product.inStock}
               onSubmit={(event) => {
                 event.preventDefault();
                 let cartItem = {
@@ -146,16 +147,16 @@ class ProductPage extends Component {
                     attributeValue: event.target[radioGroupName].value,
                   });
                 }
-                this.props.addItem(cartItem);
-                this.setState({
-                  formSubmitted: true,
-                });
-                this.props.history.push("/cart");
+                if (this.state.productDetail.product.inStock) {
+                  this.props.addItem(cartItem);
+                  this.props.history.push("/cart");
+                }
               }}
             >
               <BrandName>{this.state.productDetail.product.brand}</BrandName>
               <ProductName className="product-name">
-                {this.state.productDetail.product.name}
+                {this.state.productDetail.product.name} 
+                {!this.state.productDetail.product.inStock ? " (Out Of Stock)" : ""}
               </ProductName>
               {this.state.productDetail.product.attributes.map((attribute) => {
                 return (
@@ -178,6 +179,7 @@ class ProductPage extends Component {
                             attribute={attribute}
                             item={item}
                             key={attributeItemId}
+                            disabled={!this.state.productDetail.product.inStock}
                           />
                         );
                       })}
@@ -196,9 +198,11 @@ class ProductPage extends Component {
               </Price>
               <AddToCartButton
                 type="submit"
-                disabled={this.state.formSubmitted}
+                disabled={!this.state.productDetail.product.inStock}
               >
-                ADD TO CART
+                {this.state.productDetail.product.inStock
+                  ? "ADD TO CART"
+                  : "OUT OF STOCK"}
               </AddToCartButton>
               <ProductPageDescription
                 className="description"

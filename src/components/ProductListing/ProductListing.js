@@ -43,6 +43,7 @@ class ProductListing extends Component {
             id 
             name
             gallery
+            inStock
             attributes {
               name
               type
@@ -128,6 +129,7 @@ class ProductListing extends Component {
                     productThumbnail={product.gallery[0]}
                     productPrices={product.prices}
                     productAttributes={product.attributes}
+                    productInStock={product.inStock}
                     currency={this.props.currency}
                   />
                 ))}
