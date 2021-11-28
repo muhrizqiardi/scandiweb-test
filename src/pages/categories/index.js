@@ -8,14 +8,9 @@ export class Categories extends Component {
       <>
         <Header
           apolloClient={this.props.apolloClient}
-          currencyHandler={this.props.currencyHandler}
-          currency={this.props.currency}
         />
         <ProductListing
           apolloClient={this.props.apolloClient}
-          currentCategoryName={this.props.currentCategoryName}
-          currencyHandler={this.props.currencyHandler}
-          currency={this.props.currency}
         />
       </>
     );

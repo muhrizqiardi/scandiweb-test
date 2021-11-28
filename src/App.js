@@ -26,8 +26,6 @@ class App extends Component {
             render={({ match }) => (
               <Categories
                 apolloClient={this.props.apolloClient}
-                currencyHandler={this.currencyHandler}
-                currency={this.state.currency}
                 currentCategoryName={match.params.categoryName}
               />
             )}
