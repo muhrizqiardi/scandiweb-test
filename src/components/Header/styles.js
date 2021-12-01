@@ -1,9 +1,16 @@
 import styled from "styled-components";
 
-export const Backdrop = styled.div`
+export const MinicartBackdrop = styled.div`
   display: ${(props) => (props.cartPopupIsOpen ? "block" : "none")};
   background: rgba(0, 0, 0, 0.4);
   z-index: 2;
+  position: fixed;
+  inset: 0px;
+`;
+
+export const CurrencyPopupBackdrop = styled.div`
+  display: ${(props) => (props.currencyPopupIsOpen ? "block" : "none")};
+  background: rgba(0, 0, 0, 0.4);
   position: fixed;
   inset: 0px;
 `;
@@ -59,6 +66,8 @@ export const Logo = styled.div`
 `;
 
 export const Actions = styled.div`
+  position: relative;
+  
   flex: 1;
   display: flex;
   flex-direction: row;

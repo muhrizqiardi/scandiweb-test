@@ -4,6 +4,7 @@ export const CurrencyPopupWrapper = styled.div`
   width: 120px;
   background-color: white;
   display: flex;
+  z-index: 5;
   flex-direction: column;
   filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
 `;
@@ -18,3 +19,5 @@ export const CurrencyPopupItem = styled.div`
     font-weight: bold;
   }
 `;
+
+

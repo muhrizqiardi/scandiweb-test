@@ -6,10 +6,11 @@ import MiniCartPopup from "../MiniCart";
 import {
   Actions,
   ActionsItem,
-  Backdrop,
+  MinicartBackdrop,
   HeaderWrapper,
   Logo,
   Nav,
+  CurrencyPopupBackdrop,
 } from "./styles";
 import ChevronDownIcon from "../Icons/ChevronDownIcon";
 import CartIcon from "../Icons/CartIcon";
@@ -143,14 +144,15 @@ class Header extends Component {
             </ActionsItem>
             <div className="cart-popup-container" ref={this.cartPopupRef}>
               {this.state.cartPopupIsOpen && (
-                <MiniCartPopup
-                  apolloClient={this.props.apolloClient}
-                />
+                <MiniCartPopup apolloClient={this.props.apolloClient} />
               )}
             </div>
           </Actions>
+          <CurrencyPopupBackdrop
+            currencyPopupIsOpen={this.state.currencyPopupIsOpen}
+          />
         </HeaderWrapper>
-        <Backdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
+        <MinicartBackdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
       </>
     );
   }
