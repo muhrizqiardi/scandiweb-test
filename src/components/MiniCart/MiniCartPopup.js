@@ -10,6 +10,7 @@ import {
   MiniCartTotal,
   MiniCartWrapper,
 } from "./styles";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class MiniCartPopup extends React.Component {
   getTotal(currency) {
@@ -46,7 +47,7 @@ class MiniCartPopup extends React.Component {
         <MiniCartTotal className="cart-total">
           <span>Total</span>
           <span>
-            {this.props.currency}{" "}
+            {getSymbolFromCurrency(this.props.currency)}
             {Math.round(this.getTotal(this.props.currency))}
           </span>
         </MiniCartTotal>
