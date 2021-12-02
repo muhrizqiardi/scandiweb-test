@@ -19,6 +19,7 @@ import AttributeItem from "./AttributeItem";
 import { kebabCase, find } from "lodash";
 import { connect } from "react-redux";
 import { decrementItem, incrementItem } from "../../store/actions";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class CartItem extends Component {
   constructor(props) {
@@ -108,7 +109,7 @@ class CartItem extends Component {
             <ItemBrand>{this.state.productDetail.product.brand}</ItemBrand>
             <ItemName>{this.state.productDetail.product.name}</ItemName>
             <ItemPrice>
-              {this.props.currency}{" "}
+              {getSymbolFromCurrency(this.props.currency)}
               {Math.round(
                 this.props.cartItem.prices.filter(
                   (price) => price.currency === this.props.currency
@@ -252,7 +253,7 @@ class CartItem extends Component {
       </>
     ) : (
       <CartItemSkeletonWrapper>
-        <img src={cartItemSkeleton} alt="Cart Item Skeleton Loading"/>
+        <img src={cartItemSkeleton} alt="Cart Item Skeleton Loading" />
       </CartItemSkeletonWrapper>
     );
   }

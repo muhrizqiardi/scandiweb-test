@@ -8,6 +8,7 @@ import {
   ProductListingItemWrapper,
 } from "./styles";
 import { addItem } from "../../store/actions";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class ProductListingItem extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class ProductListingItem extends Component {
           <div className="product-desc">
             <div className="product-name">{this.props.productName}</div>
             <div className="product-price">
-              {this.props.currency}{" "}
+              {getSymbolFromCurrency(this.props.currency)}
               {
                 this.props.productPrices.filter(
                   (price) => price.currency === this.props.currency

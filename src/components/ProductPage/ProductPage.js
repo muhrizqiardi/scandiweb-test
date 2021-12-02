@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import addItem from "../../store/actions/addItem";
 import AttributeItem from "./AttributeItem";
 import kebabCase from "../../utils/kebabCase";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class ProductPage extends Component {
   constructor(props) {
@@ -155,8 +156,10 @@ class ProductPage extends Component {
             >
               <BrandName>{this.state.productDetail.product.brand}</BrandName>
               <ProductName className="product-name">
-                {this.state.productDetail.product.name} 
-                {!this.state.productDetail.product.inStock ? " (Out Of Stock)" : ""}
+                {this.state.productDetail.product.name}
+                {!this.state.productDetail.product.inStock
+                  ? " (Out Of Stock)"
+                  : ""}
               </ProductName>
               {this.state.productDetail.product.attributes.map((attribute) => {
                 return (
@@ -189,7 +192,7 @@ class ProductPage extends Component {
               })}
               <PriceTitle>Price:</PriceTitle>
               <Price>
-                {this.props.currency}{" "}
+                {getSymbolFromCurrency(this.props.currency)}
                 {
                   this.state.productDetail.product.prices.filter(
                     (price) => price.currency === this.props.currency

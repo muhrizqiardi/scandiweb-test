@@ -10,6 +10,7 @@ import {
   MiniCartItemWrapper,
 } from "./styles";
 import { incrementItem, decrementItem } from "../../store/actions";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class MiniCartItem extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class MiniCartItem extends React.Component {
             {this.state.productDetail.product.name}
           </div>
           <div className="cart-item-price">
-            {this.props.currency}{" "}
+            {getSymbolFromCurrency(this.props.currency)}
             {Math.round(
               this.props.cartItem.prices.filter(
                 (price) => price.currency === this.props.currency
