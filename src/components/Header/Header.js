@@ -6,10 +6,11 @@ import MiniCartPopup from "../MiniCart";
 import {
   Actions,
   ActionsItem,
-  Backdrop,
+  MinicartBackdrop,
   HeaderWrapper,
   Logo,
   Nav,
+  CurrencyPopupBackdrop,
 } from "./styles";
 import ChevronDownIcon from "../Icons/ChevronDownIcon";
 import CartIcon from "../Icons/CartIcon";
@@ -40,7 +41,7 @@ class Header extends Component {
       this.currencyPopupRef.current,
       {
         placement: "bottom-start",
-        strategy: "fixed",
+        strategy: "absolute",
       }
     );
     this.cartPopper = createPopper(
@@ -62,6 +63,7 @@ class Header extends Component {
       (state) => {
         return {
           currencyPopupIsOpen: !state.currencyPopupIsOpen,
+          cartPopupIsOpen: false,
         };
       },
       () => this.currencyPopper.forceUpdate()
@@ -73,6 +75,7 @@ class Header extends Component {
       (state) => {
         return {
           cartPopupIsOpen: !state.cartPopupIsOpen,
+          currencyPopupIsOpen: false,
         };
       },
       () => this.cartPopper.forceUpdate()
@@ -119,9 +122,11 @@ class Header extends Component {
               ref={this.currencyPopupRef}
             >
               {this.state.currencyPopupIsOpen && (
-                <CurrencyPopup
-                  currencyButtonHandleClick={this.currencyButtonHandleClick}
-                />
+                <>
+                  <CurrencyPopup
+                    currencyButtonHandleClick={this.currencyButtonHandleClick}
+                  />
+                </>
               )}
             </ActionsItem>
             <ActionsItem
@@ -143,14 +148,19 @@ class Header extends Component {
             </ActionsItem>
             <div className="cart-popup-container" ref={this.cartPopupRef}>
               {this.state.cartPopupIsOpen && (
-                <MiniCartPopup
-                  apolloClient={this.props.apolloClient}
-                />
+                <MiniCartPopup apolloClient={this.props.apolloClient} />
               )}
             </div>
           </Actions>
+          <CurrencyPopupBackdrop
+            onClick={this.currencyButtonHandleClick}
+            currencyPopupIsOpen={this.state.currencyPopupIsOpen}
+          />
         </HeaderWrapper>
-        <Backdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
+        <MinicartBackdrop
+          onClick={this.cartButtonHandleClick}
+          cartPopupIsOpen={this.state.cartPopupIsOpen}
+        />
       </>
     );
   }

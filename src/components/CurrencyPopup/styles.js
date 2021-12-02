@@ -18,3 +18,5 @@ export const CurrencyPopupItem = styled.div`
     font-weight: bold;
   }
 `;
+
+
