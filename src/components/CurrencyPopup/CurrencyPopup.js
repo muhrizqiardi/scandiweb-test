@@ -2,67 +2,33 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { CurrencyPopupItem, CurrencyPopupWrapper } from "./styles";
 import { changeCurrency } from "../../store/actions";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class CurrencyPopup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currencyList: ["USD", "GBP", "AUD", "JPY", "RUB"],
+    };
+  }
+
   render() {
     return (
       <>
         <CurrencyPopupWrapper>
-          <CurrencyPopupItem
-            className={`currency-popup-item ${
-              this.props.currency === "USD" ? "selected" : ""
-            }`}
-            onClick={() => {
-              this.props.changeCurrency("USD");
-              this.props.currencyButtonHandleClick();
-            }}
-          >
-            USD
-          </CurrencyPopupItem>
-          <CurrencyPopupItem
-            className={`currency-popup-item ${
-              this.props.currency === "GBP" ? "selected" : ""
-            }`}
-            onClick={() => {
-              this.props.changeCurrency("GBP");
-              this.props.currencyButtonHandleClick();
-            }}
-          >
-            GBP
-          </CurrencyPopupItem>
-          <CurrencyPopupItem
-            className={`currency-popup-item ${
-              this.props.currency === "AUD" ? "selected" : ""
-            }`}
-            onClick={() => {
-              this.props.changeCurrency("AUD");
-              this.props.currencyButtonHandleClick();
-            }}
-          >
-            AUD
-          </CurrencyPopupItem>
-          <CurrencyPopupItem
-            className={`currency-popup-item ${
-              this.props.currency === "JPY" ? "selected" : ""
-            }`}
-            onClick={() => {
-              this.props.changeCurrency("JPY");
-              this.props.currencyButtonHandleClick();
-            }}
-          >
-            JPY
-          </CurrencyPopupItem>
-          <CurrencyPopupItem
-            className={`currency-popup-item ${
-              this.props.currency === "RUB" ? "selected" : ""
-            }`}
-            onClick={() => {
-              this.props.changeCurrency("RUB");
-              this.props.currencyButtonHandleClick();
-            }}
-          >
-            RUB
-          </CurrencyPopupItem>
+          {this.state.currencyList.map((currency) => (
+            <CurrencyPopupItem
+              className={`currency-popup-item ${
+                this.props.currency === currency ? "selected" : ""
+              }`}
+              onClick={() => {
+                this.props.changeCurrency(currency);
+                this.props.currencyButtonHandleClick();
+              }}
+            >
+              {getSymbolFromCurrency(currency)} {currency}
+            </CurrencyPopupItem>
+          ))}
         </CurrencyPopupWrapper>
       </>
     );
