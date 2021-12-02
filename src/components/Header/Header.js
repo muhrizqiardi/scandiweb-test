@@ -41,7 +41,7 @@ class Header extends Component {
       this.currencyPopupRef.current,
       {
         placement: "bottom-start",
-        strategy: "fixed",
+        strategy: "absolute",
       }
     );
     this.cartPopper = createPopper(
@@ -63,6 +63,7 @@ class Header extends Component {
       (state) => {
         return {
           currencyPopupIsOpen: !state.currencyPopupIsOpen,
+          cartPopupIsOpen: false,
         };
       },
       () => this.currencyPopper.forceUpdate()
@@ -74,6 +75,7 @@ class Header extends Component {
       (state) => {
         return {
           cartPopupIsOpen: !state.cartPopupIsOpen,
+          currencyPopupIsOpen: false,
         };
       },
       () => this.cartPopper.forceUpdate()
@@ -120,9 +122,11 @@ class Header extends Component {
               ref={this.currencyPopupRef}
             >
               {this.state.currencyPopupIsOpen && (
-                <CurrencyPopup
-                  currencyButtonHandleClick={this.currencyButtonHandleClick}
-                />
+                <>
+                  <CurrencyPopup
+                    currencyButtonHandleClick={this.currencyButtonHandleClick}
+                  />
+                </>
               )}
             </ActionsItem>
             <ActionsItem
@@ -149,10 +153,14 @@ class Header extends Component {
             </div>
           </Actions>
           <CurrencyPopupBackdrop
+            onClick={this.currencyButtonHandleClick}
             currencyPopupIsOpen={this.state.currencyPopupIsOpen}
           />
         </HeaderWrapper>
-        <MinicartBackdrop cartPopupIsOpen={this.state.cartPopupIsOpen} />
+        <MinicartBackdrop
+          onClick={this.cartButtonHandleClick}
+          cartPopupIsOpen={this.state.cartPopupIsOpen}
+        />
       </>
     );
   }

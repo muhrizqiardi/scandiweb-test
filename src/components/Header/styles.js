@@ -10,8 +10,9 @@ export const MinicartBackdrop = styled.div`
 
 export const CurrencyPopupBackdrop = styled.div`
   display: ${(props) => (props.currencyPopupIsOpen ? "block" : "none")};
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0);
   position: fixed;
+  z-index: 1;
   inset: 0px;
 `;
 
@@ -67,7 +68,7 @@ export const Logo = styled.div`
 
 export const Actions = styled.div`
   position: relative;
-  
+  z-index: 5;
   flex: 1;
   display: flex;
   flex-direction: row;
