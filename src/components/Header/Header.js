@@ -16,6 +16,7 @@ import ChevronDownIcon from "../Icons/ChevronDownIcon";
 import CartIcon from "../Icons/CartIcon";
 import { CurrencyPopup } from "../CurrencyPopup";
 import { connect } from "react-redux";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 class Header extends Component {
   constructor(props) {
@@ -112,7 +113,7 @@ class Header extends Component {
               ref={this.currencyPopupButtonRef}
               onClick={this.currencyButtonHandleClick}
             >
-              $
+              {getSymbolFromCurrency(this.props.currency)}
               <ChevronDownIcon
                 currencyPopupIsOpen={this.state.currencyPopupIsOpen}
               />
@@ -166,4 +167,4 @@ class Header extends Component {
   }
 }
 
-export default connect(({ cart }) => ({ cart }), null)(Header);
+export default connect(({ cart, currency }) => ({ cart, currency }), null)(Header);
