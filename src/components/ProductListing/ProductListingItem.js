@@ -35,7 +35,7 @@ class ProductListingItem extends Component {
             className="product-thumbnail"
           />
           <div className="product-desc">
-            <div className="product-name">{this.props.productName}</div>
+            <div className="product-name">{this.props.productBrand}{" "}{this.props.productName}</div>
             <div className="product-price">
               {getSymbolFromCurrency(this.props.currency)}
               {
