@@ -150,7 +150,6 @@ class ProductPage extends Component {
                 }
                 if (this.state.productDetail.product.inStock) {
                   this.props.addItem(cartItem);
-                  this.props.history.push("/cart");
                 }
               }}
             >
