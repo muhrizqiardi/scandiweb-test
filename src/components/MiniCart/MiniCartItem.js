@@ -3,11 +3,13 @@ import React from "react";
 import { connect } from "react-redux";
 import cartItemSkeleton from "../../assets/skeleton/mini-cart-item-skeleton.png";
 import {
+  MiniCartAttributeItem,
   MiniCartItemCol1,
   MiniCartItemCol2,
   MiniCartItemCol3,
   MiniCartItemSkeleton,
   MiniCartItemWrapper,
+  SwatchView,
 } from "./styles";
 import { incrementItem, decrementItem } from "../../store/actions";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -108,7 +110,7 @@ class MiniCartItem extends React.Component {
             <div className="cart-item-attribute-selector">
               {this.state.productDetail.product.attributes[0].items.map(
                 (item) => (
-                  <div
+                  <MiniCartAttributeItem
                     className={`attribute-item ${
                       this.props.cartItem.attributes[0] !== undefined &&
                       this.props.cartItem.attributes[0].attributeValue ===
@@ -121,25 +123,13 @@ class MiniCartItem extends React.Component {
                     {this.state.productDetail.product.attributes[0].type ===
                     "swatch" ? (
                       <>
-                        <div
-                          style={{
-                            width: 10,
-                            height: 10,
-                            marginRight: 2,
-                            borderRadius: "100%",
-                            border: `1px solid ${
-                              item.value === "#000000" ? "white" : "black"
-                            }`,
-                            background: item.value,
-                          }}
-                          className="swatch-view"
-                        ></div>
+                        <SwatchView value={item.value} />
                         {item.displayValue}
                       </>
                     ) : (
                       item.displayValue
                     )}
-                  </div>
+                  </MiniCartAttributeItem>
                 )
               )}
             </div>
