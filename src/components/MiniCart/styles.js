@@ -101,31 +101,41 @@ export const MiniCartItemCol1 = styled.div`
           &::-webkit-scrollbar {
             display: none;
           } */
-    .attribute-item {
-      height: 16px;
-      width: max-content;
-      padding: 1px 4px;
-      margin-right: 3px;
-      margin-bottom: 3px;
-      font-size: 9px;
-      background: white;
-      border: 1px solid black;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      &.selected {
-        border: 1px solid black;
-        color: white;
-        background-color: black;
-      }
-      &.not-available {
-        border: 1px solid gray;
-        color: gray;
-        background-color: #f2f2f2;
-      }
-    }
   }
+`;
+
+export const MiniCartAttributeItem = styled.div`
+  height: 16px;
+  width: max-content;
+  padding: 1px 4px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  font-size: 9px;
+  background: white;
+  border: 1px solid black;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  &.selected {
+    border: 1px solid black;
+    color: white;
+    background-color: black;
+  }
+  &.not-available {
+    border: 1px solid gray;
+    color: gray;
+    background-color: #f2f2f2;
+  }
+`;
+
+export const SwatchView = styled.div`
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+  border-radius: 100%;
+  border: 1px solid ${({ value }) => (value === "#000000" ? "white" : "black")};
+  background-color: ${({ value }) => value};
 `;
 
 export const MiniCartItemCol2 = styled.div`
