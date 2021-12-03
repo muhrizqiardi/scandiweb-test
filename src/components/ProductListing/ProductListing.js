@@ -42,6 +42,7 @@ class ProductListing extends Component {
           products {
             id 
             name
+            brand
             gallery
             inStock
             attributes {
@@ -125,6 +126,7 @@ class ProductListing extends Component {
                   <ProductListingItem
                     key={product.id}
                     productName={product.name}
+                    productBrand={product.brand}
                     productId={product.id}
                     productThumbnail={product.gallery[0]}
                     productPrices={product.prices}
