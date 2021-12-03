@@ -167,41 +167,47 @@ class CartItem extends Component {
           </CartItemCol2>
           <CartItemCol3>
             <CartItemGallery>
-              <div className="gallery-arrow-container">
-                <div
-                  className="gallery-arrow-left"
-                  onClick={() => {
-                    this.setState((state) => {
-                      if (state.currentImage === 0) {
-                        return {
-                          currentImage:
-                            this.state.productDetail.product.gallery.length - 1,
-                        };
-                      } else {
-                        return {
-                          currentImage: state.currentImage - 1,
-                        };
-                      }
-                    });
-                  }}
-                >
-                  <svg
-                    width={24}
-                    height={24}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              {this.state.productDetail.product.gallery.length > 1 &&
+              this.state.currentImage !== 0 ? (
+                <div className="gallery-arrow-container">
+                  <div
+                    className="gallery-arrow-left"
+                    onClick={() => {
+                      this.setState((state) => {
+                        if (state.currentImage === 0) {
+                          return {
+                            currentImage:
+                              this.state.productDetail.product.gallery.length -
+                              1,
+                          };
+                        } else {
+                          return {
+                            currentImage: state.currentImage - 1,
+                          };
+                        }
+                      });
+                    }}
                   >
-                    <path
-                      d="M15 18L9 12L15 6"
-                      stroke="white"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    <svg
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 18L9 12L15 6"
+                        stroke="white"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
               <img
                 src={
                   this.state.productDetail.product.gallery[
@@ -210,43 +216,49 @@ class CartItem extends Component {
                 }
                 alt={this.state.productDetail.product.name}
               />
-              <div className="gallery-arrow-container">
-                <div
-                  className="gallery-arrow-right"
-                  onClick={() => {
-                    this.setState((state) => {
-                      if (
-                        state.currentImage >=
-                        this.state.productDetail.product.gallery.length - 1
-                      ) {
-                        return {
-                          currentImage: 0,
-                        };
-                      } else {
-                        return {
-                          currentImage: state.currentImage + 1,
-                        };
-                      }
-                    });
-                  }}
-                >
-                  <svg
-                    width={24}
-                    height={24}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              {this.state.productDetail.product.gallery.length > 1 &&
+              this.state.currentImage !==
+                this.state.productDetail.product.gallery.length - 1 ? (
+                <div className="gallery-arrow-container">
+                  <div
+                    className="gallery-arrow-right"
+                    onClick={() => {
+                      this.setState((state) => {
+                        if (
+                          state.currentImage >=
+                          this.state.productDetail.product.gallery.length - 1
+                        ) {
+                          return {
+                            currentImage: 0,
+                          };
+                        } else {
+                          return {
+                            currentImage: state.currentImage + 1,
+                          };
+                        }
+                      });
+                    }}
                   >
-                    <path
-                      d="M9 18L15 12L9 6"
-                      stroke="white"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    <svg
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="white"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
             </CartItemGallery>
           </CartItemCol3>
         </CartItemWrapper>
