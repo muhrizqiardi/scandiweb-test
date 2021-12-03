@@ -126,6 +126,7 @@ class Header extends Component {
                 <>
                   <CurrencyPopup
                     currencyButtonHandleClick={this.currencyButtonHandleClick}
+                    apolloClient={this.props.apolloClient}
                   />
                 </>
               )}
