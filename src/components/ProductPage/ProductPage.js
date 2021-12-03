@@ -76,8 +76,8 @@ class ProductPage extends Component {
         fetchPolicy: "network-only",
       })
       .then((result) => {
-        queryResult = result.data;
         if (queryResult.product !== null) {
+          queryResult = result.data;
           this.setState(
             {
               productDetail: queryResult,
