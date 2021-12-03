@@ -37,7 +37,6 @@ class CurrencyPopup extends Component {
       })
       .then((result) => {
         queryResult = result.data;
-        console.log("queryResult", queryResult);
         if (queryResult.currencies !== null || queryResult.currencies !== undefined) {
           this.setState(
             {
