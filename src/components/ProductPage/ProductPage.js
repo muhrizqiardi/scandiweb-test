@@ -23,6 +23,7 @@ import addItem from "../../store/actions/addItem";
 import AttributeItem from "./AttributeItem";
 import kebabCase from "../../utils/kebabCase";
 import getSymbolFromCurrency from "currency-symbol-map";
+import DOMPurify from "dompurify";
 
 class ProductPage extends Component {
   constructor(props) {
@@ -209,7 +210,7 @@ class ProductPage extends Component {
               <ProductPageDescription
                 className="description"
                 dangerouslySetInnerHTML={{
-                  __html: this.state.productDetail.product.description,
+                  __html: DOMPurify.sanitize(this.state.productDetail.product.description),
                 }}
               />
             </ProductPageDetailWrapper>
