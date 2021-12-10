@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { Container } from "../../components/Container";
 import Header from "../../components/Header";
 import ProductPage from "../../components/ProductPage";
 
 export class Products extends Component {
   render() {
     return (
-      <>
+      <Container>
         <Header
           apolloClient={this.props.apolloClient}
           currencyHandler={this.props.currencyHandler}
@@ -18,7 +19,7 @@ export class Products extends Component {
           currencyHandler={this.props.currencyHandler}
           currency={this.props.currency}
         />
-      </>
+      </Container>
     );
   }
 }
