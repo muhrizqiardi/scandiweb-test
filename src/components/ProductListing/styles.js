@@ -27,7 +27,7 @@ export const ProductListingSkeletonWrapper = styled.div`
   padding: 80px 100px;
   img {
     margin: 0 auto;
-    width: 80vw;
+    width: 100%;
   }
 `;
 
