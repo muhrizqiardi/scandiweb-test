@@ -12,7 +12,7 @@ export const CartPageTitle = styled.h1`
 `;
 
 export const CartItemWrapper = styled.div`
-  height: 200px;
+  /* height: 200px; */
   padding: 16px;
   border-top: 1px solid #e5e5e5;
   display: grid;
@@ -21,8 +21,6 @@ export const CartItemWrapper = styled.div`
 `;
 
 export const CartItemCol1 = styled.div`
-  /* height: 200px; */
-  /* overflow-y: hidden; */
   display: flex;
   flex-direction: column;
   justify-content: start;

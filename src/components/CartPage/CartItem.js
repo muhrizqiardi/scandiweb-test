@@ -15,9 +15,6 @@ import {
   AttributeSelector,
   CartItemSkeletonWrapper,
   AttributeTitle,
-  AttributesWrapper,
-  Col2,
-  Col1,
 } from "./styles";
 import AttributeItem from "./AttributeItem";
 import { kebabCase, find } from "lodash";
@@ -129,10 +126,10 @@ class CartItem extends Component {
                   <AttributeSelector className="attribute-selector">
                     {attribute.items.map((item) => {
                       const radioGroupName = kebabCase(
-                        `${this.state.productDetail.product.name} ${attribute.name} radio group`
+                        `${this.props.cartItem.cartId} ${this.props.cartItem.id} ${this.state.productDetail.product.name} ${attribute.name} radio group`
                       );
                       const attributeItemId = kebabCase(
-                        `${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`
+                        `${this.props.cartItem.cartId} ${this.props.cartItem.id} ${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`
                       );
                       const checkedValue = find(
                         this.props.cartItem.attributes,
