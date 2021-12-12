@@ -14,6 +14,7 @@ import {
   ItemName,
   AttributeSelector,
   CartItemSkeletonWrapper,
+  AttributeTitle,
 } from "./styles";
 import AttributeItem from "./AttributeItem";
 import { kebabCase, find } from "lodash";
@@ -116,35 +117,41 @@ class CartItem extends Component {
                 )[0].amount * this.props.cartItem.quantity
               )}
             </ItemPrice>
-            <AttributeSelector>
-              {this.state.productDetail.product.attributes.length > 0 &&
-                this.state.productDetail.product.attributes[0].items.map(
-                  (item) => {
-                    const radioGroupName = kebabCase(
-                      `cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} radio group`
-                    );
-                    const attributeItemId = kebabCase(
-                      `$cart ${this.props.cartItem.cartId} ${this.state.productDetail.product.name} ${this.state.productDetail.product.attributes[0].name} ${item.displayValue}`
-                    );
-                    const checkedValue = find(this.props.cartItem.attributes, {
-                      attributeName:
-                        this.state.productDetail.product.attributes[0].name,
-                    }).attributeValue;
-                    return (
-                      <AttributeItem
-                        attributeItemId={attributeItemId}
-                        key={attributeItemId}
-                        radioGroupName={radioGroupName}
-                        attribute={
-                          this.state.productDetail.product.attributes[0]
+            {this.state.productDetail.product.attributes.map((attribute) => {
+              return (
+                <>
+                  <AttributeTitle className="attribute-title">
+                    {attribute.name}:
+                  </AttributeTitle>
+                  <AttributeSelector className="attribute-selector">
+                    {attribute.items.map((item) => {
+                      const radioGroupName = kebabCase(
+                        `${this.props.cartItem.cartId} ${this.props.cartItem.id} ${this.state.productDetail.product.name} ${attribute.name} radio group`
+                      );
+                      const attributeItemId = kebabCase(
+                        `${this.props.cartItem.cartId} ${this.props.cartItem.id} ${this.state.productDetail.product.name} ${attribute.name} ${item.displayValue}`
+                      );
+                      const checkedValue = find(
+                        this.props.cartItem.attributes,
+                        {
+                          attributeName: attribute.name,
                         }
-                        item={item}
-                        checkedValue={checkedValue ? checkedValue : false}
-                      />
-                    );
-                  }
-                )}
-            </AttributeSelector>
+                      ).attributeValue;
+                      return (
+                        <AttributeItem
+                          radioGroupName={radioGroupName}
+                          attributeItemId={attributeItemId}
+                          attribute={attribute}
+                          item={item}
+                          key={attributeItemId}
+                          checkedValue={checkedValue ?? false}
+                        />
+                      );
+                    })}
+                  </AttributeSelector>
+                </>
+              );
+            })}
           </CartItemCol1>
           <CartItemCol2>
             <div className="qty-counter">

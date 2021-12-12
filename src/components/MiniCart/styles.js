@@ -74,11 +74,13 @@ export const MiniCartItemSkeleton = styled.div`
 `;
 
 export const MiniCartItemWrapper = styled.div`
-  height: 130px;
-  margin-bottom: 15px;
+  /* min-height: 130px; */
+  padding-top: 10px;
+  margin-bottom: 10px;
   display: grid;
   grid-template-columns: 1fr 24px 100px;
   gap: 10px;
+  border-top: 1px solid lightgray;
 `;
 
 export const MiniCartItemCol1 = styled.div`
@@ -129,6 +131,14 @@ export const MiniCartAttributeItem = styled.div`
   }
 `;
 
+export const AttributeTitle = styled.div`
+  margin-top: 3px;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+`;
+
 export const SwatchView = styled.div`
   width: 10px;
   height: 10px;
@@ -139,6 +149,7 @@ export const SwatchView = styled.div`
 `;
 
 export const MiniCartItemCol2 = styled.div`
+  height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

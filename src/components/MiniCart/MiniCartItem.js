@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import cartItemSkeleton from "../../assets/skeleton/mini-cart-item-skeleton.png";
 import {
+  AttributeTitle,
   MiniCartAttributeItem,
   MiniCartItemCol1,
   MiniCartItemCol2,
@@ -13,6 +14,7 @@ import {
 } from "./styles";
 import { incrementItem, decrementItem } from "../../store/actions";
 import getSymbolFromCurrency from "currency-symbol-map";
+import { find } from "lodash";
 
 class MiniCartItem extends React.Component {
   constructor(props) {
@@ -106,34 +108,37 @@ class MiniCartItem extends React.Component {
               )[0].amount * this.props.cartItem.quantity
             )}
           </div>
-          {this.state.productDetail.product.attributes[0] !== undefined && (
-            <div className="cart-item-attribute-selector">
-              {this.state.productDetail.product.attributes[0].items.map(
-                (item) => (
-                  <MiniCartAttributeItem
-                    className={`attribute-item ${
-                      this.props.cartItem.attributes[0] !== undefined &&
-                      this.props.cartItem.attributes[0].attributeValue ===
-                        item.value
-                        ? "selected"
-                        : ""
-                    }`}
-                    key={item.value}
-                  >
-                    {this.state.productDetail.product.attributes[0].type ===
-                    "swatch" ? (
-                      <>
-                        <SwatchView value={item.value} />
-                        {item.displayValue}
-                      </>
-                    ) : (
-                      item.displayValue
-                    )}
-                  </MiniCartAttributeItem>
-                )
-              )}
-            </div>
-          )}
+          {this.state.productDetail.product.attributes.map((attribute) => {
+            return (
+              <>
+                <AttributeTitle>{attribute.name}:</AttributeTitle>
+                <div className="cart-item-attribute-selector">
+                  {attribute.items.map((item) => (
+                    <MiniCartAttributeItem
+                      className={`attribute-item ${
+                        find(this.props.cartItem.attributes, {
+                          attributeName: attribute.name,
+                        }).attributeValue === item.value
+                          ? "selected"
+                          : ""
+                      }`}
+                      key={item.value}
+                    >
+                      {attribute.type ===
+                      "swatch" ? (
+                        <>
+                          <SwatchView value={item.value} />
+                          {item.displayValue}
+                        </>
+                      ) : (
+                        item.displayValue
+                      )}
+                    </MiniCartAttributeItem>
+                  ))}
+                </div>
+              </>
+            );
+          })}
         </MiniCartItemCol1>
         <MiniCartItemCol2>
           <button
