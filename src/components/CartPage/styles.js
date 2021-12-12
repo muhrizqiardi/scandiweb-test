@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const CartPageWrapper = styled.main`
   padding: 80px 100px;
+  margin-bottom: 260px;
 `;
 
 export const CartPageTitle = styled.h1`
@@ -20,9 +21,11 @@ export const CartItemWrapper = styled.div`
 `;
 
 export const CartItemCol1 = styled.div`
+  /* height: 200px; */
+  /* overflow-y: hidden; */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
 `;
 
 export const ItemBrand = styled.div`
@@ -39,8 +42,15 @@ export const ItemPrice = styled.div`
   font-weight: bold;
 `;
 
+export const AttributeTitle = styled.div`
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+`;
+
 export const AttributeSelector = styled.div`
-  margin-top: 32px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -101,7 +111,7 @@ export const SwatchView = styled.div`
 
 export const CartItemCol2 = styled.div`
   .qty-counter {
-    height: 100%;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
